@@ -5,8 +5,8 @@ const StudentSchema = new Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  ratings: [{ type: String, required: true }],
-  feedback: [{ type: String, required: true }]
+  isVerified: { type: Boolean, default: false },
+  feedback: [{ type: Schema.Types.ObjectId, ref: 'Feedback' }]
   }, {
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
   }
