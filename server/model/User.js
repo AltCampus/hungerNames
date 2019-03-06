@@ -6,6 +6,8 @@ const StudentSchema = new Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   isVerified: { type: Boolean, default: false },
+  isAdmin: { type: Boolean, default: false },
+  isKitchenStaff: { type: Boolean, default: false },
   feedback: [{ type: Schema.Types.ObjectId, ref: 'Feedback' }]
   }, {
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
