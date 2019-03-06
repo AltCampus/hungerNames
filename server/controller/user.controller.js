@@ -103,10 +103,11 @@ module.exports = {
       return rand + alpha + (rand - 50)
     }
 
+
     // it'll provide your localhost or network address
     host = req.get('host');
-
-    link = `http://${host}/api/v1/student/verify?ref=${randomN(10)}`
+    const refCode = randomN(10);
+    link = `http://${host}/api/v1/student/verify?ref=${refCode}`
     const email = req.body.email;
 
     mailOptions = {
@@ -118,22 +119,27 @@ module.exports = {
     // send mail with defined transport object(mailOptions)
     smtpTransport.sendMail(mailOptions, (err, info) => {
       if (err) return res.json({ msg: 'Message could not send' });
-      res.json({ msg: `Message sent to ${mailOptions.to}` });
+      else{
+        const newInvite = new Invite({
+          emailId: email,
+          refCode 
+        });
+        newInvite.save(err =>{
+          if(!err) res.json({ msg: `Message sent to ${mailOptions.to}` });
+        })
+      } 
     })
   },
   verifyStudent: (req,res,next) => {
-    console.log(req.query, 'inside verify student');
+    const refId = req.query.ref;
     if ((`${req.protocol}://${req.get('host')}`) == (`http://${host}`)) {
       console.log('Domain is matched. Information is from Authenticate email');
-      if (req.query.ref == rand) {
-        console.log('email is verified.');
+      Invite.findOne({ refCode:refId }, (err,code) => {
+        console.log(code)
+        if (err) res.json({ msg: `you're link is expired` });
         res.json({ msg: `Email ${mailOptions.to} is successfully verified.` });
-      } else {
-        console.log('email is not verified.');
-        res.json({ msg: `Bad Request` });
-      }
-    } else {
-      res.json({ msg: `Request is from unknown source.` });
+      })
+        
+      } 
     }
-  }
 }
