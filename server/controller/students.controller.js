@@ -1,3 +1,7 @@
+const mongoose = require('mongoose');
+const FeedBack = require('../model/Feedback');
+const Student = require('../model/Students');
+
 module.exports = {
   getStudent: (req,res,next) => {
     res.json({
@@ -35,6 +39,16 @@ module.exports = {
     })
   },
   feedbackStudent: (req,res,next) => {
+   const studentId = req.params.id;
+   const { feedbackTitle } = req.body;
+   console.log(req.body);
+   
+  //  console.log(studentFeedback)
+  //  console.log(studentId)
+    const feedBack = new FeedBack({
+      
+    })
+
     res.json({
       message: 'feedback'
     })
