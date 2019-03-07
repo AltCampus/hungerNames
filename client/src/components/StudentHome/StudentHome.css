@@ -1,0 +1,12 @@
+.wrapper {
+  margin: 1em 0;
+}
+
+.home {
+  display: grid;
+  justify-items: center;
+}
+
+.home:first-child {
+  box-shadow: 0 -1px  5px 0 #ccc;
+}
