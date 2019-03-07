@@ -1,6 +1,7 @@
 const express = require("express");
 const session = require("express-session");
 const app = express();
+const passport = require('passport');
 const mongoose = require("mongoose");
 const MongoStore = require("connect-mongo")(session);
 const bodyParser = require("body-parser");
@@ -50,6 +51,13 @@ if (process.env.NODE_ENV === "development") {
 }
 
 app.use(cors());
+
+// importing user model
+require('./server/model/User');
+
+// importing passport config
+require('./server/config/passport')(passport);
+
 
 app.use("/api/v1", require("./server/routes/api"));
 app.use(require("./server/routes/index"));

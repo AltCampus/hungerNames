@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controller/user.controller');
-
+const isUser = require('../config/auth');
 
 
 // inviting student at this route
@@ -11,7 +11,7 @@ router.get('/', userController.getStudent);
 router.post('/register',userController.registerStudent);
 router.post('/login',userController.loginStudent);
 router.get('/logout',userController.logoutStudent);
-router.get('/:id',userController.profileStudent);
+router.get('/:id', isUser.isLoggedIn, userController.profileStudent);
 router.put('/:id/:day',userController.attendanceStudent);
 router.post('/:id/feedback',userController.feedbackStudent);
 
