@@ -1,0 +1,24 @@
+.form-page {
+  display: grid;
+  justify-items: center;
+}
+
+.label-box {
+  display: grid;
+  align-content: center;
+}
+
+.label-box > * {
+  margin-right: 0.6em;
+}
+
+.h2-title {
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.8em;
+  padding-bottom: 1em;
+}
+
+.button-primary {
+  margin-top: 1.4em;
+}
