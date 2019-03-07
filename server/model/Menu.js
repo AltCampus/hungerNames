@@ -2,33 +2,33 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 const MenuSchema = new Schema({
-    'monday': [{ breakfast: [{ type: String, required: true }],
-                 lunch: [{ type: String, required: true }],
-                 dinner: [{ type: String, required: true }]  
-              }],
-    'tuesday': [{ breakfast: [{ type: String, required: true }],
-                  lunch: [{ type: String, required: true }],
-                  dinner: [{ type: String, required: true }]  
-                }],
-    'wednesday': [{ breakfast: [{ type: String, required: true }],
-                    lunch: [{ type: String, required: true }],
-                    dinner: [{ type: String, required: true }]  
-                  }],
-    'thursday': [{ breakfast: [{ type: String, required: true }],
-                  lunch: [{ type: String, required: true }],
-                  dinner: [{ type: String, required: true }]  
-                }],
-    'friday': [{ breakfast: [{ type: String, required: true }],
-                lunch: [{ type: String, required: true }],
-                dinner: [{ type: String, required: true }]  
-              }],
-    'saturday':[{ breakfast: [{ type: String, required: true }],
-                  lunch: [{ type: String, required: true }],
-                  dinner: [{ type: String, required: true }]  
-                }],
-    'sunday': [{ brunch: [{ type: String, required: true }],
-                 dinner: [{ type: String, required: true }]  
-              }],  
+    'monday': { breakfast: [{ type: String, required: true, time: { type: Date, default: '9:30 AM' } }],
+                lunch: [{ type: String, required: true, time: { type: Date, default: '1:30 PM' } }],
+                dinner: [{ type: String, required: true, time: { type: Date, default: '8:30 PM' } }]  
+              },
+    'tuesday': { breakfast: [{ type: String, required: true, time: { type: Date, default: '9:30 AM' } }],
+                 lunch: [{ type: String, required: true, time: { type: Date, default: '1:30 PM' } }],
+                 dinner: [{ type: String, required: true, time: { type: Date, default: '8:30 PM' } }]  
+                },
+    'wednesday': { breakfast: [{ type: String, required: true, time: { type: Date, default: '9:30 AM' } }],
+                   lunch: [{ type: String, required: true, time: { type: Date, default: '1:30 PM' } }],
+                   dinner: [{ type: String, required: true, time: { type: Date, default: '8:30 PM' } }]  
+                  },
+    'thursday': { breakfast: [{ type: String, required: true, time: { type: Date, default: '9:30 AM' } }],
+                  lunch: [{ type: String, required: true, time: { type: Date, default: '1:30 PM' } }],
+                  dinner: [{ type: String, required: true, time: { type: Date, default: '8:30 PM' } }]  
+                },
+    'friday': { breakfast: [{ type: String, required: true, time: { type: Date, default: '9:30 AM' } }],
+                lunch: [{ type: String, required: true, time: { type: Date, default: '1:30 PM' } }],
+                dinner: [{ type: String, required: true, time: { type: Date, default: '8:30 PM' } }]  
+              },
+    'saturday': { breakfast: [{ type: String, required: true, time: { type: Date, default: '9:30 AM' } }],
+                  lunch: [{ type: String, required: true, time: { type: Date, default: '1:30 PM' } }],
+                  dinner: [{ type: String, required: true, time: { type: Date, default: '8:30 PM' } }]  
+                },
+    'sunday': { brunch: [{ type: String, required: true, time: { type: Date, default: '11:30 AM' } }],
+                dinner: [{ type: String, required: true, time: { type: Date, default: '8:30 PM' } }]  
+              },  
   }, {
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
   }
