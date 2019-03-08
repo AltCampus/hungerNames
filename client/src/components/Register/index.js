@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import  { connect } from 'react-redux';
 import './Register.css';
+import { util } from '../../util';
+import { registerUserAction } from '../../store/actions';
 
-class Login extends Component {
+class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -9,12 +12,38 @@ class Login extends Component {
       email:'',
       password:'',
       confPassword:'',
+      refCode:''
     }
     
   }
   
   componentDidMount = () =>{
-    console.log(this.match)
+    const query = this.props.location.search;
+    console.log("did mount", `${util.baseURL}/student/verify${query}`);
+    fetch(`${util.baseURL}/student/verify${query}`)
+    .then(res => res.json())
+    .then(data => {
+      // if(!data.error){
+        console.log(data);
+        this.setState({
+          email:data.emailId,
+          refCode:data.refCode
+        })
+      // }
+    })
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const { name,email,password,confPassword,refCode} = this.state;
+    if(password !== confPassword ){
+      alert("both password & confirm Password should be same")
+      return;
+    }
+    const data = {email, password, name, refCode};
+    this.props.dispatch(registerUserAction(data,(isRegistered) =>{
+      if(isRegistered) this.props.history.push('/login');
+    }))
   }
 
   handleChange = (e) => {
@@ -33,20 +62,21 @@ class Login extends Component {
         </label>
         <label className="label-box" htmlFor="email">
           <span className="label-text">Email</span>
-          <input onChange={this.handleChange} type="text" placeholder="Enter Email" id="email" name="email" disabled={true} value={this.state.email} />  
+          <input onChange={this.handleChange} type="text" placeholder="Enter Email" id="email" name="email" readOnly={true} value={this.state.email} />  
         </label>
         <label className="label-box" htmlFor="password">
           <span className="label-text">Password</span>
           <input onChange={this.handleChange} type="password" placeholder="Enter Password" id="password" name="password" value={this.state.password} />          
         </label>        
-        <label className="label-box" htmlFor="password">
+        <label className="label-box" htmlFor="confPassword">
           <span className="label-text">Confirm Password</span>
-          <input onChange={this.handleChange} type="password" placeholder="Enter Password" id="password" name="confPassword" value={this.state.confPassword} />
+          <input onChange={this.handleChange} type="password" placeholder="Enter Password" id="confPassword" name="confPassword" value={this.state.confPassword} />
         </label>
-        <input type="submit" className="send-btn" value="REGISTER" />
+        <input onChange={this.handleChange} type="password" name="refCode" value={this.state.refCode} hidden={true}/>
+        <input onSubmit={this.handleSubmit} type="submit" className="send-btn" value="REGISTER" />
       </form>
       );
   }
 }
 
-export default Login;
+export default connect()(Register);
