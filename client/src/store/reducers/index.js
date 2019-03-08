@@ -11,7 +11,6 @@ export default function rootReducer(state = INIT_STATE, action) {
     case "LOGOUT_USER":
       return { ...state, currentUser: null }
     // break;
-
     default:
       return state;
   }

@@ -51,3 +51,20 @@ export function logoutUserAction(data) {
     });
   };
 };
+export function registerUserAction(data, cb) {
+  return dispatch => {
+    fetch(`${util.baseURL}/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (!data.error) {
+          cb(true)
+        } else cb(false)
+      });
+  };
+};
