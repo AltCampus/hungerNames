@@ -7,10 +7,10 @@ const MongoStore = require("connect-mongo")(session);
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
-const port = 9000;
+const port = 8000;
 
 mongoose.connect(
- "mongodb://localhost/hungerNames",
+ "mongodb://adminalt01:adminalt01@ds137740.mlab.com:37740/hungernames",
  { useNewUrlParser: true },
  function(err, connection) {
   if (err) throw err;

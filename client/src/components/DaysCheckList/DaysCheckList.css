@@ -1,0 +1,77 @@
+/* .day-mark {
+  display: grid;
+  justify-items: center;
+  border: 2px solid black;
+  margin: 10px;
+  width: 50%;
+}
+
+.day-name {  
+  text-align: center;
+}
+
+.meal {
+  margin-right: 7px;
+}
+
+.check-mark {
+  border-bottom: 3px;
+  display: inline-block;
+}
+
+.check-list {
+  display: flex;
+} */
+
+.check-list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;  
+  margin: 10px 0;
+  width: 100vw;
+  padding: 0 1em;
+  padding-bottom: 0.7em;
+  box-shadow: 0 3px 7px 0 #ccc
+}
+
+.day-mark {
+  text-decoration: none;
+  color: rgb(80, 80, 80);
+}
+
+.day-mark:hover {
+  color: rgb(120, 120, 120);
+}
+
+.day-name {
+  font-weight: 700;
+  font-size: 1.8em;
+  margin-bottom: 0.7em;
+}
+
+.content__check-list {
+  display: flex;  
+  align-items: center;
+}
+
+.content__check-list > * {
+  margin-right: 1.5em;
+}
+
+.checklist-icon {
+  color: rgb(80, 80, 80);
+}
+
+.fa-angle-right:hover {
+  color: rgb(120, 120, 120);
+  cursor: pointer;
+}
+
+.meal {
+  margin-right: 0.7em;
+  font-weight: 600;
+}
+
+.fa-check-circle {
+  color: rgb(17, 160, 160);
+}
