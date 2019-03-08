@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const nodemailer = require("nodemailer");
-const jwt = require('jsonwebtoken');
-const passport = require('passport');
+const jwt = require("jsonwebtoken");
+const passport = require("passport");
 const FeedBack = require("../model/Feedback");
 const User = require("../model/User");
 const Invite = require("../model/Invite");
@@ -54,22 +54,22 @@ module.exports = {
             name: user.name
           });
         });
-      } else return res.json({ message: 'Please, verify your email' })
+      } else return res.json({ message: "Please, verify your email" });
     });
   },
   loginStudent: (req, res, next) => {
-    console.log(req.body, 'inside login student');
     const { email, password } = req.body;
-    if (!email && !password) res.json({ message: 'Email or Password is required' })
-    passport.authenticate('local', { failureRedirect: '/login' }, { session: false }, (err, user) => {
-      if (err) return res.status(500).json({ message: 'Internal server error' })
-      const token = jwt.sign({ user: req.user }, 'secret');
-      console.log(token);
+    if (!email && !password)
+      res.json({ message: "Email or Password is required" });
+    passport.authenticate("local", { session: false }, (err, user) => {
+      if (err)
+        return res.status(500).json({ message: "Internal server error" });
+      const token = jwt.sign({ user: req.user }, "secret");
       res.json({
         message: "successfully logged in",
         token: token
       });
-    })
+    });
   },
   logoutStudent: (req, res, next) => {
     res.json({
