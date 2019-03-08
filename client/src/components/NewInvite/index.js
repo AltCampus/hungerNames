@@ -18,7 +18,7 @@ class NewInvite extends Component {
   handleClick = (e) => {
     console
     let email = this.state.invitemail.trim();
-    if(!this.ValidateEmail(email)) return;
+    if(!util.ValidateEmail(email)) return;
     fetch(`${util.baseURL}/student/invite`, {
       method: "POST",
       headers: {
@@ -34,14 +34,6 @@ class NewInvite extends Component {
       } else this.setState({ message: data.error.msg })
     })
   }
-
-  ValidateEmail(mail) {
-  if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
-    return (true)
-  }
-  alert("You have entered an invalid email address!")
-  return (false)
-}
 
   render() {
     return (

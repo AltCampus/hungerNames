@@ -61,13 +61,15 @@ module.exports = {
     console.log(req.body, 'inside login student');
     const { email, password } = req.body;
     if (!email && !password) res.json({ message: 'Email or Password is required' })
-    passport.authenticate('local', { failureRedirect: '/login' }, { session: false })
-    const token = jwt.sign({ user: req.user }, 'secret');
-    console.log(token);
-    res.json({
-      message: "successfully logged in",
-      token: token
-    });
+    passport.authenticate('local', { failureRedirect: '/login' }, { session: false }, (err, user) => {
+      if (err) return res.status(500).json({ message: 'Internal server error' })
+      const token = jwt.sign({ user: req.user }, 'secret');
+      console.log(token);
+      res.json({
+        message: "successfully logged in",
+        token: token
+      });
+    })
   },
   logoutStudent: (req, res, next) => {
     res.json({
@@ -129,7 +131,7 @@ module.exports = {
     // it'll provide your localhost or network address
     host = req.get("host");
     const refCode = randomN(10);
-    link = `http://${host}/api/v1/student/verify?ref=${refCode}`;
+    link = `http://${host}/student/verify?ref=${refCode}`;
     const email = req.body.email;
 
     mailOptions = {
