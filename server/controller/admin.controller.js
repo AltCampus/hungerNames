@@ -40,7 +40,7 @@ module.exports = {
     User.aggregate([ {$match: { isAdmin : false, isKitchenStaff: false}}, 
       {$group: {_id: "Students List" , students : { $push: { id: "$_id", name:
     "$name",email: "$email" }}}}],(err,user) => {
-      console.log(user)
+        if (user.length === 0 ) return res.json({message: 'no student found in database'})
        if(err) return res.json({message:'coulnt fetch'});
        res.json({
           user:user[0].students
