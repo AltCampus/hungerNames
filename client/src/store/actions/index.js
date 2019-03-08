@@ -1,25 +1,25 @@
 import { util } from "../../util";
 
-export function loginUserAction(data) {
-  return dispatch => {
-    fetch(`${util.baseURL}/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (!data.error) {
-          dispatch({
-            type: "LOGIN_USER",
-            data: data
-          });
-        }
-      });
-  };
-}
+// export function loginUserAction(data) {
+//   return dispatch => {
+//     fetch(`${util.baseURL}/login`, {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json"
+//       },
+//       body: JSON.stringify(data)
+//     })
+//       .then(res => res.json())
+//       .then(data => {
+//         if (!data.error) {
+//           dispatch({
+//             type: "LOGIN_USER",
+//             data: data
+//           });
+//         }
+//       });
+//   };
+// };
 
 export function loginUserAction(data) {
   return dispatch => {
@@ -41,13 +41,13 @@ export function loginUserAction(data) {
         }
       });
   };
-}
+};
 
 export function logoutUserAction(data) {
   return dispatch => {
-    localStorage.removeItem('hungerNamesJWT')
+    localStorage.removeItem('hungerNamesJWT');
     dispatch({
       type: "LOGOUT_USER",
     });
   };
-}
+};
