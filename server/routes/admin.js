@@ -7,5 +7,7 @@ router.post('/login',adminController.loginAdmin);
 router.get('/verify',adminController.verifyAdmin);
 router.post('login/forget',adminController.forgetPassword)
 
+// Adding menu
+router.post('/menu', adminController.addMenu);
 
 module.exports = router;
