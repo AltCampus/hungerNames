@@ -2,22 +2,25 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 const AttendeesSchema = new Schema({
-  Date: new Date(),
+  date: {
+    type: Date,
+    default: new Date(),
+  },
   mealType: {
     'breakfast': { 
       title: String, 
       students: [{ type: Schema.Types.ObjectId, ref: 'Students' }],
-      feedback: [{ type: Schema.Types.ObjectId, ref: 'Feedback' }]
+      feedback: [{ type: Schema.Types.ObjectId, ref: 'Feedback' }],
     },
     'lunch': {
       title: String,
       students: [{ type: Schema.Types.ObjectId, ref: 'Students' }],
-      feedback: [{ type: Schema.Types.ObjectId, ref: 'Feedback' }]
+      feedback: [{ type: Schema.Types.ObjectId, ref: 'Feedback' }],
     },
     'dinner': {
       title: String,
       students: [{ type: Schema.Types.ObjectId, ref: 'Students' }],
-      feedback: [{ type: Schema.Types.ObjectId, ref: 'Feedback' }]
+      feedback: [{ type: Schema.Types.ObjectId, ref: 'Feedback' }],
     }
   }
 })
