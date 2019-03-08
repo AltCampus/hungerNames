@@ -131,7 +131,7 @@ module.exports = {
     // it'll provide your localhost or network address
     host = req.get("host");
     const refCode = randomN(10);
-    link = `http://${host}/student/verify?ref=${refCode}`;
+    link = `http://${host}/register?ref=${refCode}`;
     const email = req.body.email;
 
     mailOptions = {
