@@ -1,0 +1,30 @@
+.check-list-page {
+  display: grid;
+  justify-content: center;
+  width: 40vw;
+}
+
+.back-btn-box {
+  display: flex;
+  justify-content: flex-end;
+}
+.back-btn {
+  display: flex;
+  align-items: center;  
+  text-decoration: none;
+  color: inherit;
+  background-color: #575757;
+  border-radius: 7px;
+  color: #fff;
+  padding: 5px;
+  margin-right: 1.7em;
+}
+
+.back-btn > * {
+  margin-right: 5px;
+}
+
+.send-btn {
+  color: white;
+  background-color: rgb(17, 160, 160);
+}
