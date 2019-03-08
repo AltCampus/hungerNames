@@ -33,7 +33,7 @@ export function loginUserAction(data) {
       .then(res => res.json())
       .then(data => {
         if (!data.error) {
-          localStorage.setItem('hungerNamesJWT', data.token)
+          localStorage.setItem('hungerNamesJWT', data.token) //will modify acc to server
           dispatch({
             type: "LOGIN_USER",
             data: data

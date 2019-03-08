@@ -1,5 +1,5 @@
 const INIT_STATE = {
-  currentUser:localStorage.getItem('hungerNamesJWT') ||null;
+  currentUser:localStorage.getItem('hungerNamesJWT') ||null,
    
 };
 
