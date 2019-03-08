@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 const MenuSchema = new Schema({
-    'monday': { breakfast: [{ type: String, required: true, time: { type: Date, default: '9:30 AM' } }],
+    'monday': { breakfast: {title:[{ type: String, required: true}],
+                            time: { type: Date, default: '9:30 AM' } },
                 lunch: [{ type: String, required: true, time: { type: Date, default: '1:30 PM' } }],
                 dinner: [{ type: String, required: true, time: { type: Date, default: '8:30 PM' } }]  
               },
