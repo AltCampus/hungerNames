@@ -14,14 +14,25 @@ const StudentSchema = new Schema({
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
   }
 )
- StudentSchema.pre('save', function(next) {
-   if(this.password) {
-     this.password = bcrypt.hashSync(this.password,saltRounds);
-     next();
-   } else {
-     next();
-   }
- })
+var noop = function() {};
+StudentSchema.pre("save", function(done) {
+  var user = this;
+  if (!user.isModified("password")) {
+    return done();
+  }
+  bcrypt.genSalt(SALT_FACTOR, function(err, salt) {
+    if (err) {
+      return done(err);
+    }
+    bcrypt.hash(user.password, salt, noop, function(err, hashedPassword) {
+      if (err) {
+        return done(err);
+      }
+      user.password = hashedPassword;
+      done();
+    });
+  });
+});
 
 const Students = mongoose.model('Students', StudentSchema);
 module.exports = Students;
