@@ -7,19 +7,13 @@ const Students = mongoose.model('Students');
 module.exports = function(passport) {
   passport.use(new LocalStrategy({
     usernameField: 'email',passwordField: 'password'}, (email, password, done) => {
-    Students.findOne({ email }, (err, admin) => {
+    Students.findOne({ email }, (err, user) => {
       if (err) { return done(err) }
-      if(!admin) return res.json({
-        message: 'Admin not found'
-      })
-      if(!admin.isAdmin) return res.json({
-        message: 'Admin not found'
-      })
-      if (!admin) { return done(null, false) }
-      bcrypt.compare(password, admin.password, (err, isMatch) => {
+      if (!user) { return done(null, false) }
+      bcrypt.compare(password, user.password, (err, isMatch) => {
         if (err) throw err;
         if (isMatch) {
-          return done(null, admin);
+          return done(null, user);
         } else {
           return done(null, false, { message: "password is incorrect" });
         }
