@@ -4,7 +4,7 @@ const User = require("../model/User");
 const Menu = require("../model/Menu");
 
 module.exports = {
-  getAdmiin: (req, res, next) => {
+  getAdmin: (req, res, next) => {
     res.json({
       message: 'welcome admin'
     })
@@ -13,8 +13,8 @@ module.exports = {
     passport.authenticate('local', {
       session: false
     }, (err, admin, info) => {
-      if (!admin.isAdmin) return res.json({
-        message: 'Admin not found'
+      if (!admin.isAdmin) return res.status(417).json({
+        error: 'Admin not found'
       })
       const token = jwt.sign({
         admin
@@ -39,48 +39,51 @@ module.exports = {
   addMenu: (req, res, next) => {
     
     const newMenu = new Menu({
-      "monday": {
-        breakfast: {title: 'poha'},
-        lunch: {title: 'rice aloo palak dal'},
-        dinner: {title: 'roti veg(seasonal)'}
-      },
-      "tuesday": {
-        breakfast: {title: 'poha'},
-        lunch: {title: 'rice aloo palak dal'},
-        dinner: {title: 'roti veg(seasonal)'}
-      },
-      "wednesday": {
-        breakfast: {title: 'poha'},
-        lunch: {title: 'rice aloo palak dal'},
-        dinner: {title: 'roti veg(seasonal)'}
-      },
-      "thursday": {
-        breakfast: {title: 'poha'},
-        lunch: {title: 'rice aloo palak dal'},
-        dinner: {title: 'roti veg(seasonal)'}
-      },
-      "friday": {
-        breakfast: {title: 'poha'},
-        lunch: {title: 'rice aloo palak dal'},
-        dinner: {title: 'roti veg(seasonal)'}
-      },
-      "saturday": {
-        breakfast: {title: 'poha'},
-        lunch: {title: 'rice aloo palak dal'},
-        dinner: {title: 'roti veg(seasonal)'}
-      },
-      "sunday": {
-        brunch: {title: 'chhole'},
-        dinner: {title: 'roti veg(seasonal)'}
+      menu: {
+        "monday": {
+          breakfast: {title: 'poha'},
+          lunch: {title: 'rice aloo palak dal'},
+          dinner: {title: 'roti veg(seasonal)'}
+        },
+        "tuesday": {
+          breakfast: {title: 'poha'},
+          lunch: {title: 'rice aloo palak dal'},
+          dinner: {title: 'roti veg(seasonal)'}
+        },
+        "wednesday": {
+          breakfast: {title: 'poha'},
+          lunch: {title: 'rice aloo palak dal'},
+          dinner: {title: 'roti veg(seasonal)'}
+        },
+        "thursday": {
+          breakfast: {title: 'poha'},
+          lunch: {title: 'rice aloo palak dal'},
+          dinner: {title: 'roti veg(seasonal)'}
+        },
+        "friday": {
+          breakfast: {title: 'poha'},
+          lunch: {title: 'rice aloo palak dal'},
+          dinner: {title: 'roti veg(seasonal)'}
+        },
+        "saturday": {
+          breakfast: {title: 'poha'},
+          lunch: {title: 'rice aloo palak dal'},
+          dinner: {title: 'roti veg(seasonal)'}
+        },
+        "sunday": {
+          brunch: {title: 'chhole'},
+          dinner: {title: 'roti veg(seasonal)'}
+        }
       }
     });
-    newMenu.save((err, menu) => {
-      if (err) return res.json({ message: 'Could not get menu' })
+
+    Menu.find({}, (err, menu) => {
+      if (err) return res.status(500).json({ error: 'Could not get menu' })
       res.json({
         menu: menu,
         message: 'item menu is found'
       })
-    });
+    }) 
   },
 
   updateMenu: (req, res, next) => {
@@ -88,10 +91,20 @@ module.exports = {
     const { menu } = req.body;
     Menu.findOneAndUpdate({}, { menu }, { new: true }, (err, data) => {
       console.log(req.body, 'inside updated Menu')
-      if (err) return res.json({ message: 'Could not update the menu' })
+      if (err) return res.json({ error: 'Could not update the menu' })
       res.json({
         message: 'Successfully updated the menu',
         menu: data
+      })
+    })
+  },
+  removeStudent: (req, res, next) => {
+    const studentId = req.params.id;
+    User.findByIdAndDelete(studentId, (err, students) => {
+      if (err) return res.json({ error: 'Could not delete student' });
+      res.json({
+        message: 'Successfully deleted',
+        students: students
       })
     })
   }
