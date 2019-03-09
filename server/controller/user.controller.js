@@ -36,8 +36,7 @@ module.exports = {
   registerStudent: (req, res, next) => {
     const { email, password, name, refCode } = req.body;
     Invite.findOne({ refCode }, (err, user) => {
-      if (err) res.json({ message: "not verified" });
-      // cross email checking from db
+      if (err) return res.status(401).json({ error: "not verified" });
       if (user.isVerified && user.email == email) {
         const newStudent = new User({
           name,
@@ -45,9 +44,8 @@ module.exports = {
           password
         });
         newStudent.save((err, user) => {
-          if (err)
-            res.status(401).json({
-              error: "user is not found"
+          if (err) return res.status(400).json({
+              message: "user is not found"
             });
           res.json({
             message: "registered",
@@ -55,15 +53,15 @@ module.exports = {
             name: user.name
           });
         });
-      } else return res.json({ message: 'Please, verify your email' })
+      } else return res.json({ error: 'Please, verify your email' })
     });
   },
   loginStudent: (req, res, next) => {
     console.log(req.body, 'inside login student');
     const { email, password } = req.body;
-    if (!email && !password) res.json({ message: 'Email or Password is required' })
+    if (!email && !password) return res.status(451).json({ error: 'Email or Password is required' })
     passport.authenticate('local', { failureRedirect: '/login' }, { session: false }, (err, user) => {
-      if (err) return res.status(500).json({ message: 'Internal server error' })
+      if (err) return res.status(500).json({ error: 'Internal server error' })
       const token = jwt.sign({ user: req.user }, 'secret');
       console.log(token);
       res.json({
@@ -89,7 +87,7 @@ module.exports = {
     const { day } = req.params;
     console.log(day);
     res.json({
-      message: "attendace"
+      message: "attendance"
     });
   },
   feedbackStudent: (req, res, next) => {
@@ -162,14 +160,14 @@ module.exports = {
 
     // send mail with defined transport object(mailOptions)
     smtpTransport.sendMail(mailOptions, (err, info) => {
-      if (err) return res.json({ msg: "Message could not send" });
+      if (err) return res.status(406).json({ error: "Message could not send" });
       else {
         const newInvite = new Invite({
           emailId: email,
           refCode
         });
         newInvite.save(err => {
-          if (!err) res.json({ msg: `Message sent to ${mailOptions.to}` });
+          if (!err) res.json({ message: `Message sent to ${mailOptions.to}` });
         });
       }
     });
@@ -185,7 +183,7 @@ module.exports = {
         { refCode: refId },
         { $set: { isVerified: true } },
         (err, code) => {
-          if (err) res.json({ msg: `you're link is expired` });
+          if (err) return res.status(503).json({ error: `you're link is expired` });
           res.json({
             emailId: code.emailId,
             refCode: code.refCode,
