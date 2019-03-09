@@ -19,7 +19,7 @@ class Register extends Component {
   
   componentDidMount = () =>{
     const query = this.props.location.search;
-    console.log("did mount", `${util.baseURL}/student/verify${query}`);
+    // console.log("did mount", `${util.baseURL}/student/verify${query}`);
     fetch(`${util.baseURL}/student/verify${query}`)
     .then(res => res.json())
     .then(data => {

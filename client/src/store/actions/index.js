@@ -51,9 +51,9 @@ export function logoutUserAction(data) {
     });
   };
 };
-export function registerUserAction(data, cb) {
-  return (dispatch) => {
-    fetch(`${util.baseURL}/register`, {
+export function registerUserAction(data, cb) 
+  return dispatch => {
+    fetch(`${util.baseURL}/student/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
