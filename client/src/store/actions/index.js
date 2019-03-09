@@ -22,7 +22,7 @@ import { util } from "../../util";
 // };
 
 export function loginUserAction(data) {
-  return dispatch => {
+  return (dispatch) => {
     fetch(`${util.baseURL}/login`, {
       method: "POST",
       headers: {
@@ -44,7 +44,7 @@ export function loginUserAction(data) {
 };
 
 export function logoutUserAction(data) {
-  return dispatch => {
+  return (dispatch) => {
     localStorage.removeItem('hungerNamesJWT');
     dispatch({
       type: "LOGOUT_USER",
@@ -53,7 +53,7 @@ export function logoutUserAction(data) {
 };
 export function registerUserAction(data, cb) {
   return dispatch => {
-    fetch(`${util.baseURL}/register`, {
+    fetch(`${util.baseURL}/student/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -67,4 +67,17 @@ export function registerUserAction(data, cb) {
         } else cb(false)
       });
   };
+
 };
+
+
+export function getMenu() {
+  return async (dispatch) => {
+    const menuData = await fetch(`http://localhost:8000/api/v1/admin/menu`).then(data => data.json()).then(data => data);
+    
+    dispatch({
+      type: 'GET_MENU_DATA',
+      menuData
+    });
+  }
+}
