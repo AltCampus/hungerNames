@@ -36,6 +36,17 @@ module.exports = {
       message: 'password rest'
     })
   },
+  getAllStudents: (req, res, next) => {
+    User.aggregate([ {$match: { isAdmin : false, isKitchenStaff: false}}, 
+      {$group: {_id: "Students List" , students : { $push: { id: "$_id", name:
+    "$name",email: "$email" }}}}],(err,user) => {
+      console.log(user)
+       if(err) return res.json({message:'coulnt fetch'});
+       res.json({
+          user:user[0].students
+       })
+     })
+},
   addMenu: (req, res, next) => {
     
     const newMenu = new Menu({
