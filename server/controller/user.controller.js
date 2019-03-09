@@ -144,7 +144,7 @@ module.exports = {
     host = req.get("host");
     let flag = false;
     let refCode = null;
-    
+
     while(!flag){
       refCode = randomN(10);
       flag = checkFefCode(refCode)
@@ -186,7 +186,7 @@ module.exports = {
         (err, code) => {
           if (err) res.json({ msg: `you're link is expired` });
           res.json({
-            emailId: code.emailId,
+            emailId: code.emailId,               // here im getting error say code is undefine;
             refCode: code.refCode,
             // msg: `Email ${mailOptions.to} is successfully verified.`
           });
