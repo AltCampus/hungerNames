@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import './DaysCheckList.css';
+import { getMenu } from '../../store/actions/';
 
 class DaysCheckList extends Component {
     constructor(props){
@@ -11,6 +13,10 @@ class DaysCheckList extends Component {
     }
     setCheck = () => {
       this.setState({check:!this.state.check})
+    }
+
+    componentDidMount = () => {
+      this.props.dispatch(getMenu());
     }
   
   render() {
@@ -28,7 +34,10 @@ class DaysCheckList extends Component {
           <Link to={`/${day}`} className="day-mark">
             <p className="day-name">{ day }</p>
             <div className="meal-types">
-              <span className="meal">Breakfast</span>
+              <div className="breakfast">
+                <span className="meal">Breakfast: </span>
+                <span></span>
+              </div>
               <span className="meal">Lunch</span>
               <span className="meal">Dinner</span>
             </div>
@@ -42,4 +51,4 @@ class DaysCheckList extends Component {
   }
 }
 
-export default DaysCheckList;
+export default connect()(DaysCheckList);
