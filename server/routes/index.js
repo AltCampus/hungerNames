@@ -17,9 +17,9 @@ router.get('/admin', (err, res) => {
 })
 router.get('/admin/invite', (err, res) => {
   res.render('index');
-})
-
+}) 
 router.get('/register', (err, res) => {
   res.render('index');
-})
+});
+
 module.exports =router;

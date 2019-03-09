@@ -91,7 +91,7 @@ module.exports = {
     Menu.find({}, (err, menu) => {
       if (err) return res.status(500).json({ error: 'Could not get menu' })
       res.json({
-        menu: menu,
+        menu: menu[0].menu,
         message: 'item menu is found'
       })
     }) 
