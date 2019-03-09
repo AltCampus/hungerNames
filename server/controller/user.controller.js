@@ -37,7 +37,7 @@ module.exports = {
     const { email, password, name, refCode } = req.body;
     Invite.findOne({ refCode }, (err, user) => {
       if (err) res.json({ message: "not verified" });
-      if (user.isVerified) {
+      if (user.isVerified && user.email == email) {
         const newStudent = new User({
           name,
           email,

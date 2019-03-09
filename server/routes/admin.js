@@ -8,6 +8,9 @@ router.get('/verify',adminController.verifyAdmin);
 router.post('login/forget',adminController.forgetPassword)
 
 // Adding menu
-router.post('/menu', adminController.addMenu);
+router.get('/menu', adminController.addMenu);
+
+// Updating menu
+router.put('/menu', adminController.updateMenu);
 
 module.exports = router;

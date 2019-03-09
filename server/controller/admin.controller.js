@@ -40,38 +40,38 @@ module.exports = {
     
     const newMenu = new Menu({
       "monday": {
-        breakfast: ['poha'],
-        lunch: ['rice', 'aloo palak', 'dal'],
-        dinner: ['roti', 'veg(seasonal)']
+        breakfast: {title: 'poha'},
+        lunch: {title: 'rice aloo palak dal'},
+        dinner: {title: 'roti veg(seasonal)'}
       },
       "tuesday": {
-        breakfast: ['daliya'],
-        lunch: ['jira rice', 'dal', 'mix veg'],
-        dinner: ['roti', 'matar paneer', 'kheer']
+        breakfast: {title: 'poha'},
+        lunch: {title: 'rice aloo palak dal'},
+        dinner: {title: 'roti veg(seasonal)'}
       },
       "wednesday": {
-        breakfast: ['poha'],
-        lunch: ['rice', 'aloo palak', 'dal'],
-        dinner: ['roti', 'veg(seasonal)']
+        breakfast: {title: 'poha'},
+        lunch: {title: 'rice aloo palak dal'},
+        dinner: {title: 'roti veg(seasonal)'}
       },
       "thursday": {
-        breakfast: ['daliya'],
-        lunch: ['jira rice', 'dal', 'mix veg'],
-        dinner: ['roti', 'matar paneer', 'kheer']
+        breakfast: {title: 'poha'},
+        lunch: {title: 'rice aloo palak dal'},
+        dinner: {title: 'roti veg(seasonal)'}
       },
       "friday": {
-        breakfast: ['poha'],
-        lunch: ['rice', 'aloo palak', 'dal'],
-        dinner: ['roti', 'veg(seasonal)']
+        breakfast: {title: 'poha'},
+        lunch: {title: 'rice aloo palak dal'},
+        dinner: {title: 'roti veg(seasonal)'}
       },
       "saturday": {
-        breakfast: ['daliya'],
-        lunch: ['jira rice', 'dal', 'mix veg'],
-        dinner: ['roti', 'matar paneer', 'kheer']
+        breakfast: {title: 'poha'},
+        lunch: {title: 'rice aloo palak dal'},
+        dinner: {title: 'roti veg(seasonal)'}
       },
       "sunday": {
-        brunch: ['pudi', 'chhole'],
-        dinner: ['roti', 'veg(seasonal)']
+        brunch: {title: 'chhole'},
+        dinner: {title: 'roti veg(seasonal)'}
       }
     });
     newMenu.save((err, menu) => {
@@ -81,5 +81,18 @@ module.exports = {
         message: 'item menu is found'
       })
     });
+  },
+
+  updateMenu: (req, res, next) => {
+    // getting updated menu from req.body
+    const { menu } = req.body;
+    Menu.findOneAndUpdate({}, { menu }, { new: true }, (err, data) => {
+      console.log(req.body, 'inside updated Menu')
+      if (err) return res.json({ message: 'Could not update the menu' })
+      res.json({
+        message: 'Successfully updated the menu',
+        menu: data
+      })
+    })
   }
 }
