@@ -17,7 +17,6 @@ class Login extends Component {
     this.setState({ [e.target.name]: e.target.value })
   }
   handleSubmit = (e) => {
-    e.prevetDefault();
     const {email, password} = this.state;
     email = email.trim();
     if(!util.ValidateEmail(email)) return;
@@ -29,7 +28,7 @@ class Login extends Component {
 
   render() {
     return (
-      <form className="form-page">
+      <div className="form-page">
         <h2 className="h2-title">Sign in</h2>
         <label className="label-box" htmlFor="email">
           <span className="label-text">Email</span>
@@ -39,8 +38,8 @@ class Login extends Component {
           <span className="label-text">Password</span>
           <input onChange={this.handleChange} type="password" placeholder="Enter Password" id="password" name="password" value={this.state.password} />
         </label>
-        <input onSubmit={this.handleSubmit} type="submit" className="send-btn" value="LOGIN" />
-      </form>
+        <input onClick={this.handleSubmit} type="submit" className="send-btn" value="LOGIN" />
+      </div>
     );
   }
 }
