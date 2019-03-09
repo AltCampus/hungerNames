@@ -16,6 +16,7 @@ module.exports = {
 
   registerStudent: (req, res, next) => {
     const { email, password, name, refCode } = req.body;
+
     Invite.findOne({ refCode: refCode }, (err, user) => {
       console.log(user)
       if (err) res.json({ message: "not verified" });
@@ -32,6 +33,7 @@ module.exports = {
 
         
         newStudent.save((err, user) => {
+
           console.log(user,'new')
           if (err || !user) {
             return res.status(401).json({
@@ -77,7 +79,7 @@ module.exports = {
   attendanceStudent: (req, res, next) => {
     const { day } = req.params;
     res.json({
-      message: "attendace"
+      message: "attendance"
     });
   },
 
@@ -146,14 +148,14 @@ module.exports = {
     };
     // send mail with defined transport object(mailOptions)
     smtpTransport.sendMail(mailOptions, (err, info) => {
-      if (err) return res.json({ msg: "Message could not send" });
+      if (err) return res.status(406).json({ error: "Message could not send" });
       else {
         const newInvite = new Invite({
           emailId: email,
           refCode
         });
         newInvite.save(err => {
-          if (!err) res.json({ msg: `Message sent to ${mailOptions.to}` });
+          if (!err) res.json({ message: `Message sent to ${mailOptions.to}` });
         });
       }
     });
@@ -169,7 +171,6 @@ module.exports = {
         { $set: { isVerified: true } },
         (err, code) => {
           if (err) res.json({ msg: `you're link is expired` });
-          console.log(code, 'ref code');
           res.json({
             emailId : code.emailId,
             refCode: code.refCode,
