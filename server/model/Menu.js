@@ -6,98 +6,85 @@ const MenuSchema = new Schema({
     'monday': {
       breakfast: {
         title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
       },
       lunch: {
         title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
       },
       dinner: {
         title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
       },
     },
     'tuesday': {
       breakfast: {
         title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
       },
       lunch: {
         title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
       },
       dinner: {
         title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
       },
     },
     'wednesday': {
       breakfast: {
         title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
       },
       lunch: {
         title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
       },
       dinner: {
         title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
       },
     },
     'thursday': {
       breakfast: {
         title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
       },
       lunch: {
         title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
       },
       dinner: {
         title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
       },
     },
     'friday': {
       breakfast: {
         title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
       },
       lunch: {
         title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
       },
       dinner: {
         title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
       },
     },
     'saturday': {
       breakfast: {
         title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
       },
       lunch: {
         title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
       },
       dinner: {
         title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
       },
     },
     'sunday': {
       brunch: {
         title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
       },
       dinner: {
         title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
       },
     },
-  } }, {
+  },
+  timings: { 
+    breakfast: { type: String, default: '9:30 AM' },
+    lunch: { type: String, default: '1:30 PM' },
+    brunch: { type: String, default: '11:30 AM' },
+    dinner: { type: String, default: '8:30 PM' }
+  }
+ }, {
   timestamps: {
     createdAt: 'created_at',
     updatedAt: 'updated_at'

@@ -9,22 +9,22 @@ module.exports = {
       message: 'welcome admin'
     })
   },
-  loginAdmin: (req, res, next) => {
-    passport.authenticate('local', {
-      session: false
-    }, (err, admin, info) => {
-      if (!admin.isAdmin) return res.status(417).json({
-        error: 'Admin not found'
-      })
-      const token = jwt.sign({
-        admin
-      }, 'secret');
-      res.json({
-        message: "successfully logged in",
-        token: token
-      });
-    })(req, res, next)
-  },
+  // loginAdmin: (req, res, next) => {
+  //   passport.authenticate('local', {
+  //     session: false
+  //   }, (err, admin, info) => {
+  //     if (!admin.isAdmin) return res.status(417).json({
+  //       error: 'Admin not found'
+  //     })
+  //     const token = jwt.sign({
+  //       admin
+  //     }, 'secret');
+  //     res.json({
+  //       message: "successfully logged in",
+  //       token: token
+  //     });
+  //   })(req, res, next)
+  // },
 
   verifyAdmin: (req, res, next) => {
     res.json({
@@ -91,7 +91,7 @@ module.exports = {
     Menu.find({}, (err, menu) => {
       if (err) return res.status(500).json({ error: 'Could not get menu' })
       res.json({
-        menu: menu,
+        menu: menu[0].menu,
         message: 'item menu is found'
       })
     }) 

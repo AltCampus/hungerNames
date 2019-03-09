@@ -56,14 +56,23 @@ module.exports = {
       } else return res.json({ error: 'Please, verify your email' })
     });
   },
-  loginStudent: (req, res, next) => {
-    console.log(req.body, 'inside login student');
+  loginUser: (req, res, next) => {
+
     const { email, password } = req.body;
+
     if (!email && !password) return res.status(451).json({ error: 'Email or Password is required' })
+    
+    User.find({ email: email }, (err, user) => {
+      console.log(user, 'inside login user');
+      if (err) return res.json({ error: 'user not found!!' })
+      res.json({
+        email: user.email
+      })
+    })
+
     passport.authenticate('local', { failureRedirect: '/login' }, { session: false }, (err, user) => {
       if (err) return res.status(500).json({ error: 'Internal server error' })
       const token = jwt.sign({ user: req.user }, 'secret');
-      console.log(token);
       res.json({
         message: "successfully logged in",
         token: token

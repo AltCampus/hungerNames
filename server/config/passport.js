@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const LocalStrategy = require("passport-local").Strategy;
 const mongoose = require("mongoose");
 const Students = mongoose.model("Students");
+const User = require('../model/User');
 
 module.exports = function(passport) {
   passport.use(
@@ -27,6 +28,12 @@ module.exports = function(passport) {
               return done(null, false, { message: "password is incorrect" });
             }
           });
+          if (user.isAdmin) {
+            return done(null, user)
+          } 
+          if (user.isKitchenStaff) {
+            return done(null, user);
+          } 
         });
       }
     )
