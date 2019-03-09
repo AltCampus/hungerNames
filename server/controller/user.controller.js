@@ -15,8 +15,10 @@ module.exports = {
   },
 
   registerStudent: (req, res, next) => {
-    const { email, password, name, refCode } = req.body;
 
+    const { email, password, name, refCode } = req.body;
+  console.log("register stud back",email,password,refCode);
+  
     Invite.findOne({ refCode: refCode }, (err, user) => {
       console.log(user)
       if (err) res.json({ message: "not verified" });
@@ -172,6 +174,7 @@ module.exports = {
         (err, code) => {
           if (err) res.json({ msg: `you're link is expired` });
           res.json({
+
             emailId : code.emailId,
             refCode: code.refCode,
             // msg: `Email ${mailOptions.to} is successfully verified.`

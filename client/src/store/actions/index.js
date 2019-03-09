@@ -51,7 +51,7 @@ export function logoutUserAction(data) {
     });
   };
 };
-export function registerUserAction(data, cb) 
+export function registerUserAction(data, cb) {
   return dispatch => {
     fetch(`${util.baseURL}/student/register`, {
       method: "POST",
@@ -67,7 +67,9 @@ export function registerUserAction(data, cb)
         } else cb(false)
       });
   };
+
 };
+
 
 export function getMenu() {
   return async (dispatch) => {
