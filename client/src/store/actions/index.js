@@ -52,8 +52,8 @@ export function logoutUserAction(data) {
   };
 };
 export function registerUserAction(data, cb) {
-  return (dispatch) => {
-    fetch(`${util.baseURL}/register`, {
+  return dispatch => {
+    fetch(`${util.baseURL}/student/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -67,7 +67,9 @@ export function registerUserAction(data, cb) {
         } else cb(false)
       });
   };
+
 };
+
 
 export function getMenu() {
   return async (dispatch) => {
