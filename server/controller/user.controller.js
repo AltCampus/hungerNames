@@ -173,12 +173,8 @@ module.exports = {
     });
   },
   verifyStudent: (req, res, next) => {
-    console.log(req.body,"verify");
     const refId = req.query.ref;
-    console.log('ref verify',refId)
-    console.log(`${req.protocol}://${req.get("host")}` , `http://${host}`);
-    // if (`${req.protocol}://${req.get("host")}` == `http://${host}`) {
-      console.log("Domain is matched. Information is from Authenticate email");
+        // if (`${req.protocol}://${req.get("host")}` == `http://${host}`) {`     
       Invite.findOneAndUpdate(
         { refCode: refId },
         { $set: { isVerified: true } },
