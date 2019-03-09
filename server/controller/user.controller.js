@@ -164,6 +164,8 @@ module.exports = {
   },
 
   verifyStudent: (req, res, next) => {
+
+      // if (`${req.protocol}://${req.get("host")}` == `http://${host}`) {`     
     // console.log(req.query.ref)
     const { ref } = req.query;
     console.log(ref);
