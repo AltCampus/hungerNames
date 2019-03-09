@@ -25,7 +25,7 @@ var smtpTransport = nodemailer.createTransport({
 
 // SMTP TRANSPORT ENDS HERE
 
-var rand, mailOptions, host, link;
+var rand, mailOptions, host, link;    //Figure out a way to remove global variables 
 
 module.exports = {
   getStudent: (req, res, next) => {
@@ -44,8 +44,7 @@ module.exports = {
           password
         });
         newStudent.save((err, user) => {
-          if (err)
-            res.status(400).json({
+          if (err) return res.status(400).json({
               message: "user is not found"
             });
           res.json({
@@ -122,16 +121,35 @@ module.exports = {
   inviteStudent: (req, res, next) => {
     // generating random number for refCode
     function randomN(v) {
-      let alpha;
-      rand = Math.floor(Math.random() * 100 + v);
-      alpha = String.fromCharCode(rand);
-      return rand + alpha + (rand - 50);
+      let rand = "";
+      let alphaNum = 'abcdefghijklmnopqrstuvwxyz0123456789';
+      for(let i = 0 ;i < v;i++){
+        let random = Math.floor(Math.random() * 36);
+        rand.concat(alphaNum[random])
+      }
+      return rand;
+    }
+
+    function checkFefCode(refCode) {
+      Invite.find({ refCode }, (err, data) => {
+        if(!err){
+          if (data.length) return false;
+          else return true 
+        } return false
+    })
     }
 
     // it'll provide your localhost or network address
     host = req.get("host");
-    const refCode = randomN(10);
-    link = `http://${host}/student/verify?ref=${refCode}`;
+    let flag = false;
+    let refCode = null;
+    
+    while(!flag){
+      refCode = randomN(10);
+      flag = checkFefCode(refCode)
+    }
+
+    link = `http://${host}/register?ref=${refCode}`;
     const email = req.body.email;
 
     mailOptions = {
@@ -155,9 +173,11 @@ module.exports = {
     });
   },
   verifyStudent: (req, res, next) => {
-    console.log(req.body);
+    console.log(req.body,"verify");
     const refId = req.query.ref;
-    if (`${req.protocol}://${req.get("host")}` == `http://${host}`) {
+    console.log('ref verify',refId)
+    console.log(`${req.protocol}://${req.get("host")}` , `http://${host}`);
+    // if (`${req.protocol}://${req.get("host")}` == `http://${host}`) {
       console.log("Domain is matched. Information is from Authenticate email");
       Invite.findOneAndUpdate(
         { refCode: refId },
@@ -167,10 +187,10 @@ module.exports = {
           res.json({
             emailId: code.emailId,
             refCode: code.refCode,
-            msg: `Email ${mailOptions.to} is successfully verified.`
+            // msg: `Email ${mailOptions.to} is successfully verified.`
           });
         }
       );
     }
-  }
+  // }
 };
