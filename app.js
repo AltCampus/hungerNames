@@ -53,7 +53,7 @@ if (process.env.NODE_ENV === "development") {
 app.use(cors());
 
 // importing user model
-require('./server/model/User');
+require('./server/model/Student');
 
 // importing passport config
 require('./server/config/passport')(passport);

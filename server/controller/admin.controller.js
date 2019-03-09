@@ -1,6 +1,6 @@
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
-const User = require("../model/User");
+const Student = require("../model/Student");
 const Menu = require("../model/Menu");
 
 module.exports = {
@@ -37,7 +37,7 @@ module.exports = {
     })
   },
   getAllStudents: (req, res, next) => {
-    User.aggregate([ {$match: { isAdmin : false, isKitchenStaff: false}}, 
+    Student.aggregate([ {$match: { isAdmin : false, isKitchenStaff: false}}, 
       {$group: {_id: "Students List" , students : { $push: { id: "$_id", name:
     "$name",email: "$email" }}}}],(err,user) => {
         if (user.length === 0 ) return res.json({message: 'no student found in database'})

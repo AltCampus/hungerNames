@@ -3,29 +3,9 @@ const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const FeedBack = require("../model/Feedback");
-const User = require("../model/User");
+const Student = require("../model/Student");
 const Invite = require("../model/Invite");
-
-// Generate test SMTP service account from ethereal.email
-// Only needed if you don't have a real mail account for testing
-// async let account = await nodemailer.createTestAccount();
-
-/*
-  Here we are configuring our SMTP Server details.
-  STMP is mail server which is responsible for sending and recieving email.
-*/
-
-var smtpTransport = nodemailer.createTransport({
-  service: "Gmail",
-  auth: {
-    user: "food.altcampus@gmail.com",
-    pass: "Altcampus@2018"
-  }
-});
-
-// SMTP TRANSPORT ENDS HERE
-
-var rand, mailOptions, host, link;    //Figure out a way to remove global variables 
+ 
 
 module.exports = {
   getStudent: (req, res, next) => {
@@ -33,30 +13,41 @@ module.exports = {
       message: "welcome student"
     });
   },
+
   registerStudent: (req, res, next) => {
     const { email, password, name, refCode } = req.body;
-    Invite.findOne({ refCode }, (err, user) => {
+    Invite.findOne({ refCode: refCode }, (err, user) => {
+      console.log(user)
       if (err) res.json({ message: "not verified" });
-      if (user.isVerified && user.email == email) { //email cross checked from DB
-        const newStudent = new User({
+      if (user.isVerified ) {
+        const newStudent = new Student({
           name,
           email,
           password
         });
+        
+        // console.log(name,email)
+
+        console.log(newStudent,'newstud')
+
+        
         newStudent.save((err, user) => {
-          if (err)
-            res.status(401).json({
+          console.log(user,'new')
+          if (err || !user) {
+            return res.status(401).json({
               error: "user is not found"
             });
+
+          }
           res.json({
             message: "registered",
-            email: user.email,
             name: user.name
           });
         });
       } else return res.json({ message: "Please, verify your email" });
     });
   },
+
   loginStudent: (req, res, next) => {
     const { email, password } = req.body;
     if (!email && !password)
@@ -71,26 +62,25 @@ module.exports = {
       });
     });
   },
+
   logoutStudent: (req, res, next) => {
     res.json({
       message: "logged out"
     });
   },
+
   profileStudent: (req, res, next) => {
-    // const {id} = req.params
-    // Student.findOne({_id: id})
-    // console.log(id);
     res.json({
       message: "profile"
     });
   },
   attendanceStudent: (req, res, next) => {
     const { day } = req.params;
-    console.log(day);
     res.json({
       message: "attendace"
     });
   },
+
   feedbackStudent: (req, res, next) => {
     const studentId = req.params.id;
     const { feedbackTitle } = req.body;
@@ -120,45 +110,40 @@ module.exports = {
   },
 
   inviteStudent: (req, res, next) => {
-    // generating random number for refCode
+    // smtpTransport initialization
+    const smtpTransport = nodemailer.createTransport({
+      service: "Gmail",
+      auth: {
+        user: "food.altcampus@gmail.com",
+        pass: "Altcampus@2018"
+      }
+    });
+    
+    let rand, mailOptions, host, link;  
+    // generate random ref code
     function randomN(v) {
-      let rand = "";
+      let rand = [];
       let alphaNum = 'abcdefghijklmnopqrstuvwxyz0123456789';
       for(let i = 0 ;i < v;i++){
         let random = Math.floor(Math.random() * 36);
-        rand.concat(alphaNum[random])
+        rand.push(alphaNum[random])
       }
-      return rand;
+      return rand.join('');
     }
-
-    function checkFefCode(refCode) {
-      Invite.find({ refCode }, (err, data) => {
-        if(!err){
-          if (data.length) return false;
-          else return true 
-        } return false
-    })
-    }
-
     // it'll provide your localhost or network address
     host = req.get("host");
-    let flag = false;
-    let refCode = null;
+    let refCode;
     
-    while(!flag){
-      refCode = randomN(10);
-      flag = checkFefCode(refCode)
-    }
-
+    // while(!flag){
+      refCode = randomN(6);
     link = `http://${host}/register?ref=${refCode}`;
     const email = req.body.email;
-
+    console.log(refCode)
     mailOptions = {
       to: email,
       subject: "Verify your email",
       html: `Hello, <br>Please click on <a href='${link}'>click here</a> to verify your email.`
     };
-
     // send mail with defined transport object(mailOptions)
     smtpTransport.sendMail(mailOptions, (err, info) => {
       if (err) return res.json({ msg: "Message could not send" });
@@ -173,20 +158,20 @@ module.exports = {
       }
     });
   },
+
   verifyStudent: (req, res, next) => {
-    console.log(req.body,"verify");
-    const refId = req.query.ref;
-    console.log('ref verify',refId)
-    console.log(`${req.protocol}://${req.get("host")}` , `http://${host}`);
+    // console.log(req.query.ref)
+    const { ref } = req.query;
+    console.log(ref);
     // if (`${req.protocol}://${req.get("host")}` == `http://${host}`) {
-      console.log("Domain is matched. Information is from Authenticate email");
       Invite.findOneAndUpdate(
-        { refCode: refId },
+        { refCode: ref },
         { $set: { isVerified: true } },
         (err, code) => {
           if (err) res.json({ msg: `you're link is expired` });
+          console.log(code, 'ref code');
           res.json({
-            emailId: code.emailId,
+            emailId : code.emailId,
             refCode: code.refCode,
             // msg: `Email ${mailOptions.to} is successfully verified.`
           });
