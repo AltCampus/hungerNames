@@ -12,7 +12,7 @@ router.get('/',  isUser.isLoggedIn,userController.getStudent);
 router.post('/register',userController.registerStudent);
 router.post('/login',userController.loginStudent);
 router.get('/logout',userController.logoutStudent);
-router.get('/:id', userController.profileStudent);
+router.get('/profile/:id', userController.profileStudent);
 router.put('/:id/:day',userController.attendanceStudent);
 router.post('/:id/feedback',userController.feedbackStudent);
 
