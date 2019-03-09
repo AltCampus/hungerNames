@@ -6,7 +6,6 @@ router.get('/', adminController.getAdmiin);
 router.post('/login',adminController.loginAdmin);
 router.get('/verify',adminController.verifyAdmin);
 router.post('login/forget',adminController.forgetPassword);
-router.get('/student',adminController.getAllStudents);
 
 // Adding menu
 router.post('/menu', adminController.addMenu);

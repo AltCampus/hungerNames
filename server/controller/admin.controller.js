@@ -10,6 +10,7 @@ module.exports = {
     })
   },
   loginAdmin: (req, res, next) => {
+    console.log(req.body)
     passport.authenticate('local', {
       session: false
     }, (err, admin, info) => {
@@ -36,17 +37,7 @@ module.exports = {
       message: 'password rest'
     })
   },
-  getAllStudents: (req, res, next) => {
-    Student.aggregate([ {$match: { isAdmin : false, isKitchenStaff: false}}, 
-      {$group: {_id: "Students List" , students : { $push: { id: "$_id", name:
-    "$name",email: "$email" }}}}],(err,user) => {
-        if (user.length === 0 ) return res.json({message: 'no student found in database'})
-       if(err) return res.json({message:'coulnt fetch'});
-       res.json({
-          user:user[0].students
-       })
-     })
-},
+
   addMenu: (req, res, next) => {
     
     const newMenu = new Menu({
