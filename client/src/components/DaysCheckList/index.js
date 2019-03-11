@@ -10,11 +10,12 @@ class DaysCheckList extends Component {
       }
     }
     setCheck = () => {
-      this.setState({check:!this.state.check})
+      this.setState({ check: !this.state.check });
     }
-  
+
   render() {
-    const { day } = this.props;
+    const { onDay } = this.props;
+    console.log(onDay);
     return (
       <div className="check-list">
         <div className="content__check-list">
@@ -25,16 +26,19 @@ class DaysCheckList extends Component {
               {/* <i className="fas fa-circle"></i> */}
             </div>
           </span>
-          <Link to={`/${day}`} className="day-mark">
-            <p className="day-name">{ day }</p>
+          <Link to={`/${onDay.day}`} className="day-mark">
+            <p className="day-name">{onDay.day}</p>
             <div className="meal-types">
-              <span className="meal">Breakfast</span>
+              <div className="breakfast">
+                <span className="meal">Breakfast: </span>
+                <span></span>
+              </div>
               <span className="meal">Lunch</span>
               <span className="meal">Dinner</span>
             </div>
           </Link>
         </div>
-        <Link to={`/${day}`} className="meal-arrow">
+        <Link to={`/${onDay.meal.day}`} className="meal-arrow">
           <i className="fas checklist-icon fa-angle-right fa-3x"></i>
         </Link>
       </div>

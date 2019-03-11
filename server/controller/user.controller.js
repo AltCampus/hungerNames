@@ -20,7 +20,10 @@ module.exports = {
   },
 
   registerStudent: (req, res, next) => {
+
     const { email, password, name, refCode } = req.body;
+  console.log("register stud back",email,password,refCode);
+  
     Invite.findOne({ refCode: refCode }, (err, user) => {
       if (err) res.json({ message: "not verified" });
       if (user.isVerified) {
@@ -82,7 +85,7 @@ module.exports = {
   attendanceStudent: (req, res, next) => {
     const { day } = req.params;
     res.json({
-      message: "attendace"
+      message: "attendance"
     });
   },
 
@@ -149,20 +152,21 @@ module.exports = {
     };
     // send mail with defined transport object(mailOptions)
     smtpTransport.sendMail(mailOptions, (err, info) => {
-      if (err) return res.json({ msg: "Message could not send" });
+      if (err) return res.status(406).json({ error: "Message could not send" });
       else {
         const newInvite = new Invite({
           emailId: email,
           refCode
         });
         newInvite.save(err => {
-          if (!err) res.json({ msg: `Message sent to ${mailOptions.to}` });
+          if (!err) res.json({ message: `Message sent to ${mailOptions.to}` });
         });
       }
     });
   },
 
   verifyStudent: (req, res, next) => {
+<<<<<<< HEAD
     const { ref } = req.query;
     console.log(ref)
     Invite.findOneAndUpdate(
@@ -177,4 +181,27 @@ module.exports = {
       }
     );
   }
+=======
+
+      // if (`${req.protocol}://${req.get("host")}` == `http://${host}`) {`     
+    // console.log(req.query.ref)
+    const { ref } = req.query;
+    console.log(ref);
+    // if (`${req.protocol}://${req.get("host")}` == `http://${host}`) {
+      Invite.findOneAndUpdate(
+        { refCode: ref },
+        { $set: { isVerified: true } },
+        (err, code) => {
+          if (err) res.json({ msg: `you're link is expired` });
+          res.json({
+
+            emailId : code.emailId,
+            refCode: code.refCode,
+            // msg: `Email ${mailOptions.to} is successfully verified.`
+          });
+        }
+      );
+    }
+  // }
+>>>>>>> 23d4284dd06f83d2612397ffc1e59a62333763a6
 };

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controller/user.controller');
+const adminController = require('../controller/admin.controller');
 const isUser = require('../config/auth');
 
 
@@ -14,6 +15,9 @@ router.get('/logout',userController.logoutStudent);
 router.get('/profile/:id', userController.profileStudent);
 router.put('/:id/:day',userController.attendanceStudent);
 router.post('/:id/feedback',userController.feedbackStudent);
+
+// removing a particular student
+router.delete('/:id', adminController.removeStudent);
 
 module.exports = router;
 

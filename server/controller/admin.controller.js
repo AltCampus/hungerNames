@@ -4,7 +4,7 @@ const Student = require("../model/Student");
 const Menu = require("../model/Menu");
 
 module.exports = {
-  getAdmiin: (req, res, next) => {
+  getAdmin: (req, res, next) => {
     res.json({
       message: 'welcome admin'
     })
@@ -14,8 +14,8 @@ module.exports = {
     passport.authenticate('local', {
       session: false
     }, (err, admin, info) => {
-      if (!admin.isAdmin) return res.json({
-        message: 'Admin not found'
+      if (!admin.isAdmin) return res.status(417).json({
+        error: 'Admin not found'
       })
       const token = jwt.sign({
         admin
@@ -41,47 +41,139 @@ module.exports = {
   addMenu: (req, res, next) => {
     
     const newMenu = new Menu({
-      "monday": {
-        breakfast: ['poha'],
-        lunch: ['rice', 'aloo palak', 'dal'],
-        dinner: ['roti', 'veg(seasonal)']
-      },
-      "tuesday": {
-        breakfast: ['daliya'],
-        lunch: ['jira rice', 'dal', 'mix veg'],
-        dinner: ['roti', 'matar paneer', 'kheer']
-      },
-      "wednesday": {
-        breakfast: ['poha'],
-        lunch: ['rice', 'aloo palak', 'dal'],
-        dinner: ['roti', 'veg(seasonal)']
-      },
-      "thursday": {
-        breakfast: ['daliya'],
-        lunch: ['jira rice', 'dal', 'mix veg'],
-        dinner: ['roti', 'matar paneer', 'kheer']
-      },
-      "friday": {
-        breakfast: ['poha'],
-        lunch: ['rice', 'aloo palak', 'dal'],
-        dinner: ['roti', 'veg(seasonal)']
-      },
-      "saturday": {
-        breakfast: ['daliya'],
-        lunch: ['jira rice', 'dal', 'mix veg'],
-        dinner: ['roti', 'matar paneer', 'kheer']
-      },
-      "sunday": {
-        brunch: ['pudi', 'chhole'],
-        dinner: ['roti', 'veg(seasonal)']
+      menu: {
+        day1: {
+          day: 'monday',
+          meal: {
+            breakfast: {
+              title: 'poha',              
+            },
+            lunch: {
+              title: 'rice / aloo / palak / dal'
+            },
+            dinner: {
+              title: 'roti veg(seasonal)'
+            }
+          }
+        },
+        day2: {
+          day: 'tuesday',
+          meal: {
+            breakfast: {
+              title: 'poha',              
+            },
+            lunch: {
+              title: 'rice / aloo / palak / dal'
+            },
+            dinner: {
+              title: 'roti veg(seasonal)'
+            }
+          }
+        },
+        day3: {
+          day: 'wednesday',
+          meal: {
+            breakfast: {
+              title: 'poha',              
+            },
+            lunch: {
+              title: 'rice / aloo / palak / dal'
+            },
+            dinner: {
+              title: 'roti veg(seasonal)'
+            }
+          }
+        },
+        day4: {
+          day: 'thursday',
+          meal: {
+            breakfast: {
+              title: 'poha',              
+            },
+            lunch: {
+              title: 'rice / aloo / palak / dal'
+            },
+            dinner: {
+              title: 'roti veg(seasonal)'
+            }
+          }
+        },
+        day5: {
+          day: 'friday',
+          meal: {
+            breakfast: {
+              title: 'poha',              
+            },
+            lunch: {
+              title: 'rice / aloo / palak / dal'
+            },
+            dinner: {
+              title: 'roti veg(seasonal)'
+            }
+          }
+        },
+        day6: {
+          day: 'saturday',
+          meal: {
+            breakfast: {
+              title: 'poha',              
+            },
+            lunch: {
+              title: 'rice / aloo / palak / dal'
+            },
+            dinner: {
+              title: 'roti veg(seasonal)'
+            }
+          }
+        },
+        day7: {
+          day: 'sunday',
+          meal: {
+            brunch: {
+              title: 'poha',              
+            },
+            dinner: {
+              title: 'roti veg(seasonal)'
+            }
+          }
+        }
       }
     });
-    newMenu.save((err, menu) => {
-      if (err) return res.json({ message: 'Could not get menu' })
+
+    // newMenu.save( function(err, menu) {
+    //   if(err) { return next(err); }
+    //   console.log(menu);
+    // })
+
+    Menu.find({}, (err, menu) => {
+      if (err) return res.status(500).json({ error: 'Could not get menu' })
       res.json({
-        menu: menu,
+        menu: menu[0].menu,
         message: 'item menu is found'
       })
-    });
+    }) 
+  },
+
+  updateMenu: (req, res, next) => {
+    // getting updated menu from req.body
+    const { menu } = req.body;
+    Menu.findOneAndUpdate({}, { menu }, { new: true }, (err, data) => {
+      console.log(req.body, 'inside updated Menu')
+      if (err) return res.json({ error: 'Could not update the menu' })
+      res.json({
+        message: 'Successfully updated the menu',
+        menu: data
+      })
+    })
+  },
+  removeStudent: (req, res, next) => {
+    const studentId = req.params.id;
+    User.findByIdAndDelete(studentId, (err, students) => {
+      if (err) return res.json({ error: 'Could not delete student' });
+      res.json({
+        message: 'Successfully deleted',
+        students: students
+      })
+    })
   }
 }
