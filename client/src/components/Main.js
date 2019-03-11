@@ -5,6 +5,7 @@ import Login from './Login';
 import StudentHome from './StudentHome';
 import AdminHome from './AdminHome';
 import DayList from './DayList';
+import AdminDayList from './AdminDayList';
 import './Main.css';
 
 
@@ -24,13 +25,12 @@ const Main = (props) => {
             <Route path='/register' component={ Register } />
             <Route path='/login' component={ Login } />
             <Route exact path='/' component={ StudentHome } />
+            <Route exact path='/admin/menu/:day' component={ AdminDayList } />
             <Route path='/admin' component={ AdminHome } />
             <Route exact path='/:day' component={ DayList } />
           </Switch>
         </>
       </BrowserRouter>
-        
-    
   );
 }
 

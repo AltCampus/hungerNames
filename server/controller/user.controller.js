@@ -68,7 +68,7 @@ module.exports = {
         
         if (err) res.status(500).json({
           message: 'internal error'
-        })
+        });
         res.status(200).json({
           menu: menu.menu,
           user: {name,email,_id}
