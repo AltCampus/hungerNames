@@ -51,42 +51,108 @@ module.exports = {
     
     const newMenu = new Menu({
       menu: {
-        "monday": {
-          breakfast: {title: 'Poha'},
-          lunch: {title: 'Rice Aaloo-Palak Dal'},
-          dinner: {title: 'Roti Veg(seasonal)'}
+        day1: {
+          day: 'monday',
+          meal: {
+            breakfast: {
+              title: 'poha',              
+            },
+            lunch: {
+              title: 'rice / aloo / palak / dal'
+            },
+            dinner: {
+              title: 'roti veg(seasonal)'
+            }
+          }
         },
-        "tuesday": {
-          breakfast: {title: 'Daliya'},
-          lunch: {title: 'Jeera rice Dal Mix Veg'},
-          dinner: {title: 'Roti Matar-Panner Kheer'}
+        day2: {
+          day: 'tuesday',
+          meal: {
+            breakfast: {
+              title: 'poha',              
+            },
+            lunch: {
+              title: 'rice / aloo / palak / dal'
+            },
+            dinner: {
+              title: 'roti veg(seasonal)'
+            }
+          }
         },
-        "wednesday": {
-          breakfast: {title: 'Egg-Bhurji Bread'},
-          lunch: {title: 'Razma Chawal'},
-          dinner: {title: 'Roti Dal-Tadka Aaloo-Bhujia'}
+        day3: {
+          day: 'wednesday',
+          meal: {
+            breakfast: {
+              title: 'poha',              
+            },
+            lunch: {
+              title: 'rice / aloo / palak / dal'
+            },
+            dinner: {
+              title: 'roti veg(seasonal)'
+            }
+          }
         },
-        "thursday": {
-          breakfast: {title: 'Pav-Bhaji'},
-          lunch: {title: 'Pulao Boondi-Raita'},
-          dinner: {title: 'Roti Aaloo-Mutter'}
+        day4: {
+          day: 'thursday',
+          meal: {
+            breakfast: {
+              title: 'poha',              
+            },
+            lunch: {
+              title: 'rice / aloo / palak / dal'
+            },
+            dinner: {
+              title: 'roti veg(seasonal)'
+            }
+          }
         },
-        "friday": {
-          breakfast: {title: 'Poha'},
-          lunch: {title: 'Chhole Chawal'},
-          dinner: {title: 'Roti Chicken/Veg'}
+        day5: {
+          day: 'friday',
+          meal: {
+            breakfast: {
+              title: 'poha',              
+            },
+            lunch: {
+              title: 'rice / aloo / palak / dal'
+            },
+            dinner: {
+              title: 'roti veg(seasonal)'
+            }
+          }
         },
-        "saturday": {
-          breakfast: {title: 'Aloo-Paratha Pickle'},
-          lunch: {title: 'Rice Dal Veg(seasonal)'},
-          dinner: {title: 'Roti Veg(Kala Chana and Aaloo)'}
+        day6: {
+          day: 'saturday',
+          meal: {
+            breakfast: {
+              title: 'poha',              
+            },
+            lunch: {
+              title: 'rice / aloo / palak / dal'
+            },
+            dinner: {
+              title: 'roti veg(seasonal)'
+            }
+          }
         },
-        "sunday": {
-          brunch: {title: 'Poori Chhole'},
-          dinner: {title: 'Roti Egg-Curry'}
+        day7: {
+          day: 'sunday',
+          meal: {
+            brunch: {
+              title: 'poha',              
+            },
+            dinner: {
+              title: 'roti veg(seasonal)'
+            }
+          }
         }
       }
     });
+
+    // newMenu.save( function(err, menu) {
+    //   if(err) { return next(err); }
+    //   console.log(menu);
+    // })
 
     Menu.find({}, (err, menu) => {
       if (err) return res.status(500).json({ error: 'Could not get menu' })

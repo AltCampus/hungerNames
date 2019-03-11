@@ -67,7 +67,9 @@ export function registerUserAction(data, cb) {
         } else cb(false)
       });
   };
+
 };
+
 
 export function getMenu() {
   return async (dispatch) => {

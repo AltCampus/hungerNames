@@ -34,14 +34,16 @@ class Register extends Component {
   }
 
   handleSubmit = (e) => {
-    e.preventDefault();
     const { name,email,password,confPassword,refCode} = this.state;
     if(password !== confPassword ){
       alert("both password & confirm Password should be same")
       return;
     }
     const data = {email, password, name, refCode};
+    console.log(data,"reg front");
     this.props.dispatch(registerUserAction(data,(isRegistered) =>{
+      console.log(isRegistered,"hello callback");
+      
       if(isRegistered) this.props.history.push('/login');
     }))
   }
@@ -52,7 +54,7 @@ class Register extends Component {
 
   render() {
     return( 
-      <form className="form-page">
+      <div className="form-page">
         <h2 className="h2-title">Register</h2>        
         <label className="label-box" htmlFor="name">
           <span className="label-text">Name</span>
@@ -73,8 +75,8 @@ class Register extends Component {
           <input onChange={this.handleChange} type="password" placeholder="Enter Password" id="confPassword" name="confPassword" value={this.state.confPassword} />
         </label>
         <input onChange={this.handleChange} type="password" name="refCode" value={this.state.refCode} hidden={true}/>
-        <input onSubmit={this.handleSubmit} type="submit" className="send-btn" value="REGISTER" />
-      </form>
+        <input onClick={this.handleSubmit} type="submit" className="send-btn" value="REGISTER" />
+      </div>
       );
   }
 }
