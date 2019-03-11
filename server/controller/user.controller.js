@@ -163,16 +163,12 @@ module.exports = {
     });
   },
 
-  verifyStudent: (req, res, next) => {
-<<<<<<< HEAD
-    const refId = req.query.ref;
-        // if (`${req.protocol}://${req.get("host")}` == `http://${host}`) {`     
-=======
+  verifyStudent: (req, res, next) => {    
+    // if (`${req.protocol}://${req.get("host")}` == `http://${host}`) {`     
     // console.log(req.query.ref)
     const { ref } = req.query;
     console.log(ref);
     // if (`${req.protocol}://${req.get("host")}` == `http://${host}`) {
->>>>>>> c55758a0ec68ecea0ca3ef693798547d9fa52066
       Invite.findOneAndUpdate(
         { refCode: ref },
         { $set: { isVerified: true } },

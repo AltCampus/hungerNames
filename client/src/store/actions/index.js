@@ -72,12 +72,22 @@ export function registerUserAction(data, cb) {
 
 
 export function getMenu() {
-  return async (dispatch) => {
-    const menuData = await fetch(`http://localhost:8000/api/v1/admin/menu`).then(data => data.json()).then(data => data);
-    
+  return async (dispatch) =>  {
+    const menuData = await fetch(`http://localhost:8000/api/v1/admin/menu`).then(res => res.json());
     dispatch({
       type: 'GET_MENU_DATA',
       menuData
     });
   }
-}
+} 
+
+// export const  getMenu = () => (dispatch) =>  {
+//   fetch(`http://localhost:8000/api/v1/admin/menu`)
+//     .then(res => res.json())
+//       .then(menuData => {        
+//         dispatch({
+//           type: 'GET_MENU_DATA',
+//           menuData
+//         });
+//       }); 
+// }
