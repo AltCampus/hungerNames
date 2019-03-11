@@ -1,3 +1,4 @@
+
 const passport = require("passport");
 const bcrypt = require("bcrypt");
 const LocalStrategy = require("passport-local").Strategy;
@@ -12,7 +13,9 @@ module.exports = function(passport) {
         passwordField: "password"
       },
       (email, password, done) => {
+        console.log(password)
         Students.findOne({ email }, (err, user) => {
+          console.log(user, 'inside passport.js');
           if (err) {
             return done(err);
           }

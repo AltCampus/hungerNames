@@ -1,5 +1,6 @@
 const express = require('express');
-const router = express.Router()
+const router = express.Router();
+
 router.get('/', (err, res)=>{
   res.render('index');
 });
@@ -17,7 +18,8 @@ router.get('/admin', (err, res) => {
 })
 router.get('/admin/invite', (err, res) => {
   res.render('index');
-}) 
+})
+
 router.get('/register', (err, res) => {
   res.render('index');
 });
