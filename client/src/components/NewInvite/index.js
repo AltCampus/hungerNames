@@ -16,7 +16,6 @@ class NewInvite extends Component {
   }
 
   handleClick = (e) => {
-    console
     let email = this.state.invitemail.trim();
     if(!util.ValidateEmail(email)) return;
     fetch(`${util.baseURL}/student/invite`, {

@@ -1,6 +1,6 @@
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
-const User = require("../model/User");
+const Student = require("../model/Student");
 const Menu = require("../model/Menu");
 
 module.exports = {
@@ -37,10 +37,10 @@ module.exports = {
     })
   },
   getAllStudents: (req, res, next) => {
-    User.aggregate([ {$match: { isAdmin : false, isKitchenStaff: false}}, 
+    Student.aggregate([ {$match: { isAdmin : false, isKitchenStaff: false}}, 
       {$group: {_id: "Students List" , students : { $push: { id: "$_id", name:
     "$name",email: "$email" }}}}],(err,user) => {
-      console.log(user)
+        if (user.length === 0 ) return res.json({message: 'no student found in database'})
        if(err) return res.json({message:'coulnt fetch'});
        res.json({
           user:user[0].students
@@ -52,38 +52,38 @@ module.exports = {
     const newMenu = new Menu({
       menu: {
         "monday": {
-          breakfast: {title: 'poha'},
-          lunch: {title: 'rice aloo palak dal'},
-          dinner: {title: 'roti veg(seasonal)'}
+          breakfast: {title: 'Poha'},
+          lunch: {title: 'Rice Aaloo-Palak Dal'},
+          dinner: {title: 'Roti Veg(seasonal)'}
         },
         "tuesday": {
-          breakfast: {title: 'poha'},
-          lunch: {title: 'rice aloo palak dal'},
-          dinner: {title: 'roti veg(seasonal)'}
+          breakfast: {title: 'Daliya'},
+          lunch: {title: 'Jeera rice Dal Mix Veg'},
+          dinner: {title: 'Roti Matar-Panner Kheer'}
         },
         "wednesday": {
-          breakfast: {title: 'poha'},
-          lunch: {title: 'rice aloo palak dal'},
-          dinner: {title: 'roti veg(seasonal)'}
+          breakfast: {title: 'Egg-Bhurji Bread'},
+          lunch: {title: 'Razma Chawal'},
+          dinner: {title: 'Roti Dal-Tadka Aaloo-Bhujia'}
         },
         "thursday": {
-          breakfast: {title: 'poha'},
-          lunch: {title: 'rice aloo palak dal'},
-          dinner: {title: 'roti veg(seasonal)'}
+          breakfast: {title: 'Pav-Bhaji'},
+          lunch: {title: 'Pulao Boondi-Raita'},
+          dinner: {title: 'Roti Aaloo-Mutter'}
         },
         "friday": {
-          breakfast: {title: 'poha'},
-          lunch: {title: 'rice aloo palak dal'},
-          dinner: {title: 'roti veg(seasonal)'}
+          breakfast: {title: 'Poha'},
+          lunch: {title: 'Chhole Chawal'},
+          dinner: {title: 'Roti Chicken/Veg'}
         },
         "saturday": {
-          breakfast: {title: 'poha'},
-          lunch: {title: 'rice aloo palak dal'},
-          dinner: {title: 'roti veg(seasonal)'}
+          breakfast: {title: 'Aloo-Paratha Pickle'},
+          lunch: {title: 'Rice Dal Veg(seasonal)'},
+          dinner: {title: 'Roti Veg(Kala Chana and Aaloo)'}
         },
         "sunday": {
-          brunch: {title: 'chhole'},
-          dinner: {title: 'roti veg(seasonal)'}
+          brunch: {title: 'Poori Chhole'},
+          dinner: {title: 'Roti Egg-Curry'}
         }
       }
     });

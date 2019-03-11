@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken');
-const User = require('../model/User');
+const Student = require('../model/Student');
 
 module.exports = {
   isLoggedIn(req, res, next) {
     const token = req.headers.authorization;
-    if (!token) return res.json({ message: 'unAuthorized user' });
+    if (!token) return res.json({ message: 'unAuthorized Student' });
     const BearerToken = token.split(' ');
     const headerBearer = BearerToken[1];
     jwt.verify(headerBearer, 'secret', (err, decodeT) => {
