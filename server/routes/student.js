@@ -10,7 +10,7 @@ router.post('/invite', userController.inviteStudent);
 router.get('/verify',userController.verifyStudent)
 router.get('/',  isUser.isLoggedIn,userController.getStudent);
 router.post('/register',userController.registerStudent);
-router.post('/login',userController.loginStudent);
+router.post('/login',userController.loginUser);
 router.get('/logout',userController.logoutStudent);
 router.get('/profile/:id', userController.profileStudent);
 router.put('/:id/:day',userController.attendanceStudent);

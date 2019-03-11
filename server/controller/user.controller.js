@@ -51,20 +51,21 @@ module.exports = {
       } else return res.json({ message: "Please, verify your email" });
     });
   },
+  loginUser: (req, res, next) => {
 
-  loginStudent: (req, res, next) => {
-    const { email, password } = req.body;
-    if (!email && !password)
-      res.json({ message: "Email or Password is required" });
-    passport.authenticate("local", { session: false }, (err, user) => {
-      if (err)
-        return res.status(500).json({ message: "Internal server error" });
-      const token = jwt.sign({ user: req.user }, "secret");
+    // const { email, password } = req.body;
+    // console.log(req.body, 'insid eklldsdjdfs');
+    // if (!email && !password) return res.status(451).json({ error: 'Email or Password is required' })
+
+    passport.authenticate('local', { session: false }, (err, user) => {
+      console.log(user)
+      if (err) return res.status(500).json({ error: 'Internal server error' })
+      const token = jwt.sign({ user: req.user }, 'secret');
       res.json({
         message: "successfully logged in",
         token: token
       });
-    });
+    })(req, res, next)
   },
 
   logoutStudent: (req, res, next) => {
