@@ -8,15 +8,15 @@ const MenuSchema = new Schema({
       meal: {
         breakfast: {
           title: { type: String, required: true },
-          time: { type: Date, default: Date.now },  
+          time: { type: String, default: '9:30 AM' },  
         },
         lunch: {
           title: { type: String, required: true },
-          time: { type: Date, default: Date.now },  
+          time: { type: String, default: '1:30 PM' },  
         },
         dinner: {
           title: { type: String, required: true },
-          time: { type: Date, default: Date.now },  
+          time: { type: String, default: '8 PM' },  
         }
       },
     },
@@ -25,15 +25,15 @@ const MenuSchema = new Schema({
       meal: {
         breakfast: {
           title: { type: String, required: true },
-          time: { type: Date, default: Date.now },  
+          time: { type: String, default: '9:30 AM' },  
         },
         lunch: {
           title: { type: String, required: true },
-          time: { type: Date, default: Date.now },  
+          time: { type: String, default: '1:30 PM' },  
         },
         dinner: {
           title: { type: String, required: true },
-          time: { type: Date, default: Date.now },  
+          time: { type: String, default: '8 PM' },  
         },
       },
     },
@@ -42,15 +42,15 @@ const MenuSchema = new Schema({
       meal: {
         breakfast: {
           title: { type: String, required: true },
-          time: { type: Date, default: Date.now },  
+          time: { type: String, default: '9:30 AM' },  
         },
         lunch: {
           title: { type: String, required: true },
-          time: { type: Date, default: Date.now },  
+          time: { type: String, default: '1:30 PM' },  
         },
         dinner: {
           title: { type: String, required: true },
-          time: { type: Date, default: Date.now },  
+          time: { type: String, default: '8 PM' },  
         }
       }
     },
@@ -59,15 +59,15 @@ const MenuSchema = new Schema({
       meal: {
         breakfast: {
           title: { type: String, required: true },
-          time: { type: Date, default: Date.now },  
+          time: { type: String, default: '9:30 AM' },  
         },
         lunch: {
           title: { type: String, required: true },
-          time: { type: Date, default: Date.now },  
+          time: { type: String, default: '1:30 PM' },  
         },
         dinner: {
           title: { type: String, required: true },
-          time: { type: Date, default: Date.now },  
+          time: { type: String, default: '8 PM' },  
         },
       },
     },
@@ -76,15 +76,15 @@ const MenuSchema = new Schema({
       meal: {
         breakfast: {
           title: { type: String, required: true },
-          time: { type: Date, default: Date.now },  
+          time: { type: String, default: '9:30 AM' },  
         },
         lunch: {
           title: { type: String, required: true },
-          time: { type: Date, default: Date.now },  
+          time: { type: String, default: '1:30 PM' },  
         },
         dinner: {
           title: { type: String, required: true },
-          time: { type: Date, default: Date.now },  
+          time: { type: String, default: '8 PM' },  
         },
       },
     },
@@ -93,15 +93,15 @@ const MenuSchema = new Schema({
       meal: {
         breakfast: {
           title: { type: String, required: true },
-          time: { type: Date, default: Date.now },  
+          time: { type: String, default: '9:30 AM' },  
         },
         lunch: {
           title: { type: String, required: true },
-          time: { type: Date, default: Date.now },  
+          time: { type: String, default: '1:30 PM' },  
         },
         dinner: {
           title: { type: String, required: true },
-          time: { type: Date, default: Date.now },  
+          time: { type: String, default: '8 PM' },  
         },
       },
     },
@@ -110,11 +110,11 @@ const MenuSchema = new Schema({
       meal: {      
         brunch: {
           title: { type: String, required: true },
-          time: { type: Date, default: Date.now },  
+          time: { type: String, default: '11 AM' },  
         },
         dinner: {
           title: { type: String, required: true },
-          time: { type: Date, default: Date.now },  
+          time: { type: String, default: '8 PM' },  
         },
       },
     },
@@ -122,7 +122,7 @@ const MenuSchema = new Schema({
 }, {
   timestamps: {
     createdAt: 'created_at',
-    updatedAt: 'updated_at'
+    upStringdAt: 'upStringd_at'
   }
 });
 

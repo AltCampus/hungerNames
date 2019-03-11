@@ -13,7 +13,9 @@ module.exports = function(passport) {
         passwordField: "password"
       },
       (email, password, done) => {
+        console.log(password)
         Students.findOne({ email }, (err, user) => {
+          console.log(user, 'inside passport.js');
           if (err) {
             return done(err);
           }

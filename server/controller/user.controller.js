@@ -5,25 +5,12 @@ const passport = require("passport");
 const FeedBack = require("../model/Feedback");
 const Student = require("../model/Student");
 const Invite = require("../model/Invite");
+const Menu = require('../model/Menu');
 
 module.exports = {
-  getStudent: (req, res, next) => {
-    Student.aggregate([ {$match: { isAdmin : false, isKitchenStaff: false}}, 
-      {$group: {_id: "Students List" , students : { $push: { id: "$_id", name:
-    "$name",email: "$email" }}}}],(err,user) => {
-        if (user.length === 0 ) return res.json({message: 'no student found in database'})
-       if(err) return res.json({message:'coulnt fetch'});
-       res.json({
-          user:user[0].students
-       })
-     })
-  },
 
   registerStudent: (req, res, next) => {
-
-    const { email, password, name, refCode } = req.body;
-  console.log("register stud back",email,password,refCode);
-  
+    const { email, password, name, refCode } = req.body;  
     Invite.findOne({ refCode: refCode }, (err, user) => {
       if (err) res.json({ message: "not verified" });
       if (user.isVerified) {
@@ -72,13 +59,20 @@ module.exports = {
 
   profileStudent: (req, res, next) => {
     const  studentId  = req.params.id;
-    console.log(studentId)
     Student.findById({_id : studentId }, (err,user) => {
       if(err) res.status(401).json({
         message: 'user not found'
       })
-      res.status(200).json({
-        user
+      Menu.findOne({},(err,menu) => {
+        const {name, email, _id} = user;
+        
+        if (err) res.status(500).json({
+          message: 'internal error'
+        })
+        res.status(200).json({
+          menu: menu.menu,
+          user: {name,email,_id}
+        })
       })
     })
   },
@@ -127,7 +121,7 @@ module.exports = {
       }
     });
 
-    let rand, mailOptions, host, link;
+    let mailOptions, host, link;
     // generate random ref code
     function randomN(v) {
       let rand = [];
@@ -166,9 +160,7 @@ module.exports = {
   },
 
   verifyStudent: (req, res, next) => {
-<<<<<<< HEAD
     const { ref } = req.query;
-    console.log(ref)
     Invite.findOneAndUpdate(
       { refCode: ref },
       { $set: { isVerified: true } },
@@ -181,27 +173,4 @@ module.exports = {
       }
     );
   }
-=======
-
-      // if (`${req.protocol}://${req.get("host")}` == `http://${host}`) {`     
-    // console.log(req.query.ref)
-    const { ref } = req.query;
-    console.log(ref);
-    // if (`${req.protocol}://${req.get("host")}` == `http://${host}`) {
-      Invite.findOneAndUpdate(
-        { refCode: ref },
-        { $set: { isVerified: true } },
-        (err, code) => {
-          if (err) res.json({ msg: `you're link is expired` });
-          res.json({
-
-            emailId : code.emailId,
-            refCode: code.refCode,
-            // msg: `Email ${mailOptions.to} is successfully verified.`
-          });
-        }
-      );
-    }
-  // }
->>>>>>> 23d4284dd06f83d2612397ffc1e59a62333763a6
 };
