@@ -18,6 +18,8 @@ mongoose.connect(
  }
 )
 
+require('dotenv').config()
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -26,14 +28,13 @@ app.use(express.static(path.join(__dirname, "public")));
 app.set("views", path.join(__dirname, "./server/views"));
 app.set("view engine", "ejs");
 
-app.use(
- session({
-  secret: "hungerNames",
-  resave: true,
-  saveUninitialized: true,
-  store: new MongoStore({ url: "mongodb://localhost/hungerNames-session" })
- })
-);
+// app.use(
+//  session({
+//   secret: "hungerNames",
+//   resave: true,
+//   saveUninitialized: true,
+//   store: new MongoStore({ mongooseConnection: mongoose.connection }) })
+// );
 
 if (process.env.NODE_ENV === "development") {
  var webpack = require("webpack");
@@ -51,6 +52,8 @@ if (process.env.NODE_ENV === "development") {
 }
 
 app.use(cors());
+//bootstrap
+// require('./server/bootstrap/bootstrap')
 
 // importing user model
 require('./server/model/Student');

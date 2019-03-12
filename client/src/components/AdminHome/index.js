@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Switch, Route } from 'react-router';
 import NewInvite from '../NewInvite';
-import StudentHome from '../StudentHome';
+import AdminMenu from '../AdminMenu';
 import './AdminHome.css';
 
 
@@ -21,7 +21,7 @@ class AdminHome extends Component {
           
         <Switch>
           <Route exact path='/admin/invite' component={ NewInvite } />
-          <Route exact path='/admin/menu' component={ StudentHome } />
+          <Route exact path='/admin/menu' component={ AdminMenu } />
         </Switch>
       </>
     );
