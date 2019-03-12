@@ -23,22 +23,22 @@ module.exports = {
      })
   },
 
-  loginAdmin: (req, res, next) => {
-    passport.authenticate('local', {
-      session: false
-    }, (err, admin, info) => {
-      if (!admin.isAdmin) return res.status(417).json({
-        error: 'Admin not found'
-      })
-      const token = jwt.sign({
-        admin
-      }, 'secret');
-      res.json({
-        message: "successfully logged in",
-        token: token
-      });
-    })(req, res, next)
-  },
+  // loginAdmin: (req, res, next) => {
+  //   passport.authenticate('local', {
+  //     session: false
+  //   }, (err, admin, info) => {
+  //     if (!admin.isAdmin) return res.status(417).json({
+  //       error: 'Admin not found'
+  //     })
+  //     const token = jwt.sign({
+  //       admin
+  //     }, 'secret');
+  //     res.json({
+  //       message: "successfully logged in",
+  //       token: token
+  //     });
+  //   })(req, res, next)
+  // },
 
   verifyAdmin: (req, res, next) => {
     res.json({
@@ -52,7 +52,7 @@ module.exports = {
     })
   },
 
-  addMenu: (req, res, next) => {
+  getMenuList: (req, res, next) => {
     Menu.find({}, (err, menu) => {
       if (err) return res.status(500).json({ error: 'Could not get menu' })
       res.json(menu)
@@ -62,15 +62,6 @@ module.exports = {
   updateMenu: (req, res, next) => {
     // getting updated menu from req.body
     const { menu } = req.body;
-    console.log(menu, "menu from frontend");
-    // Menu.findOneAndUpdate({}, { menu }, { new: true }, (err, data) => {
-    //   if (err) return res.json({ error: 'Could not update the menu' })
-    //   res.json({
-    //     message: 'Successfully updated the menu',
-    //     menu: data
-    //   })
-    // })
-
     Menu.find({}, function(err, prevMenu) {
       // TODO: PUT check for if menu exists or length is greater than 0
       if(!prevMenu.length) {
