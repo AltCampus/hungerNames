@@ -34,13 +34,14 @@ module.exports = {
     });
   },
 
-  loginStudent: (req, res, next) => {
+  loginUser: (req, res, next) => {
     passport.authenticate('local', {
       session: false
     }, (err, admin, info) => {
-      if (!admin.isAdmin) return res.json({
-        message: 'Admin not found'
-      })
+      if(err) return res.json({error: 'not verified'})
+      // if (!admin.isAdmin) return res.json({
+      //   message: 'Admin not found'
+      // })
       const token = jwt.sign({
         admin
       }, 'secret');
