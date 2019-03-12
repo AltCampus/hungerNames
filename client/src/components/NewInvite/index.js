@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { util } from "../../util";
-import './NewInvite.css';
+// import './NewInvite.css';
 
 class NewInvite extends Component {
   constructor(props){
