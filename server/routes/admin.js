@@ -4,7 +4,7 @@ const adminController = require('../controller/admin.controller');
 
 router.get('/', adminController.getAdmin);
 // router.post('/login',adminController.loginAdmin);
-router.get('/verify',adminController.verifyAdmin);
+
 router.post('login/forget',adminController.forgetPassword);
 
 // Adding menu

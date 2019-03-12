@@ -91,3 +91,16 @@ export function getMenu() {
 //         });
 //       }); 
 // }
+
+export function updateMenu(menu, cb) {
+  return async (dispatch) => {
+    const updatedMenu = await fetch('http://localhost:8000/api/v1/admin/menu',{
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(menu)
+    }).then(data => data.json()).then(d => console.log(d));    
+    cb(true);
+  }
+}
