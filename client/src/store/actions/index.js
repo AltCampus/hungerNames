@@ -104,3 +104,13 @@ export function updateMenu(menu, cb) {
     cb(true);
   }
 }
+
+export function getStudentProfile(id, cb) {
+  return dispatch => {
+    fetch(`http://localhost:8000/api/v1/student/${id}/feedback`)
+    .then(res => res.json())
+    .then(data => {
+      console.log(data);
+    })
+  } 
+}

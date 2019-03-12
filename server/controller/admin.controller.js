@@ -52,7 +52,7 @@ module.exports = {
     })
   },
 
-  addMenu: (req, res, next) => {
+  getMenu: (req, res, next) => {
     Menu.find({}, (err, menu) => {
       if (err) return res.status(500).json({ error: 'Could not get menu' })
       res.json(menu)
