@@ -45,6 +45,7 @@ module.exports = {
       message: 'verified'
     })
   },
+
   forgetPassword: (req, res, next) => {
     res.json({
       message: 'password rest'
@@ -54,24 +55,36 @@ module.exports = {
   addMenu: (req, res, next) => {
     Menu.find({}, (err, menu) => {
       if (err) return res.status(500).json({ error: 'Could not get menu' })
-      res.json({
-        menu: menu[0].menu,
-        message: 'item menu is found'
-      })
+      res.json(menu)
     }) 
   },
 
   updateMenu: (req, res, next) => {
     // getting updated menu from req.body
     const { menu } = req.body;
-    Menu.findOneAndUpdate({}, { menu }, { new: true }, (err, data) => {
-      if (err) return res.json({ error: 'Could not update the menu' })
-      res.json({
-        message: 'Successfully updated the menu',
-        menu: data
-      })
+    console.log(menu, "menu from frontend");
+    // Menu.findOneAndUpdate({}, { menu }, { new: true }, (err, data) => {
+    //   if (err) return res.json({ error: 'Could not update the menu' })
+    //   res.json({
+    //     message: 'Successfully updated the menu',
+    //     menu: data
+    //   })
+    // })
+
+    Menu.find({}, function(err, prevMenu) {
+      // TODO: PUT check for if menu exists or length is greater than 0
+      if(!prevMenu.length) {
+        return res.json({ message: "Menu doesn't exist yet."})
+      }
+
+      var currentMenu = prevMenu[0];
+      currentMenu.menu = menu;
+      currentMenu.save(function(err, saved) {
+        res.json(saved)
+      });
     })
   },
+
   removeStudent: (req, res, next) => {
     const studentId = req.params.id;
     User.findByIdAndDelete(studentId, (err, students) => {
