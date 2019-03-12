@@ -13,7 +13,8 @@ router.post('/login',userController.loginStudent);
 router.get('/logout',userController.logoutStudent);
 router.get('/profile/:id', userController.profileStudent);
 router.put('/:id/:day',userController.attendanceStudent);
-router.post('/:id/feedback',userController.feedbackStudent);
+router.post('/:id/feedback',userController.postFeedbackStudent);
+router.get('/:id/feedback',userController.getAllFeedback);
 
 //admin get all students
 router.get('/',adminController.getStudent);
