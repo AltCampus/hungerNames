@@ -25,25 +25,25 @@ class DayList extends Component {
         <div className="check-list-page">
           {(menu && menu.day1) ? (
             Object.keys(menu).map((val, index) => {              
-              if( day !== 'sunday' && menu[val].day ===  day) {                
+              if( day !== 'Sunday' && menu[val].day ===  day) {                
                 return (                  
                   <form action="" key={day}>
                     <h2 className="day-name">{day}</h2>
                     <label className="label-box" htmlFor="breakfast">
-                      <input type="checkbox" id="breakfast" />
+                      <input type="checkbox" onChange={() => {this.handlechange(date,type)}} id="breakfast" name={`${day}-breakfast`}/>
                         <p className="meal">
                           Breakfast: {menu[val].meal.breakfast.title}
                         </p>
                       </label>
                     <label className="label-box" htmlFor="lunch">
-                      <input type="checkbox" id="lunch" />
-                      <p className="meal">
+                      <input type="checkbox" id="lunch" name={`${day}-lunch`}/>
+                        <p className="meal">
                           Lunch: {menu[val].meal.lunch.title}
                         </p>
                       </label>
-                    <label className="label-box" htmlFor="dinner">
+                    <label className="label-box" htmlFor="dinner" name={`${day}-dinner`}>
                       <input type="checkbox" id="dinner" />
-                        <p className="meal">                        
+                        <p className="meal"> 
                           Dinner: {menu[val].meal.dinner.title}    
                         </p>
                       </label>
@@ -51,18 +51,18 @@ class DayList extends Component {
                   </form>
                 );
               } 
-              else if(day === 'sunday' && menu[val].day === 'sunday') {
+              else if(day === 'Sunday' && menu[val].day === 'Sunday') {
                 return (
                   <form action="" key={day}>
                   <h2 className="day-name">{day}</h2>
                   <label className="label-box" htmlFor="brunch">
-                    <input type="checkbox" id="brunch" />
+                    <input type="checkbox" id="brunch" name={`${day}-brunch`}/>
                       <p className="meal">                      
                         Brunch: {menu[val].meal.brunch.title}
                       </p>
                     </label>
                   <label className="label-box" htmlFor="dinner">
-                    <input type="checkbox" id="dinner" />
+                    <input type="checkbox" id="dinner" name={`${day}-dinner`}/>
                       <p className="meal">                      
                         Dinner: {menu[val].meal.dinner.title}
                       </p>
