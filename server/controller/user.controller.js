@@ -56,13 +56,10 @@ module.exports = {
   loginUser: (req, res, next) => {
     passport.authenticate('local', {
       session: false
-    }, (err, admin, info) => {
+    }, (err, user, info) => {
       if(err) return res.json({error: 'not verified'})
-      // if (!admin.isAdmin) return res.json({
-      //   message: 'Admin not found'
-      // })
       const token = jwt.sign({
-        admin:admin._id
+        user:user._id
       }, 'secret');
       console.log('sending token');
         const user = serverUtils.cleanUser(admin);
@@ -81,6 +78,7 @@ module.exports = {
   },
 
   profileStudent: (req, res, next) => {
+    console.log('inside')
     const  studentId  = req.params.id;
     Student.findById({_id : studentId }, (err,user) => {
       if(err) res.status(401).json({
