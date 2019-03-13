@@ -45,6 +45,7 @@ module.exports = {
       const token = jwt.sign({
         admin
       }, 'secret');
+      console.log('sending token');
       res.json({
         message: "successfully logged in",
         token: token
@@ -134,8 +135,8 @@ module.exports = {
     const smtpTransport = nodemailer.createTransport({
       service: "Gmail",
       auth: {
-        user: process.env.USERNAME,
-        pass: process.env.PASSWORD
+        user: 'food.altcampus@gmail.com',
+        pass: 'Altcampus@2018'
       }
     });
 

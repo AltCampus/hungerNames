@@ -29,7 +29,7 @@ class DaysCheckList extends Component {
           <Link to={`/${ day }` } className="day-mark">            
             <p className="day-name">{ day }</p>
             <div className="meal-types">            
-            {(day === 'sunday') ? 
+            {(day === 'Sunday') ? 
               (  
                 <div className="brunch">
                   <span className="meal">Brunch: </span>
