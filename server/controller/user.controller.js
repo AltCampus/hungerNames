@@ -5,6 +5,7 @@ const passport = require("passport");
 const FeedBack = require("../model/Feedback");
 const Student = require("../model/Student");
 const Invite = require("../model/Invite");
+const serverUtils = require('../serverUtils/index')
  
 
 module.exports = {
@@ -56,22 +57,16 @@ module.exports = {
     passport.authenticate('local', {
       session: false
     }, (err, user, info) => {
-      const { isAdmin, isKitchenStaff, _id, name, email} = user;
       if(err) return res.json({error: 'not verified'})
       const token = jwt.sign({
-        user
+        user:user._id
       }, 'secret');
       console.log('sending token');
+        const user = serverUtils.cleanUser(admin);
       res.json({
-        token: token,
-        user: {
-          isAdmin,
-          isKitchenStaff,
-          _id,
-          name,
-          email
-        },
-        message: "successfully logged in",  
+        message: "successfully logged in",
+        token,
+        user
       });
     });
   },
@@ -159,13 +154,8 @@ module.exports = {
     const smtpTransport = nodemailer.createTransport({
       service: "Gmail",
       auth: {
-<<<<<<< HEAD
-        user: "food.altcampus@gmail.com",
-        pass: process.env.PASSWORD
-=======
         user: 'food.altcampus@gmail.com',
         pass: 'Altcampus@2018'
->>>>>>> 873fa7329cfa0514c6d738f6b8cf5adff9022f6b
       }
     });
     
