@@ -14,7 +14,7 @@ module.exports = {
     });
   },
 
-  registerManager: (req, res, next) => {
+  registerStudent: (req, res, next) => {
 
     const { email, password, name, refCode } = req.body;
   console.log("register stud back",email,password,refCode);
