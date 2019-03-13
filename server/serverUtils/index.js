@@ -6,7 +6,8 @@ const isValidDate = (date) => {
 
 const convDateToDateStr = (date) => {
   if (isValidDate) {
-    return date.toDateString();
+    let dateStr = date.toDateString();
+    return dateStr.split(' ').join('_')
   }
   return false;
 }
@@ -19,7 +20,8 @@ const removeTimeFromDate = (date) => {
 }
 
 const convDateStrToDate = (dateStr) => {
-   return new Date(dateStr);
+  let newDateStr = dateStr.split('_').join(' ');
+   return new Date(newDateStr);
 }
 
 
