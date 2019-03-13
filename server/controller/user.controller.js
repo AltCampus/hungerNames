@@ -5,25 +5,43 @@ const passport = require("passport");
 const FeedBack = require("../model/Feedback");
 const Student = require("../model/Student");
 const Invite = require("../model/Invite");
-const Menu = require('../model/Menu');
+ 
 
 module.exports = {
+  getStudent: (req, res, next) => {
+    res.json({
+      message: "welcome student"
+    });
+  },
 
-  registerStudent: (req, res, next) => {
-    const { email, password, name, refCode } = req.body;  
+  registerManager: (req, res, next) => {
+
+    const { email, password, name, refCode } = req.body;
+  console.log("register stud back",email,password,refCode);
+  
     Invite.findOne({ refCode: refCode }, (err, user) => {
+      console.log(user)
       if (err) res.json({ message: "not verified" });
-      if (user.isVerified) {
+      if (user.isVerified ) {
         const newStudent = new Student({
           name,
           email,
           password
         });
+        
+        // console.log(name,email)
+
+        console.log(newStudent,'newstud')
+
+        
         newStudent.save((err, user) => {
+
+          console.log(user,'new')
           if (err || !user) {
             return res.status(401).json({
               error: "user is not found"
             });
+
           }
           res.json({
             message: "registered",
@@ -35,20 +53,18 @@ module.exports = {
   },
 
   loginStudent: (req, res, next) => {
-    passport.authenticate('local', {
-      session: false
-    }, (err, admin, info) => {
-      if (!admin.isAdmin) return res.json({
-        message: 'Admin not found'
-      })
-      const token = jwt.sign({
-        admin
-      }, 'secret');
+    const { email, password } = req.body;
+    if (!email && !password)
+      res.json({ message: "Email or Password is required" });
+    passport.authenticate("local", { session: false }, (err, user) => {
+      if (err)
+        return res.status(500).json({ message: "Internal server error" });
+      const token = jwt.sign({ user: req.user }, "secret");
       res.json({
         message: "successfully logged in",
         token: token
       });
-    })(req, res, next)
+    });
   },
 
   logoutStudent: (req, res, next) => {
@@ -58,23 +74,9 @@ module.exports = {
   },
 
   profileStudent: (req, res, next) => {
-    const  studentId  = req.params.id;
-    Student.findById({_id : studentId }, (err,user) => {
-      if(err) res.status(401).json({
-        message: 'user not found'
-      })
-      Menu.findOne({},(err,menu) => {
-        const {name, email, _id} = user;
-        
-        if (err) res.status(500).json({
-          message: 'internal error'
-        });
-        res.status(200).json({
-          menu: menu.menu,
-          user: {name,email,_id}
-        })
-      })
-    })
+    res.json({
+      message: "profile"
+    });
   },
   attendanceStudent: (req, res, next) => {
     const { day } = req.params;
@@ -86,9 +88,9 @@ module.exports = {
   feedbackStudent: (req, res, next) => {
     const studentId = req.params.id;
     const { feedbackTitle } = req.body;
+    console.log(req.body);
 
     // Save the feedback first then get the _id of that feedback
-
     const feedBack = new FeedBack({
       ...req.body
     });
@@ -116,29 +118,31 @@ module.exports = {
     const smtpTransport = nodemailer.createTransport({
       service: "Gmail",
       auth: {
-        user: process.env.USERNAME,
-        pass: process.env.PASSWORD
+        user: "food.altcampus@gmail.com",
+        pass: "Altcampus@2018"
       }
     });
-
-    let mailOptions, host, link;
+    
+    let rand, mailOptions, host, link;  
     // generate random ref code
     function randomN(v) {
       let rand = [];
-      let alphaNum = "abcdefghijklmnopqrstuvwxyz0123456789";
-      for (let i = 0; i < v; i++) {
+      let alphaNum = 'abcdefghijklmnopqrstuvwxyz0123456789';
+      for(let i = 0 ;i < v;i++){
         let random = Math.floor(Math.random() * 36);
-        rand.push(alphaNum[random]);
+        rand.push(alphaNum[random])
       }
-      return rand.join("");
+      return rand.join('');
     }
-    // Have to check if ref generated is unique all the time from database
     // it'll provide your localhost or network address
     host = req.get("host");
     let refCode;
-    refCode = randomN(6);
+    
+    // while(!flag){
+      refCode = randomN(6);
     link = `http://${host}/register?ref=${refCode}`;
     const email = req.body.email;
+    console.log(refCode)
     mailOptions = {
       to: email,
       subject: "Verify your email",
@@ -160,17 +164,23 @@ module.exports = {
   },
 
   verifyStudent: (req, res, next) => {
+    // console.log(req.query.ref)
     const { ref } = req.query;
-    Invite.findOneAndUpdate(
-      { refCode: ref },
-      { $set: { isVerified: true } },
-      (err, code) => {
-        if (err) res.json({ msg: `you're link is expired` });
-        res.json({
-          emailId: code.emailId,
-          refCode: code.refCode
-        });
-      }
-    );
-  }
+    console.log(ref);
+    // if (`${req.protocol}://${req.get("host")}` == `http://${host}`) {
+      Invite.findOneAndUpdate(
+        { refCode: ref },
+        { $set: { isVerified: true } },
+        (err, code) => {
+          if (err) res.json({ msg: `you're link is expired` });
+          res.json({
+
+            emailId : code.emailId,
+            refCode: code.refCode,
+            // msg: `Email ${mailOptions.to} is successfully verified.`
+          });
+        }
+      );
+    }
+  // }
 };
