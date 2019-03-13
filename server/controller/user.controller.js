@@ -5,25 +5,43 @@ const passport = require("passport");
 const FeedBack = require("../model/Feedback");
 const Student = require("../model/Student");
 const Invite = require("../model/Invite");
-const Menu = require('../model/Menu');
+ 
 
 module.exports = {
+  getStudent: (req, res, next) => {
+    res.json({
+      message: "welcome student"
+    });
+  },
 
   registerStudent: (req, res, next) => {
-    const { email, password, name, refCode } = req.body;  
+
+    const { email, password, name, refCode } = req.body;
+  console.log("register stud back",email,password,refCode);
+  
     Invite.findOne({ refCode: refCode }, (err, user) => {
+      console.log(user)
       if (err) res.json({ message: "not verified" });
-      if (user.isVerified) {
+      if (user.isVerified ) {
         const newStudent = new Student({
           name,
           email,
           password
         });
+        
+        // console.log(name,email)
+
+        console.log(newStudent,'newstud')
+
+        
         newStudent.save((err, user) => {
+
+          console.log(user,'new')
           if (err || !user) {
             return res.status(401).json({
               error: "user is not found"
             });
+
           }
           res.json({
             message: "registered",
@@ -55,7 +73,7 @@ module.exports = {
         },
         message: "successfully logged in",  
       });
-    })(req, res, next)
+    });
   },
 
   logoutStudent: (req, res, next) => {
@@ -150,25 +168,27 @@ module.exports = {
 >>>>>>> 873fa7329cfa0514c6d738f6b8cf5adff9022f6b
       }
     });
-
-    let mailOptions, host, link;
+    
+    let rand, mailOptions, host, link;  
     // generate random ref code
     function randomN(v) {
       let rand = [];
-      let alphaNum = "abcdefghijklmnopqrstuvwxyz0123456789";
-      for (let i = 0; i < v; i++) {
+      let alphaNum = 'abcdefghijklmnopqrstuvwxyz0123456789';
+      for(let i = 0 ;i < v;i++){
         let random = Math.floor(Math.random() * 36);
-        rand.push(alphaNum[random]);
+        rand.push(alphaNum[random])
       }
-      return rand.join("");
+      return rand.join('');
     }
-    // Have to check if ref generated is unique all the time from database
     // it'll provide your localhost or network address
     host = req.get("host");
     let refCode;
-    refCode = randomN(6);
+    
+    // while(!flag){
+      refCode = randomN(6);
     link = `http://${host}/register?ref=${refCode}`;
     const email = req.body.email;
+    console.log(refCode)
     mailOptions = {
       to: email,
       subject: "Verify your email",
@@ -190,17 +210,23 @@ module.exports = {
   },
 
   verifyStudent: (req, res, next) => {
+    // console.log(req.query.ref)
     const { ref } = req.query;
-    Invite.findOneAndUpdate(
-      { refCode: ref },
-      { $set: { isVerified: true } },
-      (err, code) => {
-        if (err) res.json({ msg: `you're link is expired` });
-        res.json({
-          emailId: code.emailId,
-          refCode: code.refCode
-        });
-      }
-    );
-  }
+    console.log(ref);
+    // if (`${req.protocol}://${req.get("host")}` == `http://${host}`) {
+      Invite.findOneAndUpdate(
+        { refCode: ref },
+        { $set: { isVerified: true } },
+        (err, code) => {
+          if (err) res.json({ msg: `you're link is expired` });
+          res.json({
+
+            emailId : code.emailId,
+            refCode: code.refCode,
+            // msg: `Email ${mailOptions.to} is successfully verified.`
+          });
+        }
+      );
+    }
+  // }
 };
