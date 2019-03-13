@@ -110,7 +110,7 @@ export function updateMenu(menu, cb) {
 
 export function getStudentFeedback(id, cb) {
   return dispatch => {
-    fetch(`http://localhost:8080/api/v1/student/${id}/feedback`)
+    fetch(`http://localhost:8000/api/v1/student/${id}/feedback`)
     .then(res => res.json())
     .then(data => {
       console.log(data, 'inside getStudentFeedback');

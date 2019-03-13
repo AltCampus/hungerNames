@@ -1,16 +1,17 @@
 const express = require("express");
 const router = express.Router();
 const adminController = require('../controller/admin.controller');
+const isUser = require('../config/auth');
 
 router.get('/', adminController.getAdmin);
 // router.post('/login',adminController.loginAdmin);
 
 router.post('login/forget',adminController.forgetPassword);
 
-// getting menu from db
-router.get('/menu', adminController.getMenuList);
+// Adding menu
+router.get('/menu',isUser.isLoggedIn, adminController.getMenuList);
 
 // Updating menu
-router.put('/menu', adminController.updateMenu);
+router.put('/menu',isUser.isLoggedIn, adminController.updateMenu);
 
 module.exports = router;
