@@ -159,13 +159,8 @@ module.exports = {
     const smtpTransport = nodemailer.createTransport({
       service: "Gmail",
       auth: {
-<<<<<<< HEAD
-        user: "food.altcampus@gmail.com",
-        pass: process.env.PASSWORD
-=======
         user: 'food.altcampus@gmail.com',
         pass: 'Altcampus@2018'
->>>>>>> 873fa7329cfa0514c6d738f6b8cf5adff9022f6b
       }
     });
     
