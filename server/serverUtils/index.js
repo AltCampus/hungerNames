@@ -1,3 +1,4 @@
+
 // DATE UTILS
 const isValidDate = (date) => {
   return date && Object.prototype.toString.call(date) === "[object Date]" && !isNaN(date);
@@ -12,7 +13,7 @@ const convDateToDateStr = (date) => {
 }
 
 const removeTimeFromDate = (date) => {
-  if (isValidDate) {
+  if(isValidDate){
     return new Date(date.toDateString())
   }
   return false;
@@ -20,21 +21,11 @@ const removeTimeFromDate = (date) => {
 
 const convDateStrToDate = (dateStr) => {
   let newDateStr = dateStr.split('_').join(' ');
-  return new Date(newDateStr);
+   return new Date(newDateStr);
 }
 
 
-export const util = {
-  baseURL : "http://localhost:8000/api/v1",
-
-  ValidateEmail: (mail) => {
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
-      return (true)
-    }
-    alert("You have entered an invalid email address!")
-    return (false)
-  }
-  ,
+module.export ={
   isValidDate,
   removeTimeFromDate,
   convDateStrToDate,

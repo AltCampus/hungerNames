@@ -23,23 +23,6 @@ module.exports = {
      })
   },
 
-  // loginAdmin: (req, res, next) => {
-  //   passport.authenticate('local', {
-  //     session: false
-  //   }, (err, admin, info) => {
-  //     if (!admin.isAdmin) return res.status(417).json({
-  //       error: 'Admin not found'
-  //     })
-  //     const token = jwt.sign({
-  //       admin
-  //     }, 'secret');
-  //     res.json({
-  //       message: "successfully logged in",
-  //       token: token
-  //     });
-  //   })(req, res, next)
-  // },
-
   verifyAdmin: (req, res, next) => {
     res.json({
       message: 'verified'
