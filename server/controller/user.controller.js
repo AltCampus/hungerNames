@@ -16,11 +16,9 @@ module.exports = {
 
   registerStudent: (req, res, next) => {
 
-    const { email, password, name, refCode } = req.body;
-  console.log("register stud back",email,password,refCode);
+    const { email, password, name, refCode } = req.body;  
   
-    Invite.findOne({ refCode: refCode }, (err, user) => {
-      console.log(user)
+    Invite.findOne({ refCode: refCode }, (err, user) => {      
       if (err) res.json({ message: "not verified" });
       if (user.isVerified ) {
         const newStudent = new Student({
@@ -31,12 +29,8 @@ module.exports = {
         
         // console.log(name,email)
 
-        console.log(newStudent,'newstud')
-
-        
         newStudent.save((err, user) => {
 
-          console.log(user,'new')
           if (err || !user) {
             return res.status(401).json({
               error: "user is not found"
@@ -61,7 +55,6 @@ module.exports = {
       const token = jwt.sign({
         user
       }, 'secret');
-      console.log('sending token');
       res.json({
         token: token,
         user: {
@@ -83,7 +76,6 @@ module.exports = {
   },
 
   profileStudent: (req, res, next) => {
-    console.log('inside')
     const  studentId  = req.params.id;
     Student.findById({_id : studentId }, (err,user) => {
       if(err) res.status(401).json({
@@ -159,13 +151,8 @@ module.exports = {
     const smtpTransport = nodemailer.createTransport({
       service: "Gmail",
       auth: {
-<<<<<<< HEAD
-        user: "food.altcampus@gmail.com",
-        pass: process.env.PASSWORD
-=======
         user: 'food.altcampus@gmail.com',
         pass: 'Altcampus@2018'
->>>>>>> 873fa7329cfa0514c6d738f6b8cf5adff9022f6b
       }
     });
     
@@ -187,8 +174,7 @@ module.exports = {
     // while(!flag){
       refCode = randomN(6);
     link = `http://${host}/register?ref=${refCode}`;
-    const email = req.body.email;
-    console.log(refCode)
+    const email = req.body.email;    
     mailOptions = {
       to: email,
       subject: "Verify your email",
@@ -212,7 +198,6 @@ module.exports = {
   verifyStudent: (req, res, next) => {
     // console.log(req.query.ref)
     const { ref } = req.query;
-    console.log(ref);
     // if (`${req.protocol}://${req.get("host")}` == `http://${host}`) {
       Invite.findOneAndUpdate(
         { refCode: ref },

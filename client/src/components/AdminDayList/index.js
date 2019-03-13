@@ -11,10 +11,6 @@ const mapStateToProps = (state) => {
   };
 }
 
-function SuccessMessage() {
-  return <p>Menu has been successfuly saved</p>;
-}
-
 class AdminDayList extends Component {
   constructor(props) {
     super(props);
@@ -140,7 +136,6 @@ class AdminDayList extends Component {
 
               </div>
             )
-
           }
         </div>
       </>
