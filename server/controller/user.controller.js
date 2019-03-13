@@ -37,18 +37,23 @@ module.exports = {
   loginUser: (req, res, next) => {
     passport.authenticate('local', {
       session: false
-    }, (err, admin, info) => {
+    }, (err, user, info) => {
+      const { isAdmin, isKitchenStaff, _id, name, email} = user;
       if(err) return res.json({error: 'not verified'})
-      // if (!admin.isAdmin) return res.json({
-      //   message: 'Admin not found'
-      // })
       const token = jwt.sign({
-        admin
+        user
       }, 'secret');
       console.log('sending token');
       res.json({
-        message: "successfully logged in",
-        token: token
+        token: token,
+        user: {
+          isAdmin,
+          isKitchenStaff,
+          _id,
+          name,
+          email
+        },
+        message: "successfully logged in",  
       });
     })(req, res, next)
   },
@@ -60,6 +65,7 @@ module.exports = {
   },
 
   profileStudent: (req, res, next) => {
+    console.log('inside')
     const  studentId  = req.params.id;
     Student.findById({_id : studentId }, (err,user) => {
       if(err) res.status(401).json({
@@ -135,8 +141,13 @@ module.exports = {
     const smtpTransport = nodemailer.createTransport({
       service: "Gmail",
       auth: {
+<<<<<<< HEAD
+        user: "food.altcampus@gmail.com",
+        pass: process.env.PASSWORD
+=======
         user: 'food.altcampus@gmail.com',
         pass: 'Altcampus@2018'
+>>>>>>> 873fa7329cfa0514c6d738f6b8cf5adff9022f6b
       }
     });
 

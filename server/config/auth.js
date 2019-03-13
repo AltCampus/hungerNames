@@ -7,14 +7,12 @@ module.exports = {
     if (!token) return res.json({ message: 'unAuthorized Student' });
     const BearerToken = token.split(' ');
     const headerBearer = BearerToken[1];
-    jwt.verify(headerBearer, 'secret', (err, decodeT) => {
-      console.log(decodeT, 'inside auth.js');
-      if (err) throw err
-      res.json({
-        decode,
-        message: 'Authorized user'
-      })
+    jwt.verify(headerBearer, 'secret', (err, decode) => {
+      if (err) return res.json({
+        message: 'Send proper token dude'
+      }) 
+      next()  
     })
-    next()
+
   }
 }
