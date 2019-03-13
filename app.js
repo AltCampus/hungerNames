@@ -7,7 +7,7 @@ const MongoStore = require("connect-mongo")(session);
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
-const port = 8080;
+const port = 8000;
 
 mongoose.connect(
  "mongodb://adminalt01:adminalt01@ds137740.mlab.com:37740/hungernames",
