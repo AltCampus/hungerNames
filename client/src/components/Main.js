@@ -6,6 +6,7 @@ import StudentHome from './StudentHome';
 import AdminHome from './AdminHome';
 import DayList from './DayList';
 import AdminDayList from './AdminDayList';
+import StudentFeedback from './StudentFeedback';
 import './Main.css';
 
 
@@ -28,6 +29,7 @@ const Main = (props) => {
             <Route exact path='/admin/menu/:day' component={ AdminDayList } />
             <Route path='/admin' component={ AdminHome } />
             <Route exact path='/:day' component={ DayList } />
+            <Route exact path='/student/:id/feedback' component={ StudentFeedback } />
           </Switch>
         </>
       </BrowserRouter>
