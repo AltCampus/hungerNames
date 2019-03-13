@@ -52,14 +52,17 @@ module.exports = {
     });
   },
 
-  loginStudent: (req, res, next) => {
-    const { email, password } = req.body;
-    if (!email && !password)
-      res.json({ message: "Email or Password is required" });
-    passport.authenticate("local", { session: false }, (err, user) => {
-      if (err)
-        return res.status(500).json({ message: "Internal server error" });
-      const token = jwt.sign({ user: req.user }, "secret");
+  loginUser: (req, res, next) => {
+    passport.authenticate('local', {
+      session: false
+    }, (err, admin, info) => {
+      if(err) return res.json({error: 'not verified'})
+      // if (!admin.isAdmin) return res.json({
+      //   message: 'Admin not found'
+      // })
+      const token = jwt.sign({
+        admin
+      }, 'secret');
       res.json({
         message: "successfully logged in",
         token: token
@@ -74,9 +77,23 @@ module.exports = {
   },
 
   profileStudent: (req, res, next) => {
-    res.json({
-      message: "profile"
-    });
+    const  studentId  = req.params.id;
+    Student.findById({_id : studentId }, (err,user) => {
+      if(err) res.status(401).json({
+        message: 'user not found'
+      })
+      Menu.findOne({},(err,menu) => {
+        const {name, email, _id} = user;
+        
+        if (err) res.status(500).json({
+          message: 'internal error'
+        }); 
+        res.status(200).json({
+          menu: menu.menu,
+          user: {name,email,_id}
+        })
+      })
+    })
   },
   attendanceStudent: (req, res, next) => {
     const { day } = req.params;
@@ -85,32 +102,49 @@ module.exports = {
     });
   },
 
-  feedbackStudent: (req, res, next) => {
+  postFeedbackStudent: (req, res, next) => {
     const studentId = req.params.id;
-    const { feedbackTitle } = req.body;
-    console.log(req.body);
-
-    // Save the feedback first then get the _id of that feedback
+    const feedbackBody = req.body;
     const feedBack = new FeedBack({
-      ...req.body
+      ...feedbackBody
     });
+     feedBack.save((err, feedback) => {
+       if (err) return res.json({error:'internal error'})
+       Student.findOneAndUpdate({_id : studentId}, {$push: {feedback: feedback._id}}, {upsert: true},(err, student) => {
+         if (err) return res.json({
+          error: 'sorry mate youre not found'
+         })
+         const { name,email,_id} = student
+         res.json({
+           student: {
+            _id,
+             name,
+             email
+           }
+          })
+       })
+     })
+  },
 
-    //  feedBack.save((err, feedBack) => {
-    //    const feedbacId =  feedBack._id;
-    //    Student.findByIdAndUpdate(studentId, {$push: {feeback: feedbacId}, {upsert: true}})
-    //  })
-
-    // Getting all the feedback related to particular student
-    User.findOne({ _id: studentId })
+  getAllFeedback: (req, res, next) => {
+    const studentId = req.params.id;
+     Student.findOne({ _id: studentId })
       .populate("feedback")
-      .exec((err, student) => {});
-
-    //  console.log(studentFeedback)
-    //  console.log(studentId)
-
-    res.json({
-      message: "feedback"
-    });
+      .exec((err, student) => {
+        const {feedback, _id, name, email} = student
+        if(err) return res.json({error: "server busy"})
+       if (feedback.length === 0) return res,json({
+         message: 'not feedback to display'
+       })
+        res.json({
+          student: {
+            feedback,
+            _id,
+            name,
+            email
+          }
+        })
+      });
   },
 
   inviteStudent: (req, res, next) => {

@@ -17,10 +17,10 @@ class DayList extends Component {
     return (
       <>
         <div className="back-btn-box">
-          <Link to="/" className="back-btn">
+          <div onClick={this.props.history.goBack} className="back-btn">
             <i className="fas fa-angle-left fa-lg"></i>
             <span>Back</span>
-          </Link>
+          </div>
         </div>
         <div className="check-list-page">
           {(menu && menu.day1) ? (
