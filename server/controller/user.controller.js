@@ -5,6 +5,7 @@ const passport = require("passport");
 const FeedBack = require("../model/Feedback");
 const Student = require("../model/Student");
 const Invite = require("../model/Invite");
+const serverUtils = require('../serverUtils/index')
  
 
 module.exports = {
@@ -61,12 +62,14 @@ module.exports = {
       //   message: 'Admin not found'
       // })
       const token = jwt.sign({
-        admin
+        admin:admin._id
       }, 'secret');
       console.log('sending token');
+        const user = serverUtils.cleanUser(admin);
       res.json({
         message: "successfully logged in",
-        token: token
+        token,
+        user
       });
     });
   },

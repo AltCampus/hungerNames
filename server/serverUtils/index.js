@@ -13,7 +13,7 @@ const convDateToDateStr = (date) => {
 }
 
 const removeTimeFromDate = (date) => {
-  if(isValidDate){
+  if (isValidDate) {
     return new Date(date.toDateString())
   }
   return false;
@@ -21,13 +21,25 @@ const removeTimeFromDate = (date) => {
 
 const convDateStrToDate = (dateStr) => {
   let newDateStr = dateStr.split('_').join(' ');
-   return new Date(newDateStr);
+  return new Date(newDateStr);
+}
+
+const cleanUser = (user) => {
+  const { _id, name, email, isAdmin, isKitchenStaff } = user
+  return {
+    _id,
+    name,
+    email,
+    isAdmin,
+    isKitchenStaff
+  }
 }
 
 
-module.export ={
+module.export = {
   isValidDate,
   removeTimeFromDate,
   convDateStrToDate,
-  convDateToDateStr
+  convDateToDateStr,
+  cleanUser
 }
