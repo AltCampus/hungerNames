@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
   });
 });
 
-// router.post('/login', userController.loginUser);
+router.post('/login', userController.loginUser);
 
 router.use('/student', require('./student'));
 router.use('/staff', require('./staff'));

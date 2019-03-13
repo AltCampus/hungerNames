@@ -75,7 +75,7 @@ export function registerUserAction(data, cb) {
 
 export function getMenu() {
   return async (dispatch) =>  {
-    const menuData = await fetch(`http://localhost:8000/api/v1/admin/menu`).then(res => res.json());
+    const menuData = await fetch(`${util.baseURL}/admin/menu`).then(res => res.json());
     console.log(menuData);
     dispatch({
       type: 'GET_MENU_DATA',
