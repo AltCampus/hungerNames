@@ -7,8 +7,8 @@ router.get('/', adminController.getAdmin);
 
 router.post('login/forget',adminController.forgetPassword);
 
-// Adding menu
-router.get('/menu', adminController.getMenu);
+// getting menu from db
+router.get('/menu', adminController.getMenuList);
 
 // Updating menu
 router.put('/menu', adminController.updateMenu);
