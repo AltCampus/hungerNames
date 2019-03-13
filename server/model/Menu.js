@@ -3,106 +3,128 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const MenuSchema = new Schema({
   menu: {
-    'monday': {
-      breakfast: {
-        title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
-      },
-      lunch: {
-        title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
-      },
-      dinner: {
-        title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
-      },
-    },
-    'tuesday': {
-      breakfast: {
-        title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
-      },
-      lunch: {
-        title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
-      },
-      dinner: {
-        title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
+    day1: {
+      day: String,
+      meal: {
+        breakfast: {
+          title: { type: String, required: true },
+          time: { type: String, default: '9:30 AM' },  
+        },
+        lunch: {
+          title: { type: String, required: true },
+          time: { type: String, default: '1:30 PM' },  
+        },
+        dinner: {
+          title: { type: String, required: true },
+          time: { type: String, default: '8 PM' },  
+        }
       },
     },
-    'wednesday': {
-      breakfast: {
-        title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
-      },
-      lunch: {
-        title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
-      },
-      dinner: {
-        title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
-      },
-    },
-    'thursday': {
-      breakfast: {
-        title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
-      },
-      lunch: {
-        title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
-      },
-      dinner: {
-        title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
+    day2: {
+      day: String,
+      meal: {
+        breakfast: {
+          title: { type: String, required: true },
+          time: { type: String, default: '9:30 AM' },  
+        },
+        lunch: {
+          title: { type: String, required: true },
+          time: { type: String, default: '1:30 PM' },  
+        },
+        dinner: {
+          title: { type: String, required: true },
+          time: { type: String, default: '8 PM' },  
+        },
       },
     },
-    'friday': {
-      breakfast: {
-        title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
-      },
-      lunch: {
-        title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
-      },
-      dinner: {
-        title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
+    day3: {
+      day: String,
+      meal: {
+        breakfast: {
+          title: { type: String, required: true },
+          time: { type: String, default: '9:30 AM' },  
+        },
+        lunch: {
+          title: { type: String, required: true },
+          time: { type: String, default: '1:30 PM' },  
+        },
+        dinner: {
+          title: { type: String, required: true },
+          time: { type: String, default: '8 PM' },  
+        }
+      }
+    },
+    day4: {
+      day: String,
+      meal: {
+        breakfast: {
+          title: { type: String, required: true },
+          time: { type: String, default: '9:30 AM' },  
+        },
+        lunch: {
+          title: { type: String, required: true },
+          time: { type: String, default: '1:30 PM' },  
+        },
+        dinner: {
+          title: { type: String, required: true },
+          time: { type: String, default: '8 PM' },  
+        },
       },
     },
-    'saturday': {
-      breakfast: {
-        title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
-      },
-      lunch: {
-        title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
-      },
-      dinner: {
-        title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
-      },
-    },
-    'sunday': {
-      brunch: {
-        title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
-      },
-      dinner: {
-        title: { type: String, required: true },
-        time: { type: Date, default: Date.now },  
+    day5: {
+      day: String,
+      meal: {
+        breakfast: {
+          title: { type: String, required: true },
+          time: { type: String, default: '9:30 AM' },  
+        },
+        lunch: {
+          title: { type: String, required: true },
+          time: { type: String, default: '1:30 PM' },  
+        },
+        dinner: {
+          title: { type: String, required: true },
+          time: { type: String, default: '8 PM' },  
+        },
       },
     },
-  } }, {
+    day6: {
+      day: String,
+      meal: {
+        breakfast: {
+          title: { type: String, required: true },
+          time: { type: String, default: '9:30 AM' },  
+        },
+        lunch: {
+          title: { type: String, required: true },
+          time: { type: String, default: '1:30 PM' },  
+        },
+        dinner: {
+          title: { type: String, required: true },
+          time: { type: String, default: '8 PM' },  
+        },
+      },
+    },
+    day7:{
+      day: String,
+      meal: {      
+        brunch: {
+          title: { type: String, required: true },
+          time: { type: String, default: '11 AM' },  
+        },
+        dinner: {
+          title: { type: String, required: true },
+          time: { type: String, default: '8 PM' },  
+        },
+      },
+    },
+  } 
+}, {
   timestamps: {
     createdAt: 'created_at',
-    updatedAt: 'updated_at'
+    upStringdAt: 'upStringd_at'
   }
-})
+});
 
 const Menu = mongoose.model('Menu', MenuSchema);
 module.exports = Menu;

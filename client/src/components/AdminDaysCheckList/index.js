@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Link, Route } from 'react-router-dom';
 import DayList from '../DayList';
-import './DaysCheckList.css';
+import '../DaysCheckList/DaysCheckList.css';
 
-class DaysCheckList extends Component {
+class AdminDaysCheckList extends Component {
     constructor(props){
       super(props);
       this.state ={
@@ -26,11 +26,11 @@ class DaysCheckList extends Component {
               {/* <i className="fas fa-circle"></i> */}
             </div>
           </span>
-          <Link to={`/${ day }` } className="day-mark">            
+          <Link to={`/admin/menu/${ day }` } className="day-mark">
             <p className="day-name">{ day }</p>
-            <div className="meal-types">            
-            {(day === 'Sunday') ? 
-              (  
+            <div className="meal-types">
+            {(day === 'sunday') ?
+              ( 
                 <div className="brunch">
                   <span className="meal">Brunch: </span>
                   <span>{ meal.brunch ?  meal.brunch.title : '' }</span>
@@ -54,7 +54,7 @@ class DaysCheckList extends Component {
             </div>
           </Link>
         </div>
-        <Link to={`/${ day }`} className="meal-arrow">
+        <Link to={`/admin/menu/${ day }`} className="meal-arrow">
           <i className="fas checklist-icon fa-angle-right fa-3x"></i>
         </Link>        
       </div>      
@@ -62,4 +62,4 @@ class DaysCheckList extends Component {
   }
 }
 
-export default DaysCheckList;
+export default AdminDaysCheckList;

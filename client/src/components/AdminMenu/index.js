@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import DaysCheckList from '../DaysCheckList';
+import AdminDaysCheckList from '../AdminDaysCheckList';
 import { getMenu } from '../../store/actions/';
-import './StudentHome.css';
+import '../StudentHome/StudentHome.css';
 
 const mapStateToProps = (state) => {
   return {
@@ -12,7 +12,7 @@ const mapStateToProps = (state) => {
 
 }
 
-class StudentHome extends Component {
+class AdminMenu extends Component {
   constructor(props) {
     super(props);
     this.state= {};
@@ -34,7 +34,7 @@ class StudentHome extends Component {
               this.days.map((val, index) => {
                 for(let day in menu) {
                   if(day === val) {                    
-                    return <DaysCheckList key={index} onDay={menu[val]}/>
+                    return <AdminDaysCheckList key={index} onDay={menu[val]}/>
                   }
                 }
               }
@@ -46,4 +46,4 @@ class StudentHome extends Component {
   }
 }
 
-export default connect(mapStateToProps)(StudentHome);
+export default connect(mapStateToProps)(AdminMenu);

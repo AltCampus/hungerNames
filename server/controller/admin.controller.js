@@ -2,6 +2,7 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const Student = require("../model/Student");
 const Menu = require("../model/Menu");
+const User = require('../model/Student')
 
 module.exports = {
   getAdmin: (req, res, next) => {
@@ -9,34 +10,8 @@ module.exports = {
       message: 'welcome admin'
     })
   },
-  loginAdmin: (req, res, next) => {
-    passport.authenticate('local', {
-      session: false
-    }, (err, admin, info) => {
-      if (!admin.isAdmin) return res.status(417).json({
-        error: 'Admin not found'
-      })
-      const token = jwt.sign({
-        admin
-      }, 'secret');
-      res.json({
-        message: "successfully logged in",
-        token: token
-      });
-    })(req, res, next)
-  },
-
-  verifyAdmin: (req, res, next) => {
-    res.json({
-      message: 'verified'
-    })
-  },
-  forgetPassword: (req, res, next) => {
-    res.json({
-      message: 'password rest'
-    })
-  },
-  getAllStudents: (req, res, next) => {
+  
+  getStudent: (req, res, next) => {
     Student.aggregate([ {$match: { isAdmin : false, isKitchenStaff: false}}, 
       {$group: {_id: "Students List" , students : { $push: { id: "$_id", name:
     "$name",email: "$email" }}}}],(err,user) => {
@@ -46,69 +21,61 @@ module.exports = {
           user:user[0].students
        })
      })
-},
-  addMenu: (req, res, next) => {
-    
-    const newMenu = new Menu({
-      menu: {
-        "monday": {
-          breakfast: {title: 'poha'},
-          lunch: {title: 'rice aloo palak dal'},
-          dinner: {title: 'roti veg(seasonal)'}
-        },
-        "tuesday": {
-          breakfast: {title: 'poha'},
-          lunch: {title: 'rice aloo palak dal'},
-          dinner: {title: 'roti veg(seasonal)'}
-        },
-        "wednesday": {
-          breakfast: {title: 'poha'},
-          lunch: {title: 'rice aloo palak dal'},
-          dinner: {title: 'roti veg(seasonal)'}
-        },
-        "thursday": {
-          breakfast: {title: 'poha'},
-          lunch: {title: 'rice aloo palak dal'},
-          dinner: {title: 'roti veg(seasonal)'}
-        },
-        "friday": {
-          breakfast: {title: 'poha'},
-          lunch: {title: 'rice aloo palak dal'},
-          dinner: {title: 'roti veg(seasonal)'}
-        },
-        "saturday": {
-          breakfast: {title: 'poha'},
-          lunch: {title: 'rice aloo palak dal'},
-          dinner: {title: 'roti veg(seasonal)'}
-        },
-        "sunday": {
-          brunch: {title: 'chhole'},
-          dinner: {title: 'roti veg(seasonal)'}
-        }
-      }
-    });
+  },
 
+  // loginAdmin: (req, res, next) => {
+  //   passport.authenticate('local', {
+  //     session: false
+  //   }, (err, admin, info) => {
+  //     if (!admin.isAdmin) return res.status(417).json({
+  //       error: 'Admin not found'
+  //     })
+  //     const token = jwt.sign({
+  //       admin
+  //     }, 'secret');
+  //     res.json({
+  //       message: "successfully logged in",
+  //       token: token
+  //     });
+  //   })(req, res, next)
+  // },
+
+  verifyAdmin: (req, res, next) => {
+    res.json({
+      message: 'verified'
+    })
+  },
+
+  forgetPassword: (req, res, next) => {
+    res.json({
+      message: 'password rest'
+    })
+  },
+
+  getMenuList: (req, res, next) => {
     Menu.find({}, (err, menu) => {
       if (err) return res.status(500).json({ error: 'Could not get menu' })
-      res.json({
-        menu: menu[0].menu,
-        message: 'item menu is found'
-      })
+      res.json(menu)
     }) 
   },
 
   updateMenu: (req, res, next) => {
     // getting updated menu from req.body
     const { menu } = req.body;
-    Menu.findOneAndUpdate({}, { menu }, { new: true }, (err, data) => {
-      console.log(req.body, 'inside updated Menu')
-      if (err) return res.json({ error: 'Could not update the menu' })
-      res.json({
-        message: 'Successfully updated the menu',
-        menu: data
-      })
+    Menu.find({}, function(err, prevMenu) {
+      // TODO: PUT check for if menu exists or length is greater than 0
+      if(!prevMenu.length) {
+        return res.json({ message: "Menu doesn't exist yet."})
+      }
+
+      var currentMenu = prevMenu[0];
+      currentMenu.menu = menu;
+      currentMenu.save(function(err, saved) {
+        res.json(saved)
+      });
     })
   },
+
   removeStudent: (req, res, next) => {
     const studentId = req.params.id;
     User.findByIdAndDelete(studentId, (err, students) => {
