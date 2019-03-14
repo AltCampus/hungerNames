@@ -1,6 +1,7 @@
 const Attendance = require('../model/attendanceBuffer'); 
 const Feedback = require('../model/Feedback');
 const Student = require('../model/Student');
+const serverUtils = require('../serverUtils/index')
 
 
 module.exports = {
@@ -13,15 +14,26 @@ module.exports = {
     console.log(req)
   },
   getAllStudentFeedback: (req, res, next) => {
-    let d = "2019-03-13T11:40:08.743Z"
-   Feedback.find({date:{$lt: d}})
+    let today = new Date();
+    let todayMinus2 = new Date();
+    todayMinus2 = serverUtils.removeTimeFromDate(todayMinus2);
+    todayMinus2.setDate(today.getDate() - 2);
+   Feedback.find({date:{$gte:todayMinus2, $lt: today}})
    .populate("student")
    .exec((err,feedback) => {
-    //  student.forEach((c)=> {
-    //    console.log(c.student.name)
-    //  })
+    let filteredFeedback =[];
+    feedback.forEach((feed) => {
+      let obj = {}
+      obj.name = feed.student.name;
+      obj.meal = feed.meal;
+      obj.mealType = feed.mealType;
+      obj.review = feed.review;
+      obj.rating = feed.rating;
+      obj.date = feed.date;
+      filteredFeedback.push(obj)
+    })
      res.json({
-       feedback
+       feedback: filteredFeedback
      })
    })
 }
