@@ -6,7 +6,8 @@ const FeedBack = require("../model/Feedback");
 const Student = require("../model/Student");
 const Invite = require("../model/Invite");
 const serverUtils = require('../serverUtils/index')
- 
+const AttendanceBuffer = require('../model/attendanceBuffer');
+
 
 module.exports = {
   getStudent: (req, res, next) => {
@@ -18,26 +19,26 @@ module.exports = {
   registerStudent: (req, res, next) => {
 
     const { email, password, name, refCode } = req.body;
-  console.log("register stud back",email,password,refCode);
-  
+    console.log("register stud back", email, password, refCode);
+
     Invite.findOne({ refCode: refCode }, (err, user) => {
       console.log(user)
       if (err) res.json({ message: "not verified" });
-      if (user.isVerified ) {
+      if (user.isVerified) {
         const newStudent = new Student({
           name,
           email,
           password
         });
-        
+
         // console.log(name,email)
 
-        console.log(newStudent,'newstud')
+        console.log(newStudent, 'newstud')
 
-        
+
         newStudent.save((err, user) => {
 
-          console.log(user,'new')
+          console.log(user, 'new')
           if (err || !user) {
             return res.status(401).json({
               error: "user is not found"
@@ -56,13 +57,13 @@ module.exports = {
   loginUser: (req, res, next) => {
     passport.authenticate('local', {
       session: false
-    }, (err, user, info) => {
-      if(err) return res.json({error: 'not verified'})
+    }, (err, data, info) => {
+      const user = serverUtils.cleanUser(data);
+      if (err) return res.json({ error: 'not verified' })
       const token = jwt.sign({
-        user:user._id
+        user
       }, 'secret');
       console.log('sending token');
-        const user = serverUtils.cleanUser(admin);
       res.json({
         message: "successfully logged in",
         token,
@@ -79,20 +80,20 @@ module.exports = {
 
   profileStudent: (req, res, next) => {
     console.log('inside')
-    const  studentId  = req.params.id;
-    Student.findById({_id : studentId }, (err,user) => {
-      if(err) res.status(401).json({
+    const studentId = req.params.id;
+    Student.findById({ _id: studentId }, (err, user) => {
+      if (err) res.status(401).json({
         message: 'user not found'
       })
-      Menu.findOne({},(err,menu) => {
-        const {name, email, _id} = user;
-        
+      Menu.findOne({}, (err, menu) => {
+        const { name, email, _id } = user;
+
         if (err) res.status(500).json({
           message: 'internal error'
-        }); 
+        });
         res.status(200).json({
           menu: menu.menu,
-          user: {name,email,_id}
+          user: { name, email, _id }
         })
       })
     })
@@ -110,34 +111,34 @@ module.exports = {
     const feedBack = new FeedBack({
       ...feedbackBody
     });
-     feedBack.save((err, feedback) => {
-       if (err) return res.json({error:'internal error'})
-       Student.findOneAndUpdate({_id : studentId}, {$push: {feedback: feedback._id}}, {upsert: true},(err, student) => {
-         if (err) return res.json({
+    feedBack.save((err, feedback) => {
+      if (err) return res.json({ error: 'internal error' })
+      Student.findOneAndUpdate({ _id: studentId }, { $push: { feedback: feedback._id } }, { upsert: true }, (err, student) => {
+        if (err) return res.json({
           error: 'sorry mate youre not found'
-         })
-         const { name,email,_id} = student
-         res.json({
-           student: {
+        })
+        const { name, email, _id } = student
+        res.json({
+          student: {
             _id,
-             name,
-             email
-           }
-          })
-       })
-     })
+            name,
+            email
+          }
+        })
+      })
+    })
   },
 
   getAllFeedback: (req, res, next) => {
     const studentId = req.params.id;
-     Student.findOne({ _id: studentId })
+    Student.findOne({ _id: studentId })
       .populate("feedback")
       .exec((err, student) => {
-        const {feedback, _id, name, email} = student
-        if(err) return res.json({error: "server busy"})
-       if (feedback.length === 0) return res,json({
-         message: 'not feedback to display'
-       })
+        const { feedback, _id, name, email } = student
+        if (err) return res.json({ error: "server busy" })
+        if (feedback.length === 0) return res, json({
+          message: 'not feedback to display'
+        })
         res.json({
           student: {
             feedback,
@@ -158,13 +159,13 @@ module.exports = {
         pass: 'Altcampus@2018'
       }
     });
-    
-    let rand, mailOptions, host, link;  
+
+    let rand, mailOptions, host, link;
     // generate random ref code
     function randomN(v) {
       let rand = [];
       let alphaNum = 'abcdefghijklmnopqrstuvwxyz0123456789';
-      for(let i = 0 ;i < v;i++){
+      for (let i = 0; i < v; i++) {
         let random = Math.floor(Math.random() * 36);
         rand.push(alphaNum[random])
       }
@@ -173,9 +174,9 @@ module.exports = {
     // it'll provide your localhost or network address
     host = req.get("host");
     let refCode;
-    
+
     // while(!flag){
-      refCode = randomN(6);
+    refCode = randomN(6);
     link = `http://${host}/register?ref=${refCode}`;
     const email = req.body.email;
     console.log(refCode)
@@ -204,19 +205,93 @@ module.exports = {
     const { ref } = req.query;
     console.log(ref);
     // if (`${req.protocol}://${req.get("host")}` == `http://${host}`) {
-      Invite.findOneAndUpdate(
-        { refCode: ref },
-        { $set: { isVerified: true } },
-        (err, code) => {
-          if (err) res.json({ msg: `you're link is expired` });
-          res.json({
+    Invite.findOneAndUpdate(
+      { refCode: ref },
+      { $set: { isVerified: true } },
+      (err, code) => {
+        if (err) res.json({ msg: `you're link is expired` });
+        res.json({
 
-            emailId : code.emailId,
-            refCode: code.refCode,
-            // msg: `Email ${mailOptions.to} is successfully verified.`
-          });
-        }
-      );
-    }
+          emailId: code.emailId,
+          refCode: code.refCode,
+          // msg: `Email ${mailOptions.to} is successfully verified.`
+        });
+      }
+    );
+  },
   // }
+  //Attendance Controller for user
+
+  getUserAttendence: (req, res) => {
+    attendanceArr = req.body.attendance
+    const token = req.headers['authorization'];
+    if (!token) return res.json({ message: 'unAuthorized Student' });
+    const headerToken = token.split(' ')[1];
+    const user = serverUtils.getUserFromToken(headerToken);
+    let today = new Date();
+    let todayDay = today.getDay();
+    let weekStart = serverUtils.dateManupulater(-todayDay);
+    let weekEnd = serverUtils.dateManupulater((6-todayDay));
+    const userAttendence = [];
+    AttendanceBuffer.find({ date: { $gte: weekStart ,$lte:weekEnd} }, (err, Att) => {
+
+    });
+    
+  },  
+
+  updateUserAttendence: (req, res) => {
+    attendanceArr = req.body.attendance;
+    date = req.body.date;
+    const token = req.headers['authorization'];
+    if (!token) return res.json({ message: 'unAuthorized Student' });
+    const headerToken = token.split(' ')[1];
+    const user = serverUtils.getUserFromToken(headerToken);
+    if (!user) {
+      return res.json({
+        error: `user not Authorise`,
+      })
+    }
+    AttendanceBuffer.findOne({ date: date }, (err, prevAtt) => {
+      let currentAtt = prevAtt;
+      let flag = false; //to check if doc chenged or not
+      attendanceArr.forEach(attendence => {
+        const mealType = attendanceArr.title.split('-')[1];
+        const value = attendence.value;
+        let index = -1;
+        //c;heck if student present
+        let currStudPresent = currentAtt[mealType].attendance.some((objVal, i) => {
+          if (objVal.student == user._id) {
+            index = i;
+            return true
+          };
+          return false;
+        })
+        //pull if value = false and user already present
+        if (currStudPresent) {
+          if (!value) {
+            currentAtt[mealType].attendance.splice(index, 1);
+            flag = true;
+          }
+        } else {
+          //push if value true and not already present
+          if (value) {
+            currentAtt[mealType].attendance.push({ student: user._id });
+            flag = true;
+          }
+        }
+      })
+      if (flag) {
+        currentAtt.save(function (err, saved) {
+          if (!err) return res.json({
+            message: `resource updated`
+          })
+          else {
+            res.json({
+              error: `error saving to db`
+            })
+          }
+        });
+      }
+    })
+  }
 };
