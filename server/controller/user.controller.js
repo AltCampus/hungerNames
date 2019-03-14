@@ -17,11 +17,9 @@ module.exports = {
 
   registerStudent: (req, res, next) => {
 
-    const { email, password, name, refCode } = req.body;
-  console.log("register stud back",email,password,refCode);
+    const { email, password, name, refCode } = req.body;  
   
-    Invite.findOne({ refCode: refCode }, (err, user) => {
-      console.log(user)
+    Invite.findOne({ refCode: refCode }, (err, user) => {      
       if (err) res.json({ message: "not verified" });
       if (user.isVerified ) {
         const newStudent = new Student({
@@ -32,12 +30,8 @@ module.exports = {
         
         // console.log(name,email)
 
-        console.log(newStudent,'newstud')
-
-        
         newStudent.save((err, user) => {
 
-          console.log(user,'new')
           if (err || !user) {
             return res.status(401).json({
               error: "user is not found"
@@ -56,13 +50,15 @@ module.exports = {
   loginUser: (req, res, next) => {
     passport.authenticate('local', {
       session: false
-    }, (err, user, info) => {
+    }, (err, f_user, info) => {
+      const user = serverUtils.cleanUser(f_user);
       if(err) return res.json({error: 'not verified'})
       const token = jwt.sign({
-        user:user._id
+        user: user._id
       }, 'secret');
       console.log('sending token');
-        let userP = serverUtils.cleanUser(admin);
+      
+      let userP = serverUtils.cleanUser(admin);
       res.json({
         message: "successfully logged in",
         token,
@@ -177,8 +173,7 @@ module.exports = {
     // while(!flag){
       refCode = randomN(6);
     link = `http://${host}/register?ref=${refCode}`;
-    const email = req.body.email;
-    console.log(refCode)
+    const email = req.body.email;    
     mailOptions = {
       to: email,
       subject: "Verify your email",
@@ -202,17 +197,16 @@ module.exports = {
   verifyStudent: (req, res, next) => {
     // console.log(req.query.ref)
     const { ref } = req.query;
-    console.log(ref);
     // if (`${req.protocol}://${req.get("host")}` == `http://${host}`) {
       Invite.findOneAndUpdate(
         { refCode: ref },
         { $set: { isVerified: true } },
         (err, code) => {
           if (err) res.json({ msg: `you're link is expired` });
+          // TODO: If no `code` , apply condition    
           res.json({
-
-            emailId : code.emailId,
-            refCode: code.refCode,
+            emailId : code.emailId || '',
+            refCode: code.refCode || '',
             // msg: `Email ${mailOptions.to} is successfully verified.`
           });
         }
