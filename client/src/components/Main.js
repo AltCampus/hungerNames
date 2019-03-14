@@ -8,6 +8,7 @@ import DayList from './DayList';
 import AdminDayList from './AdminDayList';
 import StudentFeedback from './StudentFeedback';
 import './Main.css';
+import StudentProfile from './StudentProfile';
 
 
 const Main = (props) => {
@@ -29,7 +30,8 @@ const Main = (props) => {
             <Route exact path='/admin/menu/:day' component={ AdminDayList } />
             <Route path='/admin' component={ AdminHome } />
             <Route exact path='/:day' component={ DayList } />
-            <Route exact path='/student/:id/feedback' component={ StudentFeedback } />
+            <Route exact path='/student/:id' component={ StudentProfile } />
+            <Route path='/student/:id/feedback' component={ StudentFeedback } />
           </Switch>
         </>
       </BrowserRouter>

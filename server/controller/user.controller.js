@@ -66,7 +66,7 @@ module.exports = {
       res.json({
         message: "successfully logged in",
         token,
-        userp
+        userP
       });
     });
   },
