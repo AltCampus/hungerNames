@@ -62,7 +62,7 @@ module.exports = {
         user:user._id
       }, 'secret');
       console.log('sending token');
-        const user = serverUtils.cleanUser(admin);
+      var user = serverUtils.cleanUser(admin);
       res.json({
         message: "successfully logged in",
         token,

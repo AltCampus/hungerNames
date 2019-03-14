@@ -24,7 +24,16 @@ router.get('/register', (err, res) => {
   res.render('index');
 });
 
+router.get('/student/:id', (req, res) => {
+  res.render('index');
+})
+
 router.get('/student/:id/feedback', (req, res) => {
+  res.render('index');
+})
+
+// staff will get list of students (who are coming for a particular meal) 
+router.get('/staff/attendees', (req, res) => {
   res.render('index');
 })
 
