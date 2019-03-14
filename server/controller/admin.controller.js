@@ -10,6 +10,53 @@ module.exports = {
       message: 'welcome admin'
     })
   },
+  inviteStudent: (req, res, next) => {
+    // smtpTransport initialization
+    const smtpTransport = nodemailer.createTransport({
+      service: "Gmail",
+      auth: {
+        user: 'food.altcampus@gmail.com',
+        pass: 'Altcampus@2018'
+      }
+    });
+
+    let mailOptions, host, link;
+    // generate random ref code
+    function randomN(v) {
+      let rand = [];
+      let alphaNum = "abcdefghijklmnopqrstuvwxyz0123456789";
+      for (let i = 0; i < v; i++) {
+        let random = Math.floor(Math.random() * 36);
+        rand.push(alphaNum[random]);
+      }
+      return rand.join("");
+    }
+    // Have to check if ref generated is unique all the time from database
+    // it'll provide your localhost or network address
+    host = req.get("host");
+    let refCode;
+    refCode = randomN(6);
+    link = `http://${host}/register?ref=${refCode}`;
+    const email = req.body.email;
+    mailOptions = {
+      to: email,
+      subject: "Verify your email",
+      html: `Hello, <br>Please click on <a href='${link}'>click here</a> to verify your email.`
+    };
+    // send mail with defined transport object(mailOptions)
+    smtpTransport.sendMail(mailOptions, (err, info) => {
+      if (err) return res.status(406).json({ error: "Message could not send" });
+      else {
+        const newInvite = new Invite({
+          emailId: email,
+          refCode
+        });
+        newInvite.save(err => {
+          if (!err) res.json({ message: `Message sent to ${mailOptions.to}` });
+        });
+      }
+    });
+  },
   
   getStudent: (req, res, next) => {
     Student.aggregate([ {$match: { isAdmin : false, isKitchenStaff: false}}, 

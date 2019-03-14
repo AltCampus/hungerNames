@@ -13,6 +13,7 @@ const convDateToDateStr = (date) => {
 }
 
 const removeTimeFromDate = (date) => {
+  console.log(date)
   if (isValidDate) {
     return new Date(date.toDateString())
   }
@@ -36,7 +37,7 @@ const cleanUser = (user) => {
 }
 
 
-module.export = {
+module.exports = {
   isValidDate,
   removeTimeFromDate,
   convDateStrToDate,
