@@ -5,6 +5,7 @@ const passport = require("passport");
 const FeedBack = require("../model/Feedback");
 const Student = require("../model/Student");
 const Invite = require("../model/Invite");
+const serverUtils = require('../serverUtils/index')
  
 
 module.exports = {
@@ -49,22 +50,17 @@ module.exports = {
   loginUser: (req, res, next) => {
     passport.authenticate('local', {
       session: false
-    }, (err, user, info) => {
-      const { isAdmin, isKitchenStaff, _id, name, email} = user;
+    }, (err, f_user, info) => {
+      const user = serverUtils.cleanUser(f_user);
       if(err) return res.json({error: 'not verified'})
       const token = jwt.sign({
-        user
+        user: user._id
       }, 'secret');
+      console.log('sending token');
       res.json({
-        token: token,
-        user: {
-          isAdmin,
-          isKitchenStaff,
-          _id,
-          name,
-          email
-        },
-        message: "successfully logged in",  
+        message: "successfully logged in",
+        token,
+        user
       });
     });
   },
@@ -204,10 +200,10 @@ module.exports = {
         { $set: { isVerified: true } },
         (err, code) => {
           if (err) res.json({ msg: `you're link is expired` });
+          // TODO: If no `code` , apply condition    
           res.json({
-
-            emailId : code.emailId,
-            refCode: code.refCode,
+            emailId : code.emailId || '',
+            refCode: code.refCode || '',
             // msg: `Email ${mailOptions.to} is successfully verified.`
           });
         }
