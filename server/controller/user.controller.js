@@ -43,7 +43,6 @@ module.exports = {
       const token = jwt.sign({
         user
       }, 'secret');
-      console.log('sending token');
       res.json({
         token: token,
         user: {
@@ -65,7 +64,6 @@ module.exports = {
   },
 
   profileStudent: (req, res, next) => {
-    console.log('inside')
     const  studentId  = req.params.id;
     Student.findById({_id : studentId }, (err,user) => {
       if(err) res.status(401).json({
@@ -91,10 +89,11 @@ module.exports = {
     });
   },
 
-  postFeedbackStudent: (req, res, next) => {
+  postFeedback: (req, res, next) => {
     const studentId = req.params.id;
     const feedbackBody = req.body;
     const feedBack = new FeedBack({
+      student:studentId,
       ...feedbackBody
     });
      feedBack.save((err, feedback) => {
@@ -115,7 +114,7 @@ module.exports = {
      })
   },
 
-  getAllFeedback: (req, res, next) => {
+  getFeedback: (req, res, next) => {
     const studentId = req.params.id;
      Student.findOne({ _id: studentId })
       .populate("feedback")
@@ -134,59 +133,6 @@ module.exports = {
           }
         })
       });
-  },
-
-  inviteStudent: (req, res, next) => {
-    // smtpTransport initialization
-    const smtpTransport = nodemailer.createTransport({
-      service: "Gmail",
-      auth: {
-<<<<<<< HEAD
-        user: "food.altcampus@gmail.com",
-        pass: process.env.PASSWORD
-=======
-        user: 'food.altcampus@gmail.com',
-        pass: 'Altcampus@2018'
->>>>>>> 873fa7329cfa0514c6d738f6b8cf5adff9022f6b
-      }
-    });
-
-    let mailOptions, host, link;
-    // generate random ref code
-    function randomN(v) {
-      let rand = [];
-      let alphaNum = "abcdefghijklmnopqrstuvwxyz0123456789";
-      for (let i = 0; i < v; i++) {
-        let random = Math.floor(Math.random() * 36);
-        rand.push(alphaNum[random]);
-      }
-      return rand.join("");
-    }
-    // Have to check if ref generated is unique all the time from database
-    // it'll provide your localhost or network address
-    host = req.get("host");
-    let refCode;
-    refCode = randomN(6);
-    link = `http://${host}/register?ref=${refCode}`;
-    const email = req.body.email;
-    mailOptions = {
-      to: email,
-      subject: "Verify your email",
-      html: `Hello, <br>Please click on <a href='${link}'>click here</a> to verify your email.`
-    };
-    // send mail with defined transport object(mailOptions)
-    smtpTransport.sendMail(mailOptions, (err, info) => {
-      if (err) return res.status(406).json({ error: "Message could not send" });
-      else {
-        const newInvite = new Invite({
-          emailId: email,
-          refCode
-        });
-        newInvite.save(err => {
-          if (!err) res.json({ message: `Message sent to ${mailOptions.to}` });
-        });
-      }
-    });
   },
 
   verifyStudent: (req, res, next) => {
