@@ -34,13 +34,15 @@
   box-shadow: 0 3px 7px 0 #ccc
 }
 
+.check-list:hover .day-mark, .check-list:hover .fa-angle-right {
+  color: rgb(120, 120, 120);
+  cursor: pointer;
+  text-decoration: none; 
+}
+
 .day-mark {
   text-decoration: none;
   color: rgb(80, 80, 80);
-}
-
-.day-mark:hover {
-  color: rgb(120, 120, 120);
 }
 
 .day-name {
@@ -60,11 +62,6 @@
 
 .checklist-icon {
   color: rgb(80, 80, 80);
-}
-
-.fa-angle-right:hover {
-  color: rgb(120, 120, 120);
-  cursor: pointer;
 }
 
 .meal {

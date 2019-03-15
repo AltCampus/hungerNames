@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import '../DayList/DayList.css';
+import Loader from '../Loader'
 import { updateMenu } from '../../store/actions';
+import '../DayList/DayList.css';
 
 const mapStateToProps = (state) => {
   return {
     menu: state.menu.menu || {}
   };
 }
-
 
 class AdminDayList extends Component {
   constructor(props) {
@@ -18,7 +18,8 @@ class AdminDayList extends Component {
       breakfast: '',
       lunch: '',
       dinner: '',
-      brunch: ''
+      brunch: '',
+      isLoading: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.currentday=null;
@@ -47,6 +48,10 @@ class AdminDayList extends Component {
     const { day } = this.props.match.params;
     const { menu } = this.props;
 
+    this.setState({
+      isLoading: true
+    });
+
     if(day === 'sunday') {
       menu[this.currentday].meal.brunch.title = this.state.brunch;
       menu[this.currentday].meal.dinner.title = this.state.dinner;
@@ -56,8 +61,16 @@ class AdminDayList extends Component {
       menu[this.currentday].meal.dinner.title = this.state.dinner;
     }
   //dispatch update menu with menu
-    this.props.dispatch(updateMenu(menu, (isSubmitted) => {console.log(isSubmitted);}));
+  
+  this.props.dispatch(updateMenu({ menu }, (isSubmitted) => {
+    if(isSubmitted) {
+      this.setState({
+        isLoading: false
+      });
+    }
   }
+  ))
+}
   
   handleChange = () => {
     this.setState({ [event.target.name]: event.target.value });
@@ -117,11 +130,12 @@ class AdminDayList extends Component {
                     Dinner:
                           <input type="text" name='dinner' value={this.state.dinner} onChange={this.handleChange} />
                   </p>
-                </label>
-                <button type="submit" className="form-btn send-btn" onClick={this.formSubmit}>Save →</button>
+                </label>      
+                <button type="submit" className="form-btn send-btn" onClick={this.formSubmit}>Save →</button> 
+                {this.state.isLoading ? <Loader /> : ''}
+
               </div>
             )
-
           }
         </div>
       </>

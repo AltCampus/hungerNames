@@ -1,0 +1,125 @@
+[
+    {
+        "menu": {
+            "day1": {
+                "meal": {
+                    "breakfast": {
+                        "time": "9:30 AM",
+                        "title": "Poha"
+                    },
+                    "lunch": {
+                        "time": "1:30 PM",
+                        "title": "Rice, Dal"
+                    },
+                    "dinner": {
+                        "time": "8 PM",
+                        "title": "Roti Sabzi"
+                    }
+                },
+                "day": "Monday"
+            },
+            "day2": {
+                "meal": {
+                    "breakfast": {
+                        "time": "9:30 AM",
+                        "title": "Poha"
+                    },
+                    "lunch": {
+                        "time": "1:30 PM",
+                        "title": "Rice, Dal"
+                    },
+                    "dinner": {
+                        "time": "8 PM",
+                        "title": "Roti Sabzi"
+                    }
+                },
+                "day": "Tuesday"
+            },
+            "day3": {
+                "meal": {
+                    "breakfast": {
+                        "time": "9:30 AM",
+                        "title": "Poha"
+                    },
+                    "lunch": {
+                        "time": "1:30 PM",
+                        "title": "Rice, Dal"
+                    },
+                    "dinner": {
+                        "time": "8 PM",
+                        "title": "Roti Sabzi"
+                    }
+                },
+                "day": "Wednesday"
+            },
+            "day4": {
+                "meal": {
+                    "breakfast": {
+                        "time": "9:30 AM",
+                        "title": "Poha"
+                    },
+                    "lunch": {
+                        "time": "1:30 PM",
+                        "title": "Rice, Dal"
+                    },
+                    "dinner": {
+                        "time": "8 PM",
+                        "title": "Roti Sabzi"
+                    }
+                },
+                "day": "Thursday"
+            },
+            "day5": {
+                "meal": {
+                    "breakfast": {
+                        "time": "9:30 AM",
+                        "title": "Poha"
+                    },
+                    "lunch": {
+                        "time": "1:30 PM",
+                        "title": "Rice, Dal"
+                    },
+                    "dinner": {
+                        "time": "8 PM",
+                        "title": "Roti Sabzi"
+                    }
+                },
+                "day": "Friday"
+            },
+            "day6": {
+                "meal": {
+                    "breakfast": {
+                        "time": "9:30 AM",
+                        "title": "Poha"
+                    },
+                    "lunch": {
+                        "time": "1:30 PM",
+                        "title": "Rice, Dal"
+                    },
+                    "dinner": {
+                        "time": "8 PM",
+                        "title": "Roti Sabzi"
+                    }
+                },
+                "day": "Saturday"
+            },
+            "day7": {
+                "meal": {
+                    "brunch": {
+                        "time": "11 AM",
+                        "title": "Poha"
+                    },
+                    "dinner": {
+                        "time": "8 PM",
+                        "title": "Roti Sabzi"
+                    }
+                },
+                "day": "Sunday"
+            }
+        },
+        "_id": "5c867becccb8621e50200872",
+        "created_at": "2019-03-11T15:17:00.639Z",
+        "updatedAt": "2019-03-12T04:41:04.863Z",
+        "__v": 0
+    }
+]

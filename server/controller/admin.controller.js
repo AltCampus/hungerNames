@@ -92,15 +92,17 @@ module.exports = {
   updateMenu: (req, res, next) => {
     // getting updated menu from req.body
     const { menu } = req.body;
+    console.log(menu);
     Menu.find({}, function(err, prevMenu) {
       // TODO: PUT check for if menu exists or length is greater than 0
       if(!prevMenu.length) {
-        return res.json({ message: "Menu doesn't exist yet."})
+        return res.json({ error: "Menu doesn't exist yet."})
       }
 
       var currentMenu = prevMenu[0];
       currentMenu.menu = menu;
       currentMenu.save(function(err, saved) {
+        if(err) return res.json({ error: "Menu cannot be updated."});
         res.json(saved)
       });
     })

@@ -5,11 +5,12 @@ import { getMenu } from '../../store/actions/';
 import './StudentHome.css';
 
 const mapStateToProps = (state) => {
-  return {
-    menu: state.menu.menu || {},
-    message: state.menu.message || {}
-  };
-
+  if(state.menu) {
+    return {
+      menu: state.menu.menu || {},
+      message: state.menu.message || {}
+    };
+  }
 }
 
 class StudentHome extends Component {
