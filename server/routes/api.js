@@ -1,4 +1,5 @@
 const express = require("express");
+const bootStrapped = require('../bootstrap/bootstrap')
 const router = express.Router();
 const userController = require('../controller/user.controller');
 
@@ -8,9 +9,22 @@ router.get('/', (req, res) => {
   });
 });
 
+
 router.post('/login', userController.loginUser);
 
 router.use('/student', require('./student'));
 router.use('/staff', require('./staff'));
 router.use('/admin', require('./admin'));
+
+
+//bootstrapped
+// router.get('/createmenuboot', (req, res) => {
+//   bootStrapped.createMenu()
+// });
+
+// router.get('/createbufferboot', (req, res) => {
+//   bootStrapped.createBuffer();
+// });
+
+
 module.exports = router;

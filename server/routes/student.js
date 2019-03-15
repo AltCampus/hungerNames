@@ -11,8 +11,8 @@ router.post('/register', userController.registerStudent);
 router.get('/logout', userController.logoutStudent);
 router.get('/profile/:id', isUser.isLoggedIn, userController.profileStudent);
 router.put('/:id/:day', isUser.isLoggedIn, userController.attendanceStudent);
-router.post('/:id/feedback', userController.postFeedbackStudent);
-router.get('/:id/feedback', userController.getAllFeedback);
+// router.post('/:id/feedback', userController.postFeedbackStudent);
+// router.get('/:id/feedback', userController.getAllFeedback);
 router.get('/:id/attendance', userController.getUserAttendence);
 router.put('/:id/attendance', userController.updateUserAttendence);
 
@@ -24,4 +24,6 @@ router.delete('/:id', isUser.isLoggedIn, adminController.removeStudent);
 //staff handle student route
 router.get('/attendees', staffController.getAllStudentAttendance);
 router.get('/feedback', staffController.getAllStudentFeedback);
+
+
 module.exports = router;
