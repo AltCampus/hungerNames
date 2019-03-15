@@ -26,6 +26,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use(morgan('dev'));
 app.set("views", path.join(__dirname, "./server/views"));
 app.set("view engine", "ejs");
 
@@ -42,7 +43,6 @@ if (process.env.NODE_ENV === "development") {
   );
 
   app.use(require("webpack-hot-middleware")(compiler));
-  app.use(morgan('dev'));
 }
 
 app.use(cors());
