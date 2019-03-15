@@ -134,3 +134,20 @@ export function getStudentFeedback(id, cb) {
       })
   }
 }
+
+export function getAttendenceAction() {
+  return async (dispatch, getState) => {
+    const userId = getState().currentUser._id
+    const AttendanceData = await fetch(`${util.baseURL}/student/${userId}/attendance`, {
+      method: "GET",
+      headers: {
+        "authorization": localStorage.getItem('hungerNamesJWT'),
+        "Content-Type": "application/json"
+      },
+    }).then(res => res.json());
+    dispatch({
+      type: 'GET_USER_ATTENDANCE',
+      attendance: AttendanceData,
+    });
+  }
+}

@@ -2,7 +2,8 @@ const INIT_STATE = {
   currentUser: null,
   currentToken: localStorage.getItem('hungerNamesJWT') || null,
   menu: {},
-  userFeedback: []
+  userFeedback: [],
+  userAttendance: [],
 };
 
 export default function rootReducer(state = INIT_STATE, action) {
@@ -26,12 +27,18 @@ export default function rootReducer(state = INIT_STATE, action) {
         ...state,
         menu: action.menuData
       }
-    case 'GET_USER_FEEDBACK': {
+    case 'GET_USER_FEEDBACK':
       return {
         ...state,
         userFeedback: action.user
       }
-    }
+
+    case 'GET_USER_ATTENDANCE':
+      return {
+        ...state,
+        userAttendance: action.attendance
+      }
+
     default:
       return state;
   }
