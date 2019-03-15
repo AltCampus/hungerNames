@@ -57,10 +57,12 @@ module.exports = {
         user: user._id
       }, 'secret');
       console.log('sending token');
+      
+      let userP = serverUtils.cleanUser(admin);
       res.json({
         message: "successfully logged in",
         token,
-        user
+        userP
       });
     });
   },
@@ -97,10 +99,11 @@ module.exports = {
     });
   },
 
-  postFeedbackStudent: (req, res, next) => {
+  postFeedback: (req, res, next) => {
     const studentId = req.params.id;
     const feedbackBody = req.body;
     const feedBack = new FeedBack({
+      student:studentId,
       ...feedbackBody
     });
      feedBack.save((err, feedback) => {
@@ -121,7 +124,7 @@ module.exports = {
      })
   },
 
-  getAllFeedback: (req, res, next) => {
+  getFeedback: (req, res, next) => {
     const studentId = req.params.id;
      Student.findOne({ _id: studentId })
       .populate("feedback")

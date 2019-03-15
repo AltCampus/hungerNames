@@ -10,6 +10,7 @@ import StudentFeedback from './StudentFeedback';
 import StaffHome from './StaffHome';
 import Feedbacks from './Feedbacks';
 import './Main.css';
+import StudentProfile from './StudentProfile';
 
 const Main = (props) => {
   return (
@@ -31,8 +32,9 @@ const Main = (props) => {
             <Route exact path='/' component={ StudentHome } />
             <Route exact path='/admin/menu/:day' component={ AdminDayList } />
             <Route path='/admin' component={ AdminHome } />
-            <Route exact path='/student/:id/feedback' component={ StudentFeedback } />
             <Route exact path='/:day' component={ DayList } />
+            <Route exact path='/student/:id' component={ StudentProfile } />
+            <Route path='/student/:id/feedback' component={ StudentFeedback } />
           </Switch>
         </>
       </BrowserRouter>
