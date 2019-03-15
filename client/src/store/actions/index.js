@@ -56,7 +56,7 @@ export function logoutUserAction(data) {
   };
 };
 export function registerUserAction(data, cb) {
-  return dispatch => {
+  return (dispatch) => {
     fetch(`${util.baseURL}/student/register`, {
       method: "POST",
       headers: {
@@ -131,7 +131,26 @@ export function getStudentFeedback(id, cb) {
           type: 'GET_USER_FEEDBACK'
         })
         cb(true);
-      })
+    })
+  } 
+}
+
+export function postStudentFeedback(data,cb) {
+  let id = '5c8894dbf2ad3e1b1f7f1c95'
+  return dispatch => {
+    fetch(`http://localhost:8080/api/v1/student/${id}/feedback`,{
+      method: 'POST',
+      headers: {
+        "Content-Type": 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(data => {
+      if(!data.error) {
+        cb(true)
+      } else cb(false)
+    })
   }
 }
 

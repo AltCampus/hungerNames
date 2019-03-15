@@ -48,9 +48,9 @@ class Register extends Component {
     }))
   }
 
-  handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value })
-  }
+  handleChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
 
   render() {
     return (
@@ -72,7 +72,14 @@ class Register extends Component {
         </label>
         <label className="label-box" htmlFor="confPassword">
           <span className="label-text">Confirm Password</span>
-          <input onChange={this.handleChange} type="password" placeholder="Enter Password" id="confPassword" name="confPassword" value={this.state.confPassword} />
+          <input
+            onChange={this.handleChange}
+            type="password"
+            placeholder="Enter Password"
+            id="confPassword"
+            name="confPassword"
+            value={this.state.confPassword}
+          />
         </label>
         <input onChange={this.handleChange} type="password" name="refCode" value={this.state.refCode} hidden={true} />
         <input onClick={this.handleSubmit} type="submit" className="send-btn" value="REGISTER" />

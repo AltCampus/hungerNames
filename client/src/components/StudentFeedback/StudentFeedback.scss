@@ -96,10 +96,19 @@
 // review
 .review-wrapper {
   input {
+    padding: 5px;
+    margin-top: 10px;
     height: 40px;
   }
 }
-
+.submit-mealType {
+  margin-left: 5px;
+  padding: 10px;
+  color: #e4e4e4;
+  text-align: center;
+  border-radius: 2px;
+  background: rgba(0, 0, 0, 0.5);
+}
 // submit button
 .submit-wrapper {
   button {
