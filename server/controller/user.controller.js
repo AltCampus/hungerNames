@@ -48,9 +48,11 @@ module.exports = {
   },
 
   loginUser: (req, res, next) => {
+    console.log('dd')
     passport.authenticate('local', {
       session: false
     }, (err, f_user, info) => {
+      console.log(f_user)
       const user = serverUtils.cleanUser(f_user);
       if(err) return res.json({error: 'not verified'})
       const token = jwt.sign({
@@ -64,7 +66,7 @@ module.exports = {
         token,
         userP
       });
-    });
+    })(req,res,next)
   },
 
   logoutStudent: (req, res, next) => {
@@ -111,6 +113,9 @@ module.exports = {
        Student.findOneAndUpdate({_id : studentId}, {$push: {feedback: feedback._id}}, {upsert: true},(err, student) => {
          if (err) return res.json({
           error: 'sorry mate youre not found'
+         })
+         if(!student) return res.json({
+           message: 'not found'
          })
          const { name,email,_id} = student
          res.json({
