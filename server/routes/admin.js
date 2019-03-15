@@ -9,9 +9,9 @@ router.get('/', adminController.getAdmin);
 router.post('login/forget',adminController.forgetPassword);
 
 // Adding menu
-router.get('/menu',isUser.isLoggedIn, adminController.getMenuList);
+router.get('/menu', adminController.getMenuList);
 
 // Updating menu
-router.put('/menu',isUser.isLoggedIn, adminController.updateMenu);
+router.put('/menu', adminController.updateMenu);
 
 module.exports = router;

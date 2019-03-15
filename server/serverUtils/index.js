@@ -6,26 +6,56 @@ const isValidDate = (date) => {
 
 const convDateToDateStr = (date) => {
   if (isValidDate) {
-    return date.toDateString();
+    let dateStr = date.toDateString();
+    return dateStr.split(' ').join('_')
   }
   return false;
 }
 
 const removeTimeFromDate = (date) => {
-  if(isValidDate){
+  console.log(date)
+  if (isValidDate) {
     return new Date(date.toDateString())
   }
   return false;
 }
 
 const convDateStrToDate = (dateStr) => {
-   return new Date(dateStr);
+  let newDateStr = dateStr.split('_').join(' ');
+  return new Date(newDateStr);
+}
+
+const cleanUser = (user) => {
+  const { _id, name, email, isAdmin, isKitchenStaff } = user
+  return {
+    _id,
+    name,
+    email,
+    isAdmin,
+    isKitchenStaff
+  }
+}
+const getUserFromToken = (token) => {
+  jwt.verify(token, 'secret', (err, decode) => {
+    if (err) return false
+    return decode.body;
+  })
+}
+
+const dateManupulater = (days) =>{
+  //provide no of days to add in current date
+  let today = new Date();
+  today = removeTimeFromDate(today);
+  return today.setDate(today.getDate() + days);
 }
 
 
-module.export ={
+module.exports = {
   isValidDate,
   removeTimeFromDate,
   convDateStrToDate,
-  convDateToDateStr
+  convDateToDateStr,
+  cleanUser,
+  getUserFromToken,
+  dateManupulater
 }

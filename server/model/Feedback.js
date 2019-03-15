@@ -6,7 +6,8 @@ const FeedbackSchema = new Schema({
     mealType: { type: String },
     review: { type: String },
     rating: { type: Number },
-    date: { type: Date },
+    date: { type: Date, default: new Date() },
+    // studentId: { type:Schema.Types.ObjectId},
     student: { type: Schema.Types.ObjectId, ref: 'Students' }
   }, {
     timestamps: { createdAt: 'created_at' }

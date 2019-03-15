@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const AttendanceBufferSchema = new Schema({
-  date: {type: Date},
+  date: { type: Date },
   breakfast: {
     title: String,
     remarks: String,
-    attendance : [{
+    attendance: [{
       student: { type: Schema.Types.ObjectId, ref: 'Students' },
       feedback: { type: Schema.Types.ObjectId, ref: 'Feedback' }
     }]
@@ -14,7 +14,7 @@ const AttendanceBufferSchema = new Schema({
   brunch: {
     title: String,
     remarks: String,
-    attendance : [{
+    attendance: [{
       student: { type: Schema.Types.ObjectId, ref: 'Students' },
       feedback: { type: Schema.Types.ObjectId, ref: 'Feedback' }
     }]
@@ -22,7 +22,7 @@ const AttendanceBufferSchema = new Schema({
   lunch: {
     title: String,
     remarks: String,
-    attendance : [{
+    attendance: [{
       student: { type: Schema.Types.ObjectId, ref: 'Students' },
       feedback: { type: Schema.Types.ObjectId, ref: 'Feedback' }
     }]
@@ -30,7 +30,7 @@ const AttendanceBufferSchema = new Schema({
   dinner: {
     title: String,
     remarks: String,
-    attendance : [{
+    attendance: [{
       student: { type: Schema.Types.ObjectId, ref: 'Students' },
       feedback: { type: Schema.Types.ObjectId, ref: 'Feedback' }
     }]
@@ -41,7 +41,7 @@ module.exports = mongoose.model('AttendanceBuffer', AttendanceBufferSchema);
 
 
 // 
-1. Date
-2. Meals 
-  1. Student List
-  2. _id
+// 1. Date
+// 2. Meals 
+//   1. Student List
+//   2. _id
