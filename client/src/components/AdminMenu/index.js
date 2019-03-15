@@ -15,32 +15,27 @@ const mapStateToProps = (state) => {
 class AdminMenu extends Component {
   constructor(props) {
     super(props);
-    this.state= {};
-    this.days = ["day1", "day2", "day3", "day4", "day5", "day6", "day7"];
+    this.state = {};
+    this.days = ["day1", "day2", "day3", "day4", "day5", "day6", "day0"];
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.props.dispatch(getMenu());
   }
 
   render() {
-    const { menu } = this.props;   
+    const { menu } = this.props;
     // console.log('m');    
-    return(
+    return (
       <div className="wrapper">
         {/* <SideMenu /> */}
         <div className="home">
-          { (menu && menu.day1) ? (
-              this.days.map((val, index) => {
-                for(let day in menu) {
-                  if(day === val) {                    
-                    return <AdminDaysCheckList key={index} onDay={menu[val]}/>
-                  }
-                }
-              }
-            )
-          ) : '' }
-        </div> 
+          {(menu && menu.day1) ? (
+            this.days.map((val, index) => {
+              return <AdminDaysCheckList key={index} onDay={menu[val]} />
+            })
+          ) : ''}
+        </div>
       </div>
     );
   }

@@ -40,8 +40,8 @@ const AttendanceBufferSchema = new Schema({
 module.exports = mongoose.model('AttendanceBuffer', AttendanceBufferSchema);
 
 
-// 
-1. Date
-2. Meals 
-  1. Student List
-  2. _id
+// // 
+// 1. Date
+// 2. Meals 
+//   1. Student List
+//   2. _id

@@ -3,6 +3,17 @@
     
     const newMenu = new Menu({
       menu: {
+        day0: {
+          day: 'sunday',
+          meal: {
+            brunch: {
+              title: 'poha',
+            },
+            dinner: {
+              title: 'roti veg(seasonal)'
+            }
+          }
+        },
         day1: {
           day: 'monday',
           meal: {
@@ -87,17 +98,6 @@
             }
           }
         },
-        day7: {
-          day: 'sunday',
-          meal: {
-            brunch: {
-              title: 'poha',              
-            },
-            dinner: {
-              title: 'roti veg(seasonal)'
-            }
-          }
-        }
       }
     });
 

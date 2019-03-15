@@ -1,5 +1,6 @@
 const INIT_STATE = {
-  currentUser:localStorage.getItem('hungerNamesJWT') ||null,
+  currentUser: null,
+  currentToken: localStorage.getItem('hungerNamesJWT') || null,
   menu: {},
 };
 
@@ -7,14 +8,16 @@ export default function rootReducer(state = INIT_STATE, action) {
   switch (action.type) {
     // case value:
     case 'LOGIN_USER':
-      return { 
+      return {
         ...state,
-        currentUser: action.data 
+        currentUser: action.user,
+        currentToken: action.token,
       }
     case 'LOGOUT_USER':
-      return { 
+      return {
         ...state,
-        currentUser: null 
+        currentUser: null,
+        currentToken: null,
       }
     // break;
     case 'GET_MENU_DATA':

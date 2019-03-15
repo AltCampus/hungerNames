@@ -15,6 +15,8 @@ router.get('/profile/:id',isUser.isLoggedIn, userController.profileStudent);
 router.put('/:id/:day',isUser.isLoggedIn,userController.attendanceStudent);
 router.post('/:id/feedback',isUser.isLoggedIn,userController.postFeedbackStudent);
 router.get('/:id/feedback',isUser.isLoggedIn,userController.getAllFeedback);
+router.get('/:id/attendance',userController.getUserAttendence);
+router.put('/:id/attendance', userController.updateUserAttendence);
 
 //admin get all students
 router.get('/',isUser.isLoggedIn,adminController.getStudent);

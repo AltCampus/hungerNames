@@ -44,6 +44,7 @@ const getUserFromToken = (token) => {
 const dateManupulater = (days) =>{
   //provide no of days to add in current date
   let today = new Date();
+  today = removeTimeFromDate(today);
   return today.setDate(today.getDate() + days);
 }
 
@@ -54,5 +55,6 @@ module.exports = {
   convDateStrToDate,
   convDateToDateStr,
   cleanUser,
-  getUserFromToken
+  getUserFromToken,
+  dateManupulater
 }

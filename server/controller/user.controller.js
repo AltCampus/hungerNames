@@ -223,21 +223,37 @@ module.exports = {
   //Attendance Controller for user
 
   getUserAttendence: (req, res) => {
-    attendanceArr = req.body.attendance
     const token = req.headers['authorization'];
     if (!token) return res.json({ message: 'unAuthorized Student' });
     const headerToken = token.split(' ')[1];
     const user = serverUtils.getUserFromToken(headerToken);
+    if (!user) return res.json({error :`user not found`})
     let today = new Date();
     let todayDay = today.getDay();
     let weekStart = serverUtils.dateManupulater(-todayDay);
-    let weekEnd = serverUtils.dateManupulater((6-todayDay));
-    const userAttendence = [];
-    AttendanceBuffer.find({ date: { $gte: weekStart ,$lte:weekEnd} }, (err, Att) => {
-
+    let weekEnd = serverUtils.dateManupulater((6 - todayDay));
+    AttendanceBuffer.find({ date: { $gte: weekStart, $lte: weekEnd } }, (err, Att) => {
+      if (err) return res.json({ err: `DB error ` })
+      let userAttendence = [];
+      Att.forEach(atte => {
+        let obj = {
+          date: atte.date,
+          brunch: atte.brunch.attendance.some(objVal => (objVal.student == user._id)),
+          breakfast :  atte.breakfast.attendance.some(objVal => (objVal.student == user._id)),
+          lunch: atte.lunch.attendance.some(objVal => (objVal.student == user._id)),
+          dinner: atte.dinner.attendance.some(objVal => (objVal.student == user._id)),
+        }
+        userAttendence.push(obj);
+      })
+      if(userAttendence.length){
+        return res.json({
+          attendance:userAttendence,
+        })
+      }
+      res.json({error:`DB ERROR`})
     });
-    
-  },  
+
+  },
 
   updateUserAttendence: (req, res) => {
     attendanceArr = req.body.attendance;
