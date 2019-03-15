@@ -35,6 +35,19 @@ const cleanUser = (user) => {
     isKitchenStaff
   }
 }
+const getUserFromToken = (token) => {
+  jwt.verify(token, 'secret', (err, decode) => {
+    if (err) return false
+    return decode.body;
+  })
+}
+
+const dateManupulater = (days) =>{
+  //provide no of days to add in current date
+  let today = new Date();
+  today = removeTimeFromDate(today);
+  return today.setDate(today.getDate() + days);
+}
 
 
 module.exports = {
@@ -42,5 +55,7 @@ module.exports = {
   removeTimeFromDate,
   convDateStrToDate,
   convDateToDateStr,
-  cleanUser
+  cleanUser,
+  getUserFromToken,
+  dateManupulater
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {util} from '../../util'
+import { util } from '../../util'
 import { loginUserAction } from '../../store/actions'
 import './Login.css';
 
@@ -9,19 +9,19 @@ class Login extends Component {
     super(props);
     this.state = {
       email: '',
-      password: '',                                                                           
+      password: '',
     }
   }
-                                                                                      
+
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value })
   }
   handleSubmit = (e) => {
-    let {email, password} = this.state;
+    let { email, password } = this.state;
     email = email.trim();
-    if(!util.ValidateEmail(email)) return;
+    if (!util.ValidateEmail(email)) return;
     const data = {
-      email,password
+      email, password
     }
     this.props.dispatch(loginUserAction(data));
   }
@@ -32,7 +32,7 @@ class Login extends Component {
         <h2 className="h2-title">Sign in</h2>
         <label className="label-box" htmlFor="email">
           <span className="label-text">Email</span>
-          <input onChange={this.handleChange} type="text" placeholder="Enter Email" id="email" name="email"  value={this.state.email} />
+          <input onChange={this.handleChange} type="text" placeholder="Enter Email" id="email" name="email" value={this.state.email} />
         </label>
         <label className="label-box" htmlFor="password">
           <span className="label-text">Password</span>
