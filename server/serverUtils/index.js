@@ -13,6 +13,7 @@ const convDateToDateStr = (date) => {
 }
 
 const removeTimeFromDate = (date) => {
+  console.log(date)
   if (isValidDate) {
     return new Date(date.toDateString())
   }

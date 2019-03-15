@@ -19,10 +19,8 @@ module.exports = {
   registerStudent: (req, res, next) => {
 
     const { email, password, name, refCode } = req.body;
-    console.log("register stud back", email, password, refCode);
 
     Invite.findOne({ refCode: refCode }, (err, user) => {
-      console.log(user)
       if (err) res.json({ message: "not verified" });
       if (user.isVerified) {
         const newStudent = new Student({
@@ -33,12 +31,8 @@ module.exports = {
 
         // console.log(name,email)
 
-        console.log(newStudent, 'newstud')
-
-
         newStudent.save((err, user) => {
 
-          console.log(user, 'new')
           if (err || !user) {
             return res.status(401).json({
               error: "user is not found"
@@ -79,7 +73,6 @@ module.exports = {
   },
 
   profileStudent: (req, res, next) => {
-    console.log('inside')
     const studentId = req.params.id;
     Student.findById({ _id: studentId }, (err, user) => {
       if (err) res.status(401).json({
@@ -105,10 +98,11 @@ module.exports = {
     });
   },
 
-  postFeedbackStudent: (req, res, next) => {
+  postFeedback: (req, res, next) => {
     const studentId = req.params.id;
     const feedbackBody = req.body;
     const feedBack = new FeedBack({
+      student: studentId,
       ...feedbackBody
     });
     feedBack.save((err, feedback) => {
@@ -129,7 +123,7 @@ module.exports = {
     })
   },
 
-  getAllFeedback: (req, res, next) => {
+  getFeedback: (req, res, next) => {
     const studentId = req.params.id;
     Student.findOne({ _id: studentId })
       .populate("feedback")
@@ -179,7 +173,6 @@ module.exports = {
     refCode = randomN(6);
     link = `http://${host}/register?ref=${refCode}`;
     const email = req.body.email;
-    console.log(refCode)
     mailOptions = {
       to: email,
       subject: "Verify your email",
@@ -203,19 +196,19 @@ module.exports = {
   verifyStudent: (req, res, next) => {
     // console.log(req.query.ref)
     const { ref } = req.query;
-    console.log(ref);
     // if (`${req.protocol}://${req.get("host")}` == `http://${host}`) {
     Invite.findOneAndUpdate(
       { refCode: ref },
       { $set: { isVerified: true } },
       (err, code) => {
         if (err) res.json({ msg: `you're link is expired` });
-        res.json({
-
-          emailId: code.emailId,
-          refCode: code.refCode,
-          // msg: `Email ${mailOptions.to} is successfully verified.`
-        });
+        if (code) {
+          res.json({
+            emailId: code.emailId,
+            refCode: code.refCode,
+            // msg: `Email ${mailOptions.to} is successfully verified.`
+          });
+        } else res.json({ error: "cant find user" })
       }
     );
   },
@@ -227,7 +220,7 @@ module.exports = {
     if (!token) return res.json({ message: 'unAuthorized Student' });
     const headerToken = token.split(' ')[1];
     const user = serverUtils.getUserFromToken(headerToken);
-    if (!user) return res.json({error :`user not found`})
+    if (!user) return res.json({ error: `user not found` })
     let today = new Date();
     let todayDay = today.getDay();
     let weekStart = serverUtils.dateManupulater(-todayDay);
@@ -239,18 +232,18 @@ module.exports = {
         let obj = {
           date: atte.date,
           brunch: atte.brunch.attendance.some(objVal => (objVal.student == user._id)),
-          breakfast :  atte.breakfast.attendance.some(objVal => (objVal.student == user._id)),
+          breakfast: atte.breakfast.attendance.some(objVal => (objVal.student == user._id)),
           lunch: atte.lunch.attendance.some(objVal => (objVal.student == user._id)),
           dinner: atte.dinner.attendance.some(objVal => (objVal.student == user._id)),
         }
         userAttendence.push(obj);
       })
-      if(userAttendence.length){
+      if (userAttendence.length) {
         return res.json({
-          attendance:userAttendence,
+          attendance: userAttendence,
         })
       }
-      res.json({error:`DB ERROR`})
+      res.json({ error: `DB ERROR` })
     });
 
   },
