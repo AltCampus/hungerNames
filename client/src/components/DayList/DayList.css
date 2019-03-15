@@ -28,7 +28,15 @@
 
 .send-btn {
   color: white;
+  font-weight: 600;
+  font-size: 0.80rem;
   background-color: rgb(17, 160, 160);
+  border: none;
+  padding: 0.6em 0.8em;
+  margin: 0 0.5em;
+  border-radius: 5px;
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
 }
 
 .label-box {

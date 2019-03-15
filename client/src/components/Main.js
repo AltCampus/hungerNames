@@ -7,9 +7,12 @@ import AdminHome from './AdminHome';
 import DayList from './DayList';
 import AdminDayList from './AdminDayList';
 import StudentFeedback from './StudentFeedback';
+import StaffHome from './StaffHome';
+import Feedbacks from './Feedbacks';
+import StudentList from './StudentList';
 import './Main.css';
 import StudentProfile from './StudentProfile';
-
+import FeedbackListView from './FeedbackListView';
 
 const Main = (props) => {
   return (
@@ -26,12 +29,16 @@ const Main = (props) => {
           <Switch>
             <Route path='/register' component={ Register } />
             <Route path='/login' component={ Login } />
+            <Route exact path='/staff' component={ StaffHome } />
+            <Route exact path='/staff/feedbacks' component={ FeedbackListView } />
+            <Route exact path='/staff/feedbacks/feedbacklist/:id' component={ Feedbacks } />
             <Route exact path='/' component={ StudentHome } />
             <Route exact path='/admin/menu/:day' component={ AdminDayList } />
             <Route path='/admin' component={ AdminHome } />
-            <Route exact path='/:day' component={ DayList } />
+            <Route exact path='/staff/list/:meal' component={ StudentList } />
             <Route exact path='/student/:id' component={ StudentProfile } />
             <Route path='/student/:id/feedback' component={ StudentFeedback } />
+            <Route exact path='/:day' component={ DayList } />
           </Switch>
         </>
       </BrowserRouter>
