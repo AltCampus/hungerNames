@@ -9,8 +9,12 @@
   box-shadow: 0 3px 7px 0 #ccc
 }
 
-.day-mark {
+.unlink {
   text-decoration: none;
+  color: inherit;
+}
+
+.day-mark {  
   color: rgb(80, 80, 80);
 }
 

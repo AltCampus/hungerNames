@@ -27,18 +27,18 @@ class DaysCheckList extends Component {
                 {/* <i className="fas fa-circle"></i> */}
               </div>
             </span>
-            <Link to={`/${day}`} className="day-mark content-justify">
-              <div >            
+            <Link to={`/${day}`} className="day-mark unlink content-justify">
+              <div >
                 <p className="day-name">{ day }</p>
-                <div className="meal-types">            
-                {(day === 'Sunday') ? 
-                  (  
+                <div className="meal-types">
+                {(day === 'Sunday') ?
+                  (
                     <div className="brunch">
                       <span className="meal">Brunch: </span>
                       <span>{ meal.brunch ?  meal.brunch.title : '' }</span>
                     </div>
-                  ) :               
-                  ( <>                
+                  ) :
+                  ( <>
                     <div className="breakfast">
                       <span className="meal">Breakfast: </span>
                       <span>{ meal.breakfast ?  meal.breakfast.title : '' } </span>

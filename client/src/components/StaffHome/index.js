@@ -4,23 +4,38 @@ import MealCount from '../MealCount';
 import './StaffHome.css'
 
 class StaffHome extends Component {
+  constructor(props) {
+    super(props);
+    this.meals = ['Breakfast', 'Lunch', 'Dinner'];
+  }
   render() {
     return(
       <div className="home">
         <section className="staff-hero">
           <p className="headline">Todays Turn Up</p>
-          <span className="current_date">Date: <strong>14th March, 2018</strong></span>
+          <span className="current_date">Date: <strong>15th March, 2018</strong></span>
           <div className="attendance-container">
-            <MealCount meal={'Breakfast'} count={10} currentStatus={'final'}/>
-            <MealCount meal={'Lunch'} count={8} currentStatus={'final'}/>
-            <MealCount meal={'Dinner'} count={12} currentStatus={'active'}/>
+          {this.meals.map((val) => {
+            return(
+              <Link to={{ 
+                pathname: `/staff/list/${val}`,
+                state: {
+                  meal: val,
+                  count: 10
+                }                
+              }} className="unlink">
+                <MealCount meal={val} count={10} currentStatus={'final'}/>
+              </Link>
+            )}
+          )}
+            
           </div>
         </section>        
         <section className="feedback-container">
-          <Link to="/staff/feedbacks" className="feedback-btn">
+          <Link to='/staff/feedbacks' className="feedback-btn">
             <span>Feedbacks</span>
             <span className="feedback-notification">5</span>
-          </Link>          
+          </Link>
         </section>
       </div>
     );
