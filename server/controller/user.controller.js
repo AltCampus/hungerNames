@@ -49,9 +49,11 @@ module.exports = {
   },
 
   loginUser: (req, res, next) => {
+    console.log("here ", req.body);
     passport.authenticate('local', {
       session: false
     }, (err, data, info) => {
+      console.log(err, data, info, "pass");
       const user = serverUtils.cleanUser(data);
       if (err) return res.json({ error: 'not verified' })
       const token = jwt.sign({
@@ -63,7 +65,7 @@ module.exports = {
         token,
         user
       });
-    });
+    })(req, res, next);
   },
 
   logoutStudent: (req, res, next) => {
@@ -194,21 +196,20 @@ module.exports = {
   },
 
   verifyStudent: (req, res, next) => {
-    // console.log(req.query.ref)
+    console.log(req.query.ref)
     const { ref } = req.query;
     // if (`${req.protocol}://${req.get("host")}` == `http://${host}`) {
     Invite.findOneAndUpdate(
       { refCode: ref },
       { $set: { isVerified: true } },
       (err, code) => {
+        console.log(code);
         if (err) res.json({ msg: `you're link is expired` });
-        if (code) {
-          res.json({
-            emailId: code.emailId,
-            refCode: code.refCode,
-            // msg: `Email ${mailOptions.to} is successfully verified.`
-          });
-        } else res.json({ error: "cant find user" })
+        res.json({
+          emailId: code.emailId || "",
+          refCode: code.refCode || "",
+          // msg: `Email ${mailOptions.to} is successfully verified.`
+        });
       }
     );
   },
