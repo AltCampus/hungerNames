@@ -77,7 +77,6 @@ class DayList extends Component {
         </div>
       </>
     );
-  }
-}
+  }}
 
 export default connect(mapStateToProps)(DayList);
