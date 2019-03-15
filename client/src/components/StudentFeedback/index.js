@@ -37,11 +37,12 @@ class StudentFeedback extends Component {
         <div className="review-wrapper">
           <input type="text" name="review" id="" placeholder="write review here..." />
         </div>
-        <div className="submit-wrapper">
+        <button type="submit" className="send-btn" >Submit Feedback</button>
+        {/* <div className="submit-wrapper">
           <button>Submit
             <i></i>
           </button>
-        </div>
+        </div> */}
       </div>
     )
   }
