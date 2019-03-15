@@ -3,6 +3,19 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const MenuSchema = new Schema({
   menu: {
+    day0: {
+      day: String,
+      meal: {
+        brunch: {
+          title: { type: String, required: true },
+          time: { type: String, default: '11 AM' },
+        },
+        dinner: {
+          title: { type: String, required: true },
+          time: { type: String, default: '8 PM' },
+        },
+      },
+    },
     day1: {
       day: String,
       meal: {
@@ -105,19 +118,7 @@ const MenuSchema = new Schema({
         },
       },
     },
-    day7:{
-      day: String,
-      meal: {      
-        brunch: {
-          title: { type: String, required: true },
-          time: { type: String, default: '11 AM' },  
-        },
-        dinner: {
-          title: { type: String, required: true },
-          time: { type: String, default: '8 PM' },  
-        },
-      },
-    },
+
   } 
 }, {
   timestamps: {

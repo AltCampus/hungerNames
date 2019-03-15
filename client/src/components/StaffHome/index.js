@@ -17,12 +17,12 @@ class StaffHome extends Component {
           <div className="attendance-container">
           {this.meals.map((val) => {
             return(
-              <Link to={{ 
+              <Link to={{
                 pathname: `/staff/list/${val}`,
                 state: {
                   meal: val,
                   count: 10
-                }                
+                }
               }} className="unlink">
                 <MealCount meal={val} count={10} currentStatus={'final'}/>
               </Link>
