@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import DayList from '../DayList';
 import '../DaysCheckList/DaysCheckList.css';
+import AdminSideMenu from '../AdminSideMenu';
+
 
 class DaysCheckList extends Component {
     constructor(props){
@@ -18,6 +20,7 @@ class DaysCheckList extends Component {
     const { day, meal } = this.props.onDay;
     return (
       <>
+        <AdminSideMenu />
         <div className="check-list">
           <div className="content__check-list">
             <span>

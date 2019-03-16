@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import util from '../../util/index'
 import './DayList.css';
+import StudentSideMenu from '../StudentSideMenu';
 
 const mapStateToProps = (state) => {
   return {
@@ -16,6 +17,7 @@ class DayList extends Component {
     
     return (
       <>
+        <StudentSideMenu />
         <div className="back-btn-box">
           <div onClick={this.props.history.goBack} className="back-btn">
             <i className="fas fa-angle-left fa-lg"></i>

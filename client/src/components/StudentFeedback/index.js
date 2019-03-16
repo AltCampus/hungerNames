@@ -5,6 +5,7 @@ import StarRatings from "react-star-ratings";
 import "../DayList/DayList.css";
 import { postStudentFeedback } from "../../store/actions";
 import Loaders from "../Loader/index";
+import StudentSideMenu from "../StudentSideMenu";
 
 class StudentFeedback extends Component {
   constructor(props) {
@@ -56,6 +57,7 @@ class StudentFeedback extends Component {
     return (
       <>
         {isLoading ? <Loaders /> : ""}
+        <StudentSideMenu />
         <div className="studentFeedback-wrapper">
           <form className="mealtype-wrapper" onSubmit={this.handleSubmit}>
             <div className="calender-wrapper">
