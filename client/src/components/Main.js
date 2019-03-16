@@ -13,10 +13,10 @@ import StudentList from './StudentList';
 import './Main.css';
 import StudentProfile from './StudentProfile';
 import FeedbackListView from './FeedbackListView';
+import StaffRemarkForm from './StaffRemarkForm';
 
-const Main = (props) => {
-  return (
-    
+const Main = () => {
+  return (    
       <BrowserRouter>
         <>
           <div className="logo-box">
@@ -32,6 +32,7 @@ const Main = (props) => {
             <Route exact path='/staff' component={ StaffHome } />
             <Route exact path='/staff/feedbacks' component={ FeedbackListView } />
             <Route exact path='/staff/feedbacks/feedbacklist/:id' component={ Feedbacks } />
+            <Route exact path='/staff/remark' component={ StaffRemarkForm } />
             <Route exact path='/' component={ StudentHome } />
             <Route exact path='/admin/menu/:day' component={ AdminDayList } />
             <Route path='/admin' component={ AdminHome } />

@@ -17,7 +17,7 @@ class StaffHome extends Component {
           <div className="attendance-container">
           {this.meals.map((val) => {
             return(
-              <Link to={{
+              <Link key={val} to={{
                 pathname: `/staff/list/${val}`,
                 state: {
                   meal: val,

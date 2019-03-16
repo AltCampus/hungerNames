@@ -12,7 +12,6 @@ class StudentFeedback extends Component {
     })
   }
   render() {
-    const { newDate } = this.state;
     return (
       <div className="studentFeedback-wrapper">
         <div className="calender-wrapper">
