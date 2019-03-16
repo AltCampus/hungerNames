@@ -1,14 +1,22 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { getAllFeedback } from '../../store/actions/';
+import { connect } from 'react-redux';
 import MealCount from '../MealCount';
-import './StaffHome.css'
+import './StaffHome.css';
+import FeedbackListView from '../FeedbackListView';
+import Feedbacks from '../Feedbacks'
 
 class StaffHome extends Component {
   constructor(props) {
     super(props);
     this.meals = ['Breakfast', 'Lunch', 'Dinner'];
   }
+  componentDidMount = () => {
+    this.props.dispatch(getAllFeedback())
+  }
   render() {
+    const { feedbacks } = this.props;
     return(
       <div className="home">
         <section className="staff-hero">
@@ -32,14 +40,14 @@ class StaffHome extends Component {
           </div>
         </section>        
         <section className="feedback-container">
-          <Link to='/staff/feedbacks' className="feedback-btn">
+          <Link to='/staff/feedbacks' className="feedback-btn" render={() => {<Feedbacks />}}>
             <span>Feedbacks</span>
             <span className="feedback-notification">5</span>
-          </Link>
+          </Link>          
         </section>
       </div>
     );
   }
 }
 
-export default StaffHome;
+export default connect()(StaffHome);

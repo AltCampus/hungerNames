@@ -13,6 +13,7 @@ import StudentList from './StudentList';
 import './Main.css';
 import StudentProfile from './StudentProfile';
 import FeedbackListView from './FeedbackListView';
+import FeedbackDetail from './FeedbackDetail'
 
 const Main = (props) => {
   return (
@@ -30,8 +31,8 @@ const Main = (props) => {
             <Route path='/register' component={ Register } />
             <Route path='/login' component={ Login } />
             <Route exact path='/staff' component={ StaffHome } />
-            <Route exact path='/staff/feedbacks' component={ FeedbackListView } />
-            <Route exact path='/staff/feedbacks/feedbacklist/:id' component={ Feedbacks } />
+            <Route exact path='/staff/feedbacks' component={ Feedbacks } />
+            <Route exact path='/staff/feedbacks/feedbacklist/feedbackdetail' component={ FeedbackDetail } />
             <Route exact path='/' component={ StudentHome } />
             <Route exact path='/admin/menu/:day' component={ AdminDayList } />
             <Route path='/admin' component={ AdminHome } />

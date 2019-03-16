@@ -100,7 +100,7 @@ module.exports = {
     });
   },
 
-  postFeedback: (req, res, next) => {
+  postFeedbackStudent: (req, res, next) => {
     const studentId = req.params.id;
     const feedbackBody = req.body;
     const feedBack = new FeedBack({
