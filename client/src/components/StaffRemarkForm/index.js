@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './StaffRemarkForm.scss';
+import './StaffRemarkForm.css';
 
 export default class StaffRemarkForm extends Component {
   constructor() {

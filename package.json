@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "babel-loader": "^8.0.5",
     "babel-polyfill": "^6.26.0",
     "bcrypt": "^3.0.4",
     "connect-mongo": "^2.0.3",
@@ -27,6 +28,7 @@
     "passport-local": "^1.0.0",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
+    "react-loader-spinner": "^2.3.0",
     "react-redux": "^6.0.0",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",

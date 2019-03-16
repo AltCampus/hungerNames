@@ -1,19 +1,15 @@
-import React, { Component } from 'react';
-import './Loader.css';
+import React from 'react';
+import Loader from 'react-loader-spinner';
 
-class Loader extends Component {
-  render() {
-    return (
-      <>
-        <div className="lds-ellipsis">
-          <div />
-          <div />
-          <div />
-          <div />
-        </div>
-      </>
-    );
-  }
-}
+const Loaders = () => {
+  return (
+    <Loader
+      type="Circles"
+      color="#00BFFF"
+      height="20"
+      width="20"
+    />
+  );
+};
 
-export default Loader;
+export default Loaders;
