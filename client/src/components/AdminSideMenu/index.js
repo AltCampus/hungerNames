@@ -1,22 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'; 
 import { getStudentFeedback } from '../../store/actions';
-import './StudentProfile.scss';
-import ToggleOpen from './ToggleOpen';
+import '../StudentSideMenu/StudentSideMenu.scss';
+import AdminToggleOpen from './AdminToggleOpen';
 
-class StudentProfile extends Component {
+
+class AdminSideMenu extends Component {
   state = {
     isToggle: false
   }
-  // componentDidMount = () => {
-  //   const { currentUser } = this.props;
-  //   const currentUserId = currentUser._id;
-  //   this.props.dispatch(getStudentFeedback(currentUserId, (success) => {
-  //     if (success) {
-  //       this.props.history.push(`/student/${currentUserId}`);
-  //     }
-  //   }))
-  // }
 
   handleToggleOpen = () => {
     this.setState({
@@ -35,9 +27,9 @@ class StudentProfile extends Component {
     const { currentUser } = this.props;
     return (
       <div className="feedback-wrapper">
-        <div>
+        <div className="toggle-controller">
           {
-            isToggle ? <ToggleOpen handleToggleClose={ this.handleToggleClose } />
+            isToggle ? <AdminToggleOpen handleToggleClose={ this.handleToggleClose } />
             :
             <div className="toggle-wrapper" onClick={ this.handleToggleOpen }>
               <div></div>
@@ -51,11 +43,11 @@ class StudentProfile extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    userFeedback: state.userFeedback,
-    currentUser: state.currentUser 
-  }
-}
+// const mapStateToProps = (state) => {
+//   return {
+//     userFeedback: state.userFeedback,
+//     currentUser: state.currentUser 
+//   }
+// }
 
-export default connect(mapStateToProps)(StudentProfile);
+export default AdminSideMenu;

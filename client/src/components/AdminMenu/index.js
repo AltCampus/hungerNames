@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import AdminDaysCheckList from '../AdminDaysCheckList';
 import { getMenu } from '../../store/actions/';
 import '../StudentHome/StudentHome.css';
+import AdminSideMenu from '../AdminSideMenu';
 
 const mapStateToProps = (state) => {
   return {
@@ -27,16 +28,19 @@ class AdminMenu extends Component {
     const { menu } = this.props;
     // console.log('m');    
     return (
-      <div className="wrapper">
-        {/* <SideMenu /> */}
-        <div className="home">
-          {(menu && menu.day1) ? (
-            this.days.map((val, index) => {
-              return <AdminDaysCheckList key={index} onDay={menu[val]} />
-            })
-          ) : ''}
+      <>
+        <AdminSideMenu />
+        <div className="wrapper">
+          {/* <SideMenu /> */}
+          <div className="home">
+            {(menu && menu.day1) ? (
+              this.days.map((val, index) => {
+                return <AdminDaysCheckList key={index} onDay={menu[val]} />
+              })
+            ) : ''}
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 }
