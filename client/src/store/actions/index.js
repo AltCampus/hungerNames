@@ -98,7 +98,7 @@ export function getMenu() {
 
 export function updateMenu(menu, cb) {
   return async (dispatch) => {
-    const updatedMenu = await fetch('http://localhost:8000/api/v1/admin/menu', {
+    const updatedMenu = await fetch(`${util.baseURL}/admin/menu`, {
       method: "PUT",
       headers: {
         "authorization": localStorage.getItem('hungerNamesJWT'),
@@ -122,7 +122,7 @@ export function updateMenu(menu, cb) {
 
 export function getStudentFeedback(id, cb) {
   return dispatch => {
-    fetch(`http://localhost:8000/api/v1/student/${id}/feedback`)
+    fetch(`${util.baseURL}/student/${id}/feedback`)
       .then(res => res.json())
       .then(data => {
         console.log(data, 'inside getStudentFeedback');
@@ -138,8 +138,7 @@ export function getStudentFeedback(id, cb) {
 export function postStudentFeedback(data,cb) {
   let id = '5c8894dbf2ad3e1b1f7f1c95'
   return dispatch => {
-    fetch(`http://localhost:8080/api/v1/student/${id}/feedback`,
-    {
+    fetch(`${util.baseURL}/student/${id}/feedback`,{
       method: 'POST',
       headers: {
         "Content-Type": 'application/json'

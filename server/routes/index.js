@@ -45,4 +45,13 @@ router.get('/staff', (req, res) => {
   res.render('index');
 })
 
+// checking admin and staff side menu for testing
+router.get('/admin/sidemenu', (req, res) => {
+  res.render('index');
+})
+
+router.get('/staff/sidemenu', (req, res) => {
+  res.render('index');
+})
+
 module.exports =router;

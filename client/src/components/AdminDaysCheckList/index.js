@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import DayList from '../DayList';
 import '../DaysCheckList/DaysCheckList.css';
+import AdminSideMenu from '../AdminSideMenu';
 
-class DaysCheckList extends Component {
+
+class AdminDaysCheckList extends Component {
     constructor(props){
       super(props);
       this.state ={
@@ -18,6 +20,7 @@ class DaysCheckList extends Component {
     const { day, meal } = this.props.onDay;
     return (
       <>
+        <AdminSideMenu />
         <div className="check-list">
           <div className="content__check-list">
             <span>
@@ -66,4 +69,4 @@ class DaysCheckList extends Component {
   }
 }
 
-export default DaysCheckList;
+export default AdminDaysCheckList;
