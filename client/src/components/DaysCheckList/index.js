@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import DayList from '../DayList';
 import './DaysCheckList.css';
-import StudentSideMenu from '../StudentSideMenu';
 
 class DaysCheckList extends Component {
   constructor(props) {
@@ -20,7 +19,6 @@ class DaysCheckList extends Component {
     const { day, meal } = onDay;
     return (
       <>
-        <StudentSideMenu />
         <Link to={`/${day}`} className="check-list">
           <div className="content__check-list">
             <span>
