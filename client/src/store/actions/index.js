@@ -158,7 +158,7 @@ export function getAttendenceAction() {
   return async (dispatch, getState) => {
     const userId = getState().currentUser._id
     const AttendanceData = await fetch(`${util.baseURL}/student/${userId}/attendance`, {
-      method: "GET",
+      method: 'GET',
       headers: {
         "authorization": localStorage.getItem('hungerNamesJWT'),
         "Content-Type": "application/json"
@@ -170,3 +170,27 @@ export function getAttendenceAction() {
     });
   }
 }
+
+export function getAllFeedback() {
+  return async (dispatch) => {
+    const feedbackFetch = await fetch(`http://localhost:8000/api/v1/student/feedback`,{
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': localStorage.getItem('hungernamesJWT')
+      },
+    }).then(res => res.json());
+    
+    const feedback = feedbackFetch.feedback.reduce((acc,curr) => {
+      acc[curr.date] = feedbackFetch.feedback.filter((val) => val.date === curr.date);
+      return acc;
+    } , {});
+      
+    dispatch({
+        type: 'GET_ALL_FEEDBACK',
+        feedback
+      })
+    }    
+  }
+
+

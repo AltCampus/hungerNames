@@ -5,7 +5,7 @@ import '../DaysCheckList/DaysCheckList.css';
 import AdminSideMenu from '../AdminSideMenu';
 
 
-class DaysCheckList extends Component {
+class AdminDaysCheckList extends Component {
     constructor(props){
       super(props);
       this.state ={
@@ -69,4 +69,4 @@ class DaysCheckList extends Component {
   }
 }
 
-export default DaysCheckList;
+export default AdminDaysCheckList;

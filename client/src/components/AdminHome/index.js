@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Switch, Route } from 'react-router';
+import { Link, Route } from 'react-router-dom';
+import { Switch } from 'react-router';
 import NewInvite from '../NewInvite';
 import AdminMenu from '../AdminMenu';
 import './AdminHome.css';

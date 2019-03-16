@@ -1,15 +1,31 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import './FeedbackList.css'
+import { Link, Route } from 'react-router-dom';
+import './FeedbackList.css';
+import FeedbackDetail from '../FeedbackDetail';
 
 export default class FeedbackList extends Component {
   render() {
+    const { data } = this.props;
     return (
-      <Link to='/staff/feedback/:feedback_id' className='user-feedback unlink' render={() => {}}>
-        <p>User name</p>
-        <p>Item title</p>
-        <p>Rating in stars</p>
-      </Link>
+      <>
+        <Link to={{
+          pathname: '/staff/feedbacks/feedbacklist/feedbackdetail',
+          state: {
+            feedbackData: data
+          }
+        }}
+
+          className='user-feedback unlink' >
+        
+        <div>
+          <p>student: {data.name}</p>
+          <p>meal: {data.meal}</p>
+          <p>mealType: {data.mealType}</p>
+          <p>rating: {data.rating}</p>
+        </div>
+        
+        </Link>        
+      </>
     );
   }
 }

@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { getAllFeedback } from '../../store/actions/';
+import { connect } from 'react-redux';
 import MealCount from '../MealCount';
+import './StaffHome.css';
+import FeedbackListView from '../FeedbackListView';
+import Feedbacks from '../Feedbacks'
 import './StaffHome.css'
 import StaffSideMenu from '../StaffSideMenu';
 
@@ -9,7 +14,11 @@ class StaffHome extends Component {
     super(props);
     this.meals = ['Breakfast', 'Lunch', 'Dinner'];
   }
+  componentDidMount = () => {
+    this.props.dispatch(getAllFeedback())
+  }
   render() {
+    const { feedbacks } = this.props;
     return(
       <>
         <StaffSideMenu />
@@ -46,4 +55,4 @@ class StaffHome extends Component {
   }
 }
 
-export default StaffHome;
+export default connect()(StaffHome);

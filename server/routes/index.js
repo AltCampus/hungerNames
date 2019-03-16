@@ -28,7 +28,7 @@ router.get('/student/:id', (req, res) => {
   res.render('index');
 })
 
-router.get('/student/feedbacks/:id', (req, res) => {
+router.get('/student/:id/feedback', (req, res) => {
   res.render('index');
 })
 
