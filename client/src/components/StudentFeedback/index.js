@@ -118,7 +118,7 @@ class StudentFeedback extends Component {
             <div className="submit-wrapper">
               <button name="submit" value="submit">
                 Submit
-                <i />
+                {/* <i /> */}
               </button>
             </div>
           </form>
@@ -144,7 +144,7 @@ function preTwoDate(preDate) {
     mm = `0${mm}`;
   }
   preDate = `${yy}-${mm}-${dd}`;
-  return new Date(preDate);
+  return preDate;
 }
 
 export default connect()(StudentFeedback);
