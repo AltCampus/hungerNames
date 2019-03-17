@@ -22,7 +22,7 @@ class ToggleOpen extends Component {
               <Link className="links" to={`/notification`}>Notifications</Link>
             </div>
             <div className="feedback-link-wrapper">
-              <Link className="links" to={`/student/feedbacks/:id`}>Feedback</Link>
+              <Link className="links" to={`/student/feedbacks`}>Feedback</Link>
             </div>
             <div className="logout-link-wrapper">
               <Link className="links" to={`/student/:id/logout`}>Log out</Link>

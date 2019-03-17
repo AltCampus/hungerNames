@@ -21,7 +21,7 @@ router.post('/invite', adminController.inviteStudent);
 
 // removed router auth middleware for getting list of students
 router.get('/', adminController.getStudent);
-router.delete('/:id', isUser.isLoggedIn, adminController.removeStudent);
+router.delete('/:id/delete', adminController.removeStudent);
 
 //staff handle student route
 router.get('/attendees', staffController.getAllStudentAttendance);

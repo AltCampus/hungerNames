@@ -36,7 +36,7 @@ const Main = () => {
             <Route path='/login' component={ Login } />            
             <Route exact path='/student' component={ StudentHome } />
             <Route exact path='/student/:day' component={ DayList } />
-            <Route exact path='/student/feedbacks/' component={ StudentFeedback } />
+            <Route exact path='/student/feedbacks' component={ StudentFeedback } />
             <Route exact path='/staff' component={ StaffHome } />
             <Route exact path='/staff/feedbacks' component={ FeedbackListView } />
             <Route exact path='/staff/remark' component={ StaffRemarkForm } />

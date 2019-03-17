@@ -229,4 +229,18 @@ export function verifyTokenAction(token) {
     }    
   }
 
-
+// removing a particular user from db
+export function removeStudent(id) {
+  return async dispatch => {
+    await fetch(`${util.baseURL}/student/${id}/delete`, {
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+    .then(res => res.json())
+    .then(users => {
+      console.log(users, 'inside remove student/action');
+    })
+  }
+}

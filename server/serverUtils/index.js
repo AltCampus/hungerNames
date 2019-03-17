@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken');
 
 // DATE UTILS
 const isValidDate = (date) => {
