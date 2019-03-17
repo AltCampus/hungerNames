@@ -17,6 +17,7 @@ import StaffSideMenu from './StaffSideMenu';
 import AdminMenu from './AdminMenu';
 import NewInvite from './NewInvite';
 import './Main.css';
+import ListStudentsAdmin from './ListStudentsAdmin';
 
 const Main = (props) => {
   return (
@@ -47,7 +48,7 @@ const Main = (props) => {
             <Route exact path='/:day' component={ DayList } />
             {/* checking staff and admin side menu for tesing purpose */}
             <Route exact path='/admin/sidemenu' component={ AdminSideMenu } />
-            <Route exact path='/staff/sidemenu' component={ StaffSideMenu } />            
+            <Route exact path='/staff/sidemenu' component={ StaffSideMenu } />           <Route exact path='/admin/getallstudentslist' component={ ListStudentsAdmin } />
           </Switch>
         </>
       </BrowserRouter>

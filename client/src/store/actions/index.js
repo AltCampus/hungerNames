@@ -193,4 +193,16 @@ export function getAllFeedback() {
     }    
   }
 
-
+// fetching all student list from db
+export function getallstudentslist() {
+  return dispatch => {
+    fetch(`${util.baseURL}/student`)
+    .then(res => res.json())
+    .then(students => {
+      dispatch({
+        students: students.user,
+        type: "GET_ALL_STUDENTS_LIST"
+      })
+    })
+  }
+}

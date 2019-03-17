@@ -54,4 +54,9 @@ router.get('/staff/sidemenu', (req, res) => {
   res.render('index');
 })
 
+// getting all lists of students
+router.get('/admin/getallstudentslist', (req, res) => {
+  res.render('index');
+})
+
 module.exports =router;

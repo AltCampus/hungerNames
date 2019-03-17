@@ -4,7 +4,8 @@ const INIT_STATE = {
   menu: {},
   userFeedback: [],
   userAttendance: [],
-  allUserFeedback: []
+  allUserFeedback: [],
+  listAllStudents: []
 };
 
 export default function rootReducer(state = INIT_STATE, action) {
@@ -45,6 +46,13 @@ export default function rootReducer(state = INIT_STATE, action) {
         ...state,
         allUserFeedback: action.feedback
       }
+
+    case 'GET_ALL_STUDENTS_LIST': {
+      return {
+        ...state,
+        listAllStudents: action.students
+      }
+    }
 
     default:
       return state;
