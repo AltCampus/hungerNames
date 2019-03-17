@@ -21,13 +21,13 @@ import { util } from "../../util";
 //   };
 // };
 
-export function loginUserAction(data) {
+export function loginUserAction(data, cb) {
   return (dispatch) => {
-    console.log(data, 'inAction');
     fetch(`${util.baseURL}/login`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
       },
       body: JSON.stringify(data)
     })
@@ -41,7 +41,11 @@ export function loginUserAction(data) {
             type: "LOGIN_USER",
             user: data.user,
             token: token,
+            authenticated: true
           });
+          cb(true);
+        } else if (data.error) {
+          cb(false);
         }
       });
   };

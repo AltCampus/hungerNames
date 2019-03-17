@@ -19,10 +19,13 @@ class ToggleOpen extends Component {
           </div>
           <div className="link_wrapper">
             <div className="menu-link-wrapper">
-              <Link className="links" to={`/notification`}>Notifications</Link>
+              <Link className="links" to={`/notification`}>Meal Attendees</Link>
             </div>
             <div className="feedback-link-wrapper">
-              <Link className="links" to={`/student/feedbacks/:id`}>Feedback</Link>
+              <Link className="links" to={`/student/feedbacks/:id`}>Send Feedback</Link>
+            </div>
+            <div className="feedback-link-wrapper">
+              <Link className="links" to={`/student/feedback/`}>My Feedbacks</Link>
             </div>
             <div className="logout-link-wrapper">
               <Link className="links" to={`/student/:id/logout`}>Log out</Link>

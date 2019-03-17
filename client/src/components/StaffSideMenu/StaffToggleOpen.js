@@ -19,7 +19,7 @@ class StaffToggleOpen extends Component {
           </div>
           <div className="link_wrapper">
             <div className="menu-link-wrapper">
-              <Link className="links" to={`/notification`}>Notifications</Link>
+              <Link className="links" to={`/staff/remark`}>Send Remark</Link>
             </div>
             <div className="logout-link-wrapper">
               <Link className="links" to={`/admin/logout`}>Log out</Link>

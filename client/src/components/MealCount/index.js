@@ -7,7 +7,7 @@ class MealCount extends Component {
     const { meal, count, currentStatus } = this.props;
     return (
       <>
-        <StaffSideMenu />
+        {/* <StaffSideMenu /> */}
         <div className="meal-box">
           <p className={`meal-type ${currentStatus}`}>{ meal }</p>
           <span className="head-count">{ count }</span>

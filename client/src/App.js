@@ -30,8 +30,7 @@ class App extends Component {
   }
 }
 
-const mapStatetoProps = (state) => {
-  console.log(state);
+const mapStatetoProps = (state) => {  
   return {
     redux: state,
     token: state.currentToken,

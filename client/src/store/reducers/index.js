@@ -1,6 +1,7 @@
 const INIT_STATE = {
   currentUser: null,
   currentToken: localStorage.getItem('hungerNamesJWT') || null,
+  isAuthenticated: false,
   menu: {},
   userFeedback: [],
   userAttendance: [],
@@ -27,11 +28,6 @@ const INIT_STATE = {
 
 // verifyTokenAction(INIT_STATE.currentToken)
 
-
-
-
-
-
 export default function rootReducer(state = INIT_STATE, action) {
   switch (action.type) {
     // case value:
@@ -40,6 +36,7 @@ export default function rootReducer(state = INIT_STATE, action) {
         ...state,
         currentUser: action.user,
         currentToken: action.token,
+        isAuthenticated: action.authenticated
       }
     case 'LOGOUT_USER':
       return {

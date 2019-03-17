@@ -4,6 +4,8 @@ import { util } from '../../util'
 import { loginUserAction } from '../../store/actions'
 import './Login.css';
 
+
+
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -17,13 +19,26 @@ class Login extends Component {
     this.setState({ [e.target.name]: e.target.value })
   }
   handleSubmit = (e) => {
+    const { dispatch, user } = this.props;
     let { email, password } = this.state;
     email = email.trim();
     if (!util.ValidateEmail(email)) return;
     const data = {
       email, password
     }
-    this.props.dispatch(loginUserAction(data));
+    dispatch(loginUserAction(data, (isLoggedIn) => {      
+      if(isLoggedIn) {
+        if(user.isAdmin !== 'undefined' && user.isAdmin) {
+          this.props.history.push('/admin');
+        } else if (user.isKitchenStaff !== 'undefined' && user.isKitchenStaff) {
+          this.props.history.push('/staff');
+        } else {
+          this.props.history.push('/student');
+        }
+      } else {
+          this.props.history.push('/login');
+      }
+    } ));
   }
 
   render() {
@@ -44,4 +59,10 @@ class Login extends Component {
   }
 }
 
-export default connect()(Login);
+const mapStateToProps = (state) => {  
+  return {
+    user: state.currentUser
+  };
+}
+
+export default connect(mapStateToProps)(Login);

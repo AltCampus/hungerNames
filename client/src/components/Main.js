@@ -33,7 +33,7 @@ const Main = () => {
             <Route path='/login' component={ Login } />            
             <Route exact path='/student' component={ StudentHome } />
             <Route exact path='/student/:day' component={ DayList } />
-            <Route exact path='/student/feedbacks/' component={ StudentFeedback } />
+            <Route exact path='/student/feedbacks/:id' component={ StudentFeedback } />
             <Route exact path='/staff' component={ StaffHome } />
             <Route exact path='/staff/feedbacks' component={ FeedbackListView } />
             <Route exact path='/staff/remark' component={ StaffRemarkForm } />
@@ -42,6 +42,7 @@ const Main = () => {
             <Route exact path='/staff/feedbacks/feedbacklist/feedbackdetail' component={ FeedbackDetail } />
             <Route exact path='/admin' component={ AdminHome } />
             <Route exact path='/admin/invite' component={ NewInvite } />
+            <Route exact path='/admin/menu' component={ AdminMenu } />
             <Route exact path='/admin/menu/:day' component={ AdminDayList } />
             
             {/* checking staff and admin side menu for tesing purpose */}
