@@ -1,17 +1,28 @@
 import React, { Component } from 'react';
 import './App.scss';
-import {verifyTokenAction} from './store/actions'
+import { verifyTokenAction } from './store/actions'
+import { connect } from 'react-redux'
 import Main from './components/Main';
 
 class App extends Component {
-  componentDidMount(){
-    const {token,user} = this.props;
-    if(!user && token){
+  constructor(props) {
+    super(props);
+  }
+  runVerify() {
+    const { token, user } = this.props;
+    console.log("inverify didmount", user, token, this.props)
+    if (!user && token) {
+      console.log("inverify didmount if")
       this.props.dispatch(verifyTokenAction(token))
     }
   }
   render() {
+    const { token, user } = this.props;
+    console.log("inverify render", user, token, this.props)
+
+    if (!user && token) this.runVerify();
     return (
+
       <div className="App">
         <Main />
       </div>
@@ -19,11 +30,13 @@ class App extends Component {
   }
 }
 
-const mapStatetoProps = (state) =>{
-  return{
-    token:state.currenToken,
-    user:state.currentUser
-  }
+const mapStatetoProps = (state) => {
+  console.log(state);
+  return {
+    redux: state,
+    token: state.currentToken,
+    user: state.currentUser
+  };
 }
 
-export default connect()(App);
+export default connect(mapStatetoProps)(App);

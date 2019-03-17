@@ -41,20 +41,21 @@ module.exports = {
     });
   },
 
-  verifyUser: (req, res, next) => {
+  verifyUser: async (req, res, next) => {
     const oldToken = req.headers['authorization'];
     if (!oldToken) return res.json({ message: 'unAuthorized Student' });
     const headerToken = oldToken.split(' ')[1];
-    const user = serverUtils.getUserFromToken(headerToken);
-    if (err) return res.json({ error: 'not verified' })
+    const user = await serverUtils.getUserFromToken(headerToken)
+    console.log(user, oldToken, headerToken)
+    if (!user) return res.json({ error: 'not verified' })
     const token = jwt.sign({
-        user
-      }, 'secret');
-      res.json({
-        message: "successfully logged in",
-        token,
-        user
-      });
+      user
+    }, 'secret');
+    res.json({
+      message: "successfully logged in",
+      token,
+      user
+    });
   },
 
   loginUser: (req, res, next) => {
@@ -153,7 +154,7 @@ module.exports = {
   },
 
   verifyStudent: (req, res, next) => {
-    const ref  = req.query.ref
+    const ref = req.query.ref
     Invite.findOneAndUpdate(
       { refCode: ref },
       { $set: { isVerified: true } },
