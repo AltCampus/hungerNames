@@ -38,9 +38,8 @@ class NewInvite extends Component {
     return (
       <div className="invite-box">
         <label htmlFor="invite" className="label-box">
-          <span className="label-text">Send a new invite</span>
-          
-          <input onChange={this.handleChange} type="text" id="invite" name="invitemail" placeholder="Enter an email"/>
+          <span className="label-text">Send a new invite</span>          
+          <input onChange={this.handleChange} className="input-field" type="text" id="invite" name="invitemail" placeholder="Enter an email"/>
           <div>{this.state.message}</div>
           <button onClick={this.handleClick}>INVITE</button>
         </label>

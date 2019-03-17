@@ -19,7 +19,7 @@ const Main = () => {
       <BrowserRouter>
         <>
           <div className="logo-box">
-            <Link to="/" className="logo wrapper">Hunger<span className="sub-logo">names</span></Link>
+            <Link to="/" className="logo wrapper">Hogger<span className="sub-logo"></span></Link>
           </div>
 
           <div className="side-menu">

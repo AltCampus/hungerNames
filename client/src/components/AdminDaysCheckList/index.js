@@ -2,10 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import '../DaysCheckList/DaysCheckList.css';
 import AdminSideMenu from '../AdminSideMenu';
-
-
 class DaysCheckList extends Component {
-
   render() {
     const { day, meal } = this.props.onDay;
     return (
