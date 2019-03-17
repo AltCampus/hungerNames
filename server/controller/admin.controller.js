@@ -49,8 +49,8 @@ module.exports = {
           refCode: refCode
         });
         newInvite.save(err => {
-          if (!err) res.json({ message: `Message sent to ${mailOptions.to}` })
-          res.json({
+          if (!err) return res.json({ message: `Message sent to ${mailOptions.to}` })
+          return res.json({
             message: 'succesfully sent '
           })
         });
