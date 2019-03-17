@@ -18,13 +18,11 @@ class Register extends Component {
   }
 
   componentDidMount = () => {
-    const query = this.props.location.search;
-    console.log("did mount", `${util.baseURL}/student/verify${query}`);
+    const query = this.props.location.search;    
     fetch(`${util.baseURL}/student/verify${query}`)
       .then(res => res.json())
       .then(data => {
-        // if(!data.error){
-        console.log(data);
+        // if(!data.error){        
         this.setState({
           email: data.emailId,
           refCode: data.refCode
@@ -39,11 +37,8 @@ class Register extends Component {
       alert("both password & confirm Password should be same")
       return;
     }
-    const data = { email, password, name, refCode };
-    console.log(data, "reg front");
+    const data = { email, password, name, refCode };    
     this.props.dispatch(registerUserAction(data, (isRegistered) => {
-      console.log(isRegistered, "hello callback");
-
       if (isRegistered) this.props.history.push('/login');
     }))
   }

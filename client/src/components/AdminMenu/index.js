@@ -26,7 +26,7 @@ class AdminMenu extends Component {
 
   render() {
     const { menu } = this.props;
-    // console.log('m');    
+    
     return (
       <>
         <AdminSideMenu />

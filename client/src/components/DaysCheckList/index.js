@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import DayList from '../DayList';
 import './DaysCheckList.css';
 
 class DaysCheckList extends Component {
@@ -17,6 +16,7 @@ class DaysCheckList extends Component {
   render() {
     const { attendance, onDay } = this.props;
     const { day, meal } = onDay;
+    console.log(day);
     return (
       <>
         <div className="check-list">
@@ -28,31 +28,33 @@ class DaysCheckList extends Component {
                 {/* <i className="fas fa-circle"></i> */}
               </div>
             </span>
-            <Link to={`/${day}`} className="day-mark unlink content-justify">
+
+            <Link to={`/student/${day}`} className="day-mark unlink content-justify">
               <div >
-                <p className="day-name">{ day }</p>
+                <p className='day-name'>{ day }</p>
                 <div className="meal-types">
                 {(day === 'Sunday') ?
                   (
                     <div className="brunch">
                       <span className="meal">Brunch: </span>
-                      <span>{meal.brunch ? meal.brunch.title : ''}</span>
+                      <span>{ meal.brunch ?  meal.brunch.title : '' }</span>
                     </div>
                   ) :
-                  (<>
+                  ( <>
                     <div className="breakfast">
                       <span className="meal">Breakfast: </span>
-                      <span>{meal.breakfast ? meal.breakfast.title : ''} </span>
+                      <span>{ meal.breakfast ?  meal.breakfast.title : '' } </span>
                     </div>
                     <div className="lunch">
                       <span className="meal">Lunch: </span>
-                      <span>{meal.lunch ? meal.lunch.title : ''}</span>
+                      <span>{ meal.lunch ?  meal.lunch.title : '' }</span>
                     </div>
                   </>
-                  )}
-                <div className="dinner">
-                  <span className="meal">Dinner: </span>
-                  <span>{meal.dinner ? meal.dinner.title : ''}</span>
+                )}
+                  <div className="dinner">
+                    <span className="meal">Dinner: </span>
+                    <span>{ meal.dinner ?  meal.dinner.title : '' }</span>
+                  </div>                          
                 </div>
               </div>
               </div>
