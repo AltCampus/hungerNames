@@ -21,13 +21,13 @@ import { util } from "../../util";
 //   };
 // };
 
-export function loginUserAction(data) {
+export function loginUserAction(data, cb) {
   return (dispatch) => {
-    console.log(data, 'inAction');
     fetch(`${util.baseURL}/login`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
       },
       body: JSON.stringify(data)
     })
@@ -39,9 +39,13 @@ export function loginUserAction(data) {
           localStorage.setItem('hungerNamesJWT', token) //will modify acc to server
           dispatch({
             type: "LOGIN_USER",
-            data: data.user,
+            user: data.user,
             token: token,
+            authenticated: true
           });
+          cb(true);
+        } else if (data.error) {
+          cb(false);
         }
       });
   };
@@ -56,7 +60,7 @@ export function logoutUserAction(data) {
   };
 };
 export function registerUserAction(data, cb) {
-  return dispatch => {
+  return (dispatch) => {
     fetch(`${util.baseURL}/student/register`, {
       method: "POST",
       headers: {
@@ -98,7 +102,7 @@ export function getMenu() {
 
 export function updateMenu(menu, cb) {
   return async (dispatch) => {
-    const updatedMenu = await fetch('http://localhost:8000/api/v1/admin/menu', {
+    const updatedMenu = await fetch(`${util.baseURL}/admin/menu`, {
       method: "PUT",
       headers: {
         "authorization": localStorage.getItem('hungerNamesJWT'),
@@ -122,7 +126,7 @@ export function updateMenu(menu, cb) {
 
 export function getStudentFeedback(id, cb) {
   return dispatch => {
-    fetch(`http://localhost:8000/api/v1/student/${id}/feedback`)
+    fetch(`${util.baseURL}/student/${id}/feedback`)
       .then(res => res.json())
       .then(data => {
         console.log(data, 'inside getStudentFeedback');
@@ -135,11 +139,30 @@ export function getStudentFeedback(id, cb) {
   }
 }
 
+export function postStudentFeedback(data, cb) {
+  let id = '5c8894dbf2ad3e1b1f7f1c95'
+  return dispatch => {
+    fetch(`${util.baseURL}/student/${id}/feedback`, {
+      method: 'POST',
+      headers: {
+        "Content-Type": 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (!data.error) {
+          cb(true)
+        } else cb(false)
+      })
+  }
+}
+
 export function getAttendenceAction() {
   return async (dispatch, getState) => {
     const userId = getState().currentUser._id
     const AttendanceData = await fetch(`${util.baseURL}/student/${userId}/attendance`, {
-      method: "GET",
+      method: 'GET',
       headers: {
         "authorization": localStorage.getItem('hungerNamesJWT'),
         "Content-Type": "application/json"
@@ -151,3 +174,53 @@ export function getAttendenceAction() {
     });
   }
 }
+
+export function getAllFeedback() {
+  return async (dispatch) => {
+    const feedbackFetch = await fetch(`http://localhost:8000/api/v1/student/feedback`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': localStorage.getItem('hungernamesJWT')
+      },
+    }).then(res => res.json());
+
+    const feedback = feedbackFetch.feedback.reduce((acc, curr) => {
+      acc[curr.date] = feedbackFetch.feedback.filter((val) => val.date === curr.date);
+      return acc;
+    }, {});
+
+    dispatch({
+      type: 'GET_ALL_FEEDBACK',
+      feedback
+    })
+  }
+}
+
+export function verifyTokenAction(token) {
+  return async (dispatch) => {
+    console.log("inAction 1")
+
+    const verifyedUser = await fetch(`http://localhost:8000/api/v1/verify`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': token
+      },
+    }).then(res => res.json());
+    console.log("inAction 2.2", verifyedUser)
+
+    if (!verifyedUser.error) {
+      console.log(verifyedUser, "inAction 2")
+      let token = `Hungry ${verifyedUser.token}`;
+      localStorage.setItem('hungerNamesJWT', token) //will modify acc to server
+      dispatch({
+        type: "LOGIN_USER",
+        user: verifyedUser.user,
+        token: token,
+      });
+    }
+  }
+}
+
+

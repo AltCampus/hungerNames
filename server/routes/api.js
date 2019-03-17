@@ -11,6 +11,7 @@ router.get('/', (req, res) => {
 
 
 router.post('/login', userController.loginUser);
+router.get('/verify', userController.verifyUser);
 
 router.use('/student', require('./student'));
 router.use('/staff', require('./staff'));
@@ -22,9 +23,9 @@ router.use('/admin', require('./admin'));
 //   bootStrapped.createMenu()
 // });
 
-// router.get('/createbufferboot', (req, res) => {
-//   bootStrapped.createBuffer();
-// });
+router.get('/createbufferboot', (req, res) => {
+  bootStrapped.createBuffer(10);
+});
 
 
 module.exports = router;

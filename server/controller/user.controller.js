@@ -17,9 +17,7 @@ module.exports = {
   },
 
   registerStudent: (req, res, next) => {
-
     const { email, password, name, refCode } = req.body;
-
     Invite.findOne({ refCode: refCode }, (err, user) => {
       if (err) res.json({ message: "not verified" });
       if (user.isVerified) {
@@ -28,16 +26,11 @@ module.exports = {
           email,
           password
         });
-
-        // console.log(name,email)
-
         newStudent.save((err, user) => {
-
           if (err || !user) {
             return res.status(401).json({
               error: "user is not found"
             });
-
           }
           res.json({
             message: "registered",
@@ -48,18 +41,32 @@ module.exports = {
     });
   },
 
+  verifyUser: async (req, res, next) => {
+    const oldToken = req.headers['authorization'];
+    if (!oldToken) return res.json({ message: 'unAuthorized Student' });
+    const headerToken = oldToken.split(' ')[1];
+    const user = await serverUtils.getUserFromToken(headerToken)
+    console.log(user, oldToken, headerToken)
+    if (!user) return res.json({ error: 'not verified' })
+    const token = jwt.sign({
+      user
+    }, 'secret');
+    res.json({
+      message: "successfully logged in",
+      token,
+      user
+    });
+  },
+
   loginUser: (req, res, next) => {
-    console.log("here ", req.body);
     passport.authenticate('local', {
       session: false
     }, (err, data, info) => {
-      console.log(err, data, info, "pass");
       const user = serverUtils.cleanUser(data);
       if (err) return res.json({ error: 'not verified' })
       const token = jwt.sign({
         user
       }, 'secret');
-      console.log('sending token');
       res.json({
         message: "successfully logged in",
         token,
@@ -100,7 +107,7 @@ module.exports = {
     });
   },
 
-  postFeedback: (req, res, next) => {
+  postFeedbackStudent: (req, res, next) => {
     const studentId = req.params.id;
     const feedbackBody = req.body;
     const feedBack = new FeedBack({
@@ -146,75 +153,20 @@ module.exports = {
       });
   },
 
-  inviteStudent: (req, res, next) => {
-    // smtpTransport initialization
-    const smtpTransport = nodemailer.createTransport({
-      service: "Gmail",
-      auth: {
-        user: 'food.altcampus@gmail.com',
-        pass: 'Altcampus@2018'
-      }
-    });
-
-    let rand, mailOptions, host, link;
-    // generate random ref code
-    function randomN(v) {
-      let rand = [];
-      let alphaNum = 'abcdefghijklmnopqrstuvwxyz0123456789';
-      for (let i = 0; i < v; i++) {
-        let random = Math.floor(Math.random() * 36);
-        rand.push(alphaNum[random])
-      }
-      return rand.join('');
-    }
-    // it'll provide your localhost or network address
-    host = req.get("host");
-    let refCode;
-
-    // while(!flag){
-    refCode = randomN(6);
-    link = `http://${host}/register?ref=${refCode}`;
-    const email = req.body.email;
-    mailOptions = {
-      to: email,
-      subject: "Verify your email",
-      html: `Hello, <br>Please click on <a href='${link}'>click here</a> to verify your email.`
-    };
-    // send mail with defined transport object(mailOptions)
-    smtpTransport.sendMail(mailOptions, (err, info) => {
-      if (err) return res.status(406).json({ error: "Message could not send" });
-      else {
-        const newInvite = new Invite({
-          emailId: email,
-          refCode
-        });
-        newInvite.save(err => {
-          if (!err) res.json({ message: `Message sent to ${mailOptions.to}` });
-        });
-      }
-    });
-  },
-
   verifyStudent: (req, res, next) => {
-    console.log(req.query.ref)
-    const { ref } = req.query;
-    // if (`${req.protocol}://${req.get("host")}` == `http://${host}`) {
+    const ref = req.query.ref
     Invite.findOneAndUpdate(
       { refCode: ref },
       { $set: { isVerified: true } },
       (err, code) => {
-        console.log(code);
         if (err) res.json({ msg: `you're link is expired` });
         res.json({
-          emailId: code.emailId || "",
-          refCode: code.refCode || "",
-          // msg: `Email ${mailOptions.to} is successfully verified.`
+          emailId: code.emailId,
+          refCode: code.refCode
         });
       }
     );
   },
-  // }
-  //Attendance Controller for user
 
   getUserAttendence: (req, res) => {
     const token = req.headers['authorization'];

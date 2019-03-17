@@ -1,54 +1,137 @@
-import React, { Component } from 'react';
-import './StudentFeedback.scss';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import "./StudentFeedback.scss";
+import StarRatings from "react-star-ratings";
+import "../DayList/DayList.css";
+import { postStudentFeedback } from "../../store/actions";
+import Loaders from "../Loader/index";
+import StudentSideMenu from "../StudentSideMenu";
 
 class StudentFeedback extends Component {
-  state = {
-    rating: 1,
-    newDate: new Date()
+  constructor(props) {
+    super(props);
+    this.state = {
+      rating: 1,
+      mealType: "",
+      date: "",
+      newDate: new Date(),
+      review: "",
+      meal: "",
+      isLoading: false
+    };
   }
-  handleRating = (e) => {
+
+  handleRating = e => {
     this.setState({
-      rating: e.target.value
-    })
-  }
+      rating: e
+    });
+  };
+
+  handleChange = event => {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+  };
+
+  handleSubmit = event => {
+    event.preventDefault();
+    const { meal, mealType, review, rating, date } = this.state;
+    // if (!meal && mealType && review && rating && date) {
+    //   alert('please fill all content before submiting')
+    //   return;
+    // }
+    const data = { meal, mealType, review, rating, date };
+    this.props.dispatch(
+      postStudentFeedback(data, cb => {
+        if (!cb) {
+          this.setState({
+            isLoading: true
+          });
+        }
+      })
+    );
+  };
+
   render() {
-    const { newDate } = this.state;
+    const { isLoading } = this.state;
     return (
-      <div className="studentFeedback-wrapper">
-        <div className="calender-wrapper">
-          <input type="date" name="date" id="" min={preTwoDate(this.state.newDate)} max={date(this.state.newDate)} />
+      <>
+        {isLoading ? <Loaders /> : ""}
+        <StudentSideMenu />
+        <div className="studentFeedback-wrapper">
+          <form className="mealtype-wrapper" onSubmit={this.handleSubmit}>
+            <div className="calender-wrapper">
+              <input
+                value={this.state.date}
+                type="date"
+                name="date"
+                id=""
+                onChange={this.handleChange}
+                min={preTwoDate(this.state.newDate)}
+                max={date(this.state.newDate)}
+              />
+            </div>
+            <select name="mealType" id="" onChange={this.handleChange}>
+              <option name="select" value={this.state.mealType}>
+                select
+              </option>
+              <option name="brunch" value="brunch">
+                Brunch
+              </option>
+              <option name="breakfast" value="breakfast">
+                Breakfast
+              </option>
+              <option name="lunch" value="lunch">
+                Lunch
+              </option>
+              <option name="dinner" value="dinner">
+                Dinner
+              </option>
+            </select>
+            <div className="review-wrapper">
+              <input
+                type="text"
+                name="meal"
+                id=""
+                value={this.state.meal}
+                onChange={this.handleChange}
+                placeholder=" Meal "
+              />
+            </div>
+            <StarRatings
+              starDimension="30px"
+              starSpacing="10px"
+              rating={this.state.rating}
+              starRatedColor="yellow"
+              changeRating={e => this.handleRating(e)}
+              numberOfStars={5}
+              name="rating"
+            />
+            <div className="review-wrapper">
+              <input
+                type="text"
+                name="review"
+                id=""
+                value={this.state.review}
+                onChange={this.handleChange}
+                placeholder="write review here..."
+              />
+            </div>
+            <div className="submit-wrapper">
+              <button name="submit" value="submit">
+                Submit
+                {/* <i /> */}
+              </button>
+            </div>
+          </form>
         </div>
-        <div className="mealtype-wrapper">
-          <select name="" id="">
-            <option name="select" value="">select</option>
-            <option name="brunch" value="">Brunch</option>
-            <option name="breakfast" value="">Breakfast</option>
-            <option name="lunch" value="">Lunch</option>
-            <option name="dinner" value="">Dinner</option>
-          </select>
-        </div>
-        {/* <div className="item">
-          <input type="text" name="item" id="" placeholder="write meal name here... " />
-        </div> */}
-        <div className="slidecontainer">
-          <input type="range" min="1" max="10" value={this.state.rating} className="slider" id="myRange" onChange={this.handleRating} />
-          <p>Rating: <span id="demo">{this.state.rating}</span></p>
-        </div>
-        <div className="review-wrapper">
-          <input type="text" name="review" id="" placeholder="write review here..." />
-        </div>
-        <div className="submit-wrapper">
-          <button>Submit
-            <i></i>
-          </button>
-        </div>
-      </div>
-    )
+      </>
+    );
   }
 }
 
 function date(today) {
-  today = today.toISOString().split('T')[0]
+  today = today.toISOString().split("T")[0];
   return today;
 }
 
@@ -66,4 +149,4 @@ function preTwoDate(preDate) {
   return preDate;
 }
 
-export default StudentFeedback;
+export default connect()(StudentFeedback);
