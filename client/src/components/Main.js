@@ -13,9 +13,6 @@ import StudentList from './StudentList';
 import './Main.css';
 import FeedbackListView from './FeedbackListView';
 import StaffRemarkForm from './StaffRemarkForm';
-import StudentSideMenu from './StudentSideMenu';
-import AdminSideMenu from './AdminSideMenu';
-import StaffSideMenu from './StaffSideMenu';
 
 const Main = () => {
   return (    
@@ -32,19 +29,16 @@ const Main = () => {
             <Route path='/register' component={ Register } />
             <Route path='/login' component={ Login } />
             <Route exact path='/staff' component={ StaffHome } />
+            <Route exact path='/student' component={ StudentHome } />            
+            <Route exact path='/student/:day' component={ DayList } />
+            <Route exact path='/student/feedbacks/:id' component={ StudentFeedback } />
             <Route exact path='/staff/feedbacks' component={ FeedbackListView } />
-            <Route exact path='/staff/remark' component={ StaffRemarkForm } />
-            <Route exact path='/staff/feedbacks/feedbacklist/:id' component={ Feedbacks } />            
-            <Route exact path='/' component={ StudentHome } />
-            <Route exact path='/admin/menu/:day' component={ AdminDayList } />
-            <Route exact path='/admin' component={ AdminHome } />
+            <Route exact path='/staff/remark' component={ StaffRemarkForm } />            
             <Route exact path='/staff/list/:meal' component={ StudentList } />
-            <Route exact path='/student/:id' component={ StudentSideMenu } />
-            <Route path='/student/feedbacks/:id' component={ StudentFeedback } />
-            <Route exact path='/:day' component={ DayList } />
+            <Route exact path='/staff/feedbacks/feedbacklist/:id' component={ Feedbacks } />            
+            <Route exact path='/admin' component={ AdminHome } />
+            <Route exact path='/admin/menu/:day' component={ AdminDayList } />            
             {/* checking staff and admin side menu for tesing purpose */}
-            <Route exact path='/admin/sidemenu' component={ AdminSideMenu } />
-            <Route exact path='/staff/sidemenu' component={ StaffSideMenu } />            
           </Switch>
         </>
       </BrowserRouter>

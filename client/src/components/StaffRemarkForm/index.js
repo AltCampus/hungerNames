@@ -8,9 +8,7 @@ class StaffRemarkForm extends Component {
       newDate: new Date(),
     }
   }
-  render() {
-    console.log(this.state);
-    console.log('kjjkh');
+  render() {    
     return (
       <>
         <form onSubmit=''>
