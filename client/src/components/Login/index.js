@@ -4,6 +4,8 @@ import { util } from '../../util'
 import { loginUserAction } from '../../store/actions'
 import './Login.css';
 
+
+
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -17,31 +19,50 @@ class Login extends Component {
     this.setState({ [e.target.name]: e.target.value })
   }
   handleSubmit = (e) => {
+    const { dispatch, user } = this.props;
     let { email, password } = this.state;
     email = email.trim();
     if (!util.ValidateEmail(email)) return;
     const data = {
       email, password
     }
-    this.props.dispatch(loginUserAction(data));
+    dispatch(loginUserAction(data, (isLoggedIn) => {      
+      if(isLoggedIn) {
+        if(user.isAdmin !== 'undefined' && user.isAdmin) {
+          this.props.history.push('/admin');
+        } else if (user.isKitchenStaff !== 'undefined' && user.isKitchenStaff) {
+          this.props.history.push('/staff');
+        } else {
+          this.props.history.push('/student');
+        }
+      } else {
+          this.props.history.push('/login');
+      }
+    } ));
   }
 
   render() {
     return (
-      <div className="form-page">
-        <h2 className="h2-title">Sign in</h2>
-        <label className="label-box" htmlFor="email">
-          <span className="label-text">Email</span>
-          <input onChange={this.handleChange} type="text" placeholder="Enter Email" id="email" name="email" value={this.state.email} />
+      <div className='form-page'>
+        <h2 className='h2-title'>Sign in</h2>
+        <label className='label-box' htmlFor="email">
+          <span className='label-text'>Email:</span>
+          <input onChange={this.handleChange} className="input-field" type="text" placeholder="Enter Email" id="email" name="email" value={this.state.email} />
         </label>
         <label className="label-box" htmlFor="password">
-          <span className="label-text">Password</span>
-          <input onChange={this.handleChange} type="password" placeholder="Enter Password" id="password" name="password" value={this.state.password} />
+          <span className="label-text">Password:</span>
+          <input onChange={this.handleChange} className="input-field" type="password" placeholder="Enter Password" id="password" name="password" value={this.state.password} />
         </label>
-        <input onClick={this.handleSubmit} type="submit" className="send-btn" value="LOGIN" />
+        <input onClick={this.handleSubmit} type="submit" className="send-btn form-btn" value="LOGIN" />
       </div>
     );
   }
 }
 
-export default connect()(Login);
+const mapStateToProps = (state) => {  
+  return {
+    user: state.currentUser
+  };
+}
+
+export default connect(mapStateToProps)(Login);

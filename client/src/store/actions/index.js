@@ -21,19 +21,18 @@ import { util } from "../../util";
 //   };
 // };
 
-export function loginUserAction(data) {
+export function loginUserAction(data, cb) {
   return (dispatch) => {
-    console.log(data, 'inAction');
     fetch(`${util.baseURL}/login`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
       },
       body: JSON.stringify(data)
     })
       .then(res => res.json())
       .then(data => {
-        console.log(data, 'login data');
         if (!data.error) {
           let token = `Hungry ${data.token}`;
           localStorage.setItem('hungerNamesJWT', token) //will modify acc to server
@@ -41,7 +40,11 @@ export function loginUserAction(data) {
             type: "LOGIN_USER",
             user: data.user,
             token: token,
+            authenticated: true
           });
+          cb(true);
+        } else if (data.error) {
+          cb(false);
         }
       });
   };
@@ -193,9 +196,22 @@ export function getAllFeedback() {
   }
 }
 
+// fetching all student list from db
+export function getallstudentslist() {
+  return dispatch => {
+    fetch(`${util.baseURL}/student`)
+    .then(res => res.json())
+    .then(students => {
+      dispatch({
+        students: students.user,
+        type: "GET_ALL_STUDENTS_LIST"
+      })
+    })
+  }
+}
+
 export function verifyTokenAction(token) {
   return async (dispatch) => {
-    console.log("inAction 1")
 
     const verifyedUser = await fetch(`http://localhost:8000/api/v1/verify`, {
       method: 'GET',
@@ -204,10 +220,8 @@ export function verifyTokenAction(token) {
         'authorization': token
       },
     }).then(res => res.json());
-    console.log("inAction 2.2", verifyedUser)
 
     if (!verifyedUser.error) {
-      console.log(verifyedUser, "inAction 2")
       let token = `Hungry ${verifyedUser.token}`;
       localStorage.setItem('hungerNamesJWT', token) //will modify acc to server
       dispatch({
@@ -219,4 +233,40 @@ export function verifyTokenAction(token) {
   }
 }
 
+export function verifyDataTokenAction(token) {
+  return async (dispatch) => {
+    const verifyedUser = await fetch(`http://localhost:8000/api/v1/verify`,{
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': token
+      },
+    }).then(res => res.json());
+    
+    if (!verifyedUser.error) {
+      let token = `Hungry ${data.token}`;
+      localStorage.setItem('hungerNamesJWT', token) //will modify acc to server
+      dispatch({
+        type: "LOGIN_USER",
+        user: data.user,
+        token: token,
+      });
+    }
+  }    
+}
 
+// removing a particular user from db
+export function removeStudent(id) {
+  return async dispatch => {
+    await fetch(`${util.baseURL}/student/${id}/delete`, {
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+    .then(res => res.json())
+    .then(users => {
+      console.log(users, 'inside remove student/action');
+    })
+  }
+}

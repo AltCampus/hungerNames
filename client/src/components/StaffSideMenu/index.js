@@ -29,7 +29,7 @@ class StaffSideMenu extends Component {
       <div className="feedback-wrapper">
         <div className="toggle-controller">
           {
-            isToggle ? <StaffToggleOpen handleToggleClose={ this.handleToggleClose } />
+            isToggle ? <StaffToggleOpen  handleToggleClose={ this.handleToggleClose } />
             :
             <div className="toggle-wrapper" onClick={ this.handleToggleOpen }>
               <div></div>

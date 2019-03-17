@@ -49,8 +49,8 @@ module.exports = {
           refCode: refCode
         });
         newInvite.save(err => {
-          if (!err) res.json({ message: `Message sent to ${mailOptions.to}` })
-          res.json({
+          if (!err) return res.json({ message: `Message sent to ${mailOptions.to}` })
+          return res.json({
             message: 'succesfully sent '
           })
         });
@@ -71,7 +71,7 @@ module.exports = {
       }
     }], (err, user) => {
       if (user.length === 0) return res.json({ message: 'no student found in database' })
-      if (err) return res.json({ message: 'coulnt fetch' });
+      if (err) return res.json({ error: "couldn't fetch" });
       res.json({
         user: user[0].students
       })

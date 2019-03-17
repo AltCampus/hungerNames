@@ -16,13 +16,16 @@ import FeedbackDetail from './FeedbackDetail';
 import AdminMenu from './AdminMenu';
 import NewInvite from './NewInvite';
 import './Main.css';
+import ListStudentsAdmin from './ListStudentsAdmin';
+import AdminSideMenu from './AdminSideMenu';
+import StaffSideMenu from './StaffSideMenu';
 
 const Main = () => {
   return (    
       <BrowserRouter>
         <>
           <div className="logo-box">
-            <Link to="/" className="logo wrapper">Hunger<span className="sub-logo">names</span></Link>
+            <Link to="/" className="logo wrapper">Hogger<span className="sub-logo"></span></Link>
           </div>
 
           <div className="side-menu">
@@ -33,7 +36,7 @@ const Main = () => {
             <Route path='/login' component={ Login } />            
             <Route exact path='/student' component={ StudentHome } />
             <Route exact path='/student/:day' component={ DayList } />
-            <Route exact path='/student/feedbacks/' component={ StudentFeedback } />
+            <Route exact path='/student/:id/feedback' component={ StudentFeedback } />
             <Route exact path='/staff' component={ StaffHome } />
             <Route exact path='/staff/feedbacks' component={ FeedbackListView } />
             <Route exact path='/staff/remark' component={ StaffRemarkForm } />
@@ -42,9 +45,13 @@ const Main = () => {
             <Route exact path='/staff/feedbacks/feedbacklist/feedbackdetail' component={ FeedbackDetail } />
             <Route exact path='/admin' component={ AdminHome } />
             <Route exact path='/admin/invite' component={ NewInvite } />
+            <Route exact path='/admin/menu' component={ AdminMenu } />
             <Route exact path='/admin/menu/:day' component={ AdminDayList } />
             
             {/* checking staff and admin side menu for tesing purpose */}
+            <Route exact path='/admin/sidemenu' component={ AdminSideMenu } />
+            <Route exact path='/staff/sidemenu' component={ StaffSideMenu } />           
+            <Route exact path='/admin/getallstudentslist' component={ ListStudentsAdmin } />
           </Switch>
         </>
       </BrowserRouter>
