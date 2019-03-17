@@ -1,13 +1,15 @@
 const express = require('express');
 const router = express.Router();
-
-router.get('/student', (err, res)=>{
+router.get('/', (err, res) => {
+  res.render('index');
+})
+router.get('/student', (err, res) => {
   res.render('index');
 });
-router.get('/register', (err, res)=>{
+router.get('/register', (err, res) => {
   res.render('index');
 });
-router.get('/login', (err, res)=>{
+router.get('/login', (err, res) => {
   res.render('index');
 });
 router.get('/student/:day', (err, res) => {
@@ -28,7 +30,7 @@ router.get('/student/:id', (req, res) => {
   res.render('index');
 })
 
-router.get('/student/feedbacks/:id', (req, res) => {
+router.get('/student/:id/feedback', (req, res) => {
   res.render('index');
 })
 
@@ -58,4 +60,4 @@ router.get('/staff/sidemenu', (req, res) => {
   res.render('index');
 })
 
-module.exports =router;
+module.exports = router;

@@ -111,20 +111,25 @@ function createMenu() {
 
 
 function createBuffer(n) {
+  console.log();
   const AttendanceBuffer = require("../model/attendanceBuffer");
   const Students = require('../model/Student')
 
   Students.find({ isAdmin: false, isKitchenStaff: false }, { _id: 1 }, (err, data) => {
     if (!err) {
+      console.log(data);
       var studentArr = data.reduce((acc, v) => {
         let newObj = {};
         newObj.student = v._id;
         acc.push(newObj);
         return acc;
       }, []);
+      console.log(studentArr, "studentArr in create buffer")
 
       //now do date loop and bootstrap attBuffer
       for (i = 0; i <= n; i++) {
+        console.log("inside loop")
+
         const newAttendanceBuffer = new AttendanceBuffer({
           date: serverUtil.dateManupulater(i),
           breakfast: {

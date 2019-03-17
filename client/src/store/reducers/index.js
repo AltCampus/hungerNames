@@ -4,7 +4,33 @@ const INIT_STATE = {
   menu: {},
   userFeedback: [],
   userAttendance: [],
+  allUserFeedback: []
 };
+
+// async function verifyTokenAction(token) {
+//   if (!token) return
+//   const verifyedUser = await fetch(`http://localhost:8000/api/v1/verify`, {
+//     method: 'GET',
+//     headers: {
+//       'Content-Type': 'application/json',
+//       'authorization': token
+//     },
+//   }).then(res => res.json());
+
+//   if (!verifyedUser.error) {
+//     let token = `Hungry ${data.token}`;
+//     localStorage.setItem('hungerNamesJWT', token) //will modify acc to server
+//     INIT_STATE.currentUser = verifyedUser.user;
+//     INIT_STATE.currentToken - verifyTokenAction;
+//   }
+// }
+
+// verifyTokenAction(INIT_STATE.currentToken)
+
+
+
+
+
 
 export default function rootReducer(state = INIT_STATE, action) {
   switch (action.type) {
@@ -37,6 +63,12 @@ export default function rootReducer(state = INIT_STATE, action) {
       return {
         ...state,
         userAttendance: action.attendance
+      }
+
+    case 'GET_ALL_FEEDBACK':
+      return {
+        ...state,
+        allUserFeedback: action.feedback
       }
 
     default:
