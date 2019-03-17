@@ -23,7 +23,6 @@ import { util } from "../../util";
 
 export function loginUserAction(data) {
   return (dispatch) => {
-    console.log(data, 'inAction');
     fetch(`${util.baseURL}/login`, {
       method: "POST",
       headers: {
@@ -33,7 +32,6 @@ export function loginUserAction(data) {
     })
       .then(res => res.json())
       .then(data => {
-        console.log(data, 'login data');
         if (!data.error) {
           let token = `Hungry ${data.token}`;
           localStorage.setItem('hungerNamesJWT', token) //will modify acc to server
@@ -131,26 +129,26 @@ export function getStudentFeedback(id, cb) {
           type: 'GET_USER_FEEDBACK'
         })
         cb(true);
-    })
-  } 
+      })
+  }
 }
 
-export function postStudentFeedback(data,cb) {
+export function postStudentFeedback(data, cb) {
   let id = '5c8894dbf2ad3e1b1f7f1c95'
   return dispatch => {
-    fetch(`${util.baseURL}/student/${id}/feedback`,{
+    fetch(`${util.baseURL}/student/${id}/feedback`, {
       method: 'POST',
       headers: {
         "Content-Type": 'application/json'
       },
       body: JSON.stringify(data)
     })
-    .then(res => res.json())
-    .then(data => {
-      if(!data.error) {
-        cb(true)
-      } else cb(false)
-    })
+      .then(res => res.json())
+      .then(data => {
+        if (!data.error) {
+          cb(true)
+        } else cb(false)
+      })
   }
 }
 
@@ -173,25 +171,25 @@ export function getAttendenceAction() {
 
 export function getAllFeedback() {
   return async (dispatch) => {
-    const feedbackFetch = await fetch(`http://localhost:8000/api/v1/student/feedback`,{
+    const feedbackFetch = await fetch(`http://localhost:8000/api/v1/student/feedback`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         'authorization': localStorage.getItem('hungernamesJWT')
       },
     }).then(res => res.json());
-    
-    const feedback = feedbackFetch.feedback.reduce((acc,curr) => {
+
+    const feedback = feedbackFetch.feedback.reduce((acc, curr) => {
       acc[curr.date] = feedbackFetch.feedback.filter((val) => val.date === curr.date);
       return acc;
-    } , {});
-      
+    }, {});
+
     dispatch({
-        type: 'GET_ALL_FEEDBACK',
-        feedback
-      })
-    }    
+      type: 'GET_ALL_FEEDBACK',
+      feedback
+    })
   }
+}
 
 // fetching all student list from db
 export function getallstudentslist() {
@@ -208,6 +206,29 @@ export function getallstudentslist() {
 }
 
 export function verifyTokenAction(token) {
+  return async (dispatch) => {
+
+    const verifyedUser = await fetch(`http://localhost:8000/api/v1/verify`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': token
+      },
+    }).then(res => res.json());
+
+    if (!verifyedUser.error) {
+      let token = `Hungry ${verifyedUser.token}`;
+      localStorage.setItem('hungerNamesJWT', token) //will modify acc to server
+      dispatch({
+        type: "LOGIN_USER",
+        user: verifyedUser.user,
+        token: token,
+      });
+    }
+  }
+}
+
+export function verifyDataTokenAction(token) {
   return async (dispatch) => {
     const verifyedUser = await fetch(`http://localhost:8000/api/v1/verify`,{
       method: 'GET',
@@ -226,8 +247,8 @@ export function verifyTokenAction(token) {
         token: token,
       });
     }
-    }    
-  }
+  }    
+}
 
 // removing a particular user from db
 export function removeStudent(id) {
