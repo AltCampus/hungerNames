@@ -4,16 +4,11 @@ const Student = require("../model/Student");
 const Menu = require("../model/Menu");
 const User = require('../model/Student')
 const nodemailer = require("nodemailer");
+const Invite = require('../model/Invite');
 
 
 module.exports = {
-  getAdmin: (req, res, next) => {
-    res.json({
-      message: 'welcome admin'
-    })
-  },
   inviteStudent: (req, res, next) => {
-    // smtpTransport initialization
     const smtpTransport = nodemailer.createTransport({
       service: "Gmail",
       auth: {
@@ -22,24 +17,24 @@ module.exports = {
       }
     });
 
-    let mailOptions, host, link;
+    let rand, mailOptions, host, link;
     // generate random ref code
     function randomN(v) {
       let rand = [];
-      let alphaNum = "abcdefghijklmnopqrstuvwxyz0123456789";
+      let alphaNum = 'abcdefghijklmnopqrstuvwxyz0123456789';
       for (let i = 0; i < v; i++) {
         let random = Math.floor(Math.random() * 36);
-        rand.push(alphaNum[random]);
+        rand.push(alphaNum[random])
       }
-      return rand.join("");
+      return rand.join('');
     }
-    // Have to check if ref generated is unique all the time from database
     // it'll provide your localhost or network address
     host = req.get("host");
     let refCode;
+    // while(!flag){
     refCode = randomN(6);
     link = `http://${host}/register?ref=${refCode}`;
-    const email = req.body.email;
+    const {email} = req.body
     mailOptions = {
       to: email,
       subject: "Verify your email",
@@ -51,10 +46,13 @@ module.exports = {
       else {
         const newInvite = new Invite({
           emailId: email,
-          refCode
+          refCode: refCode
         });
         newInvite.save(err => {
-          if (!err) res.json({ message: `Message sent to ${mailOptions.to}` });
+          if (!err) res.json({ message: `Message sent to ${mailOptions.to}` })
+          res.json({
+            message: 'succesfully sent '
+          })
         });
       }
     });
@@ -102,13 +100,11 @@ module.exports = {
   updateMenu: (req, res, next) => {
     // getting updated menu from req.body
     const { menu } = req.body;
-    console.log(menu);
     Menu.find({}, function (err, prevMenu) {
       // TODO: PUT check for if menu exists or length is greater than 0
       if (!prevMenu.length) {
         return res.json({ error: "Menu doesn't exist yet." })
       }
-
       var currentMenu = prevMenu[0];
       currentMenu.menu = menu;
       currentMenu.save(function (err, saved) {
