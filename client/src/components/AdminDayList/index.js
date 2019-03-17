@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import Loader from '../Loader'
 import { updateMenu } from '../../store/actions';
 import '../DayList/DayList.css';
+import AdminSideMenu from '../AdminSideMenu';
+
 
 const mapStateToProps = (state) => {
   return {
@@ -80,6 +82,7 @@ class AdminDayList extends Component {
 
     return (
       <>
+        <AdminSideMenu />
         <div className="back-btn-box">
           <div onClick={this.props.history.goBack} className="back-btn">
             <i className="fas fa-angle-left fa-lg"></i>

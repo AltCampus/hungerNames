@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
 import './StaffRemarkForm.css';
 
-export default class StaffRemarkForm extends Component {
-  constructor() {
+class StaffRemarkForm extends Component {
+  constructor(props) {
+    super(props);
     this.state = {
       newDate: new Date(),
     }
   }
   render() {
+    console.log(this.state);
+    console.log('kjjkh');
     return (
       <>
         <form onSubmit=''>
           <div className="calender-wrapper">
-            <input type="date" name="date" id="" min={(this.state.newDate)} max={date(this.state.newDate)} />
+            <input type="date" name="date" id="" min={this.state.newDate} max={this.state.newDate} />
           </div>
           <div className="mealtype-wrapper">
             <select name="meal-type" id="meal-type">
@@ -26,8 +29,11 @@ export default class StaffRemarkForm extends Component {
           <textarea name="remark" id="remark" cols="30" rows="5" placeholder="Write remark here..">
 
           </textarea>
+          <input type="submit" name="submit-staff-remark" id="submit-staff-remark" className="send-btn form-btn"/>
         </form>
       </>
     );
   }
 }
+
+export default StaffRemarkForm;

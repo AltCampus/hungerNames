@@ -112,13 +112,16 @@
 // submit button
 .submit-wrapper {
   button {
-    position: relative;
-    border: 1px solid transparent;
-    height: 45px;
-    color: #e4e4e4;
-    text-align: center;
-    border-radius: 2px;
-    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-weight: 600;
+    font-size: 0.80rem;
+    background-color: #11a0a0;
+    border: none;
+    padding: 0.6em 0.8em;
+    margin: 0.5em;
+    border-radius: 5px;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
   }
   @include fade-transition(background);
   i {
