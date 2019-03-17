@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import DayList from '../DayList';
 import '../DaysCheckList/DaysCheckList.css';
+import AdminSideMenu from '../AdminSideMenu';
 
-class DaysCheckList extends Component {
+class AdminDaysCheckList extends Component {
     constructor(props){
       super(props);
       this.state ={
@@ -14,19 +14,13 @@ class DaysCheckList extends Component {
       this.setState({ check: !this.state.check });
     }
 
-  render() {
+    render() {
     const { day, meal } = this.props.onDay;
     return (
       <>
+        <AdminSideMenu />
         <div className="check-list">
-          <div className="content__check-list">
-            <span>
-              <div className="check-mark" onClick = {() => this.setCheck()}>
-                <i className={`fas checklist-icon fa-3x ${this.state.check ? 'fa-check-circle' : 'fa-circle' }`}></i>
-                {/* <i className={`fas fa-check-circle `}></i> */}
-                {/* <i className="fas fa-circle"></i> */}
-              </div>
-            </span>
+          <div className="content__check-list">            
             <Link to={`/admin/menu/${ day }` } className="day-mark unlink content-justify">
               <div >            
                 <p className="day-name">{ day }</p>
@@ -66,4 +60,4 @@ class DaysCheckList extends Component {
   }
 }
 
-export default DaysCheckList;
+export default AdminDaysCheckList;

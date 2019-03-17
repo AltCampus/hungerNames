@@ -3,15 +3,18 @@ import './FeedbackDetail.css'
 
 export default class FeedbackDetail extends Component {
   render() {
+    console.log(this.props.location.state);
+    const { feedbackData } = this.props.location.state;
+    console.log(feedbackData, 'in detail');
     return (
       <div className='feedback-detail'>
-        <p>Item Title</p>
-        <p>toDateString()</p>
-        <p>Mealtype (lighter shade )</p>
-        <p>Feedback by (user name || Anonymous)</p>
-        <p>Rated: (Rating in star)</p>
+        <p>Item: {feedbackData.meal}</p>
+        <p>{feedbackData.date}</p>
+        <p>Mealtype: {feedbackData.mealType}</p>
+        <p>Feedback by  {feedbackData.name}</p>
+        <p>Rated: {feedbackData.rating}</p>
         <div className="review">
-          <span>Review: </span><p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus asperiores voluptates ipsa sed temporibus. Architecto officiis non aut odit quas dolorum voluptate repudiandae, molestiae, quos provident quasi incidunt eius doloribus.</p>
+          <span>Review: </span><p>{feedbackData.review}</p>
         </div>
       </div>
     )

@@ -11,6 +11,7 @@ router.get('/', (req, res) => {
 
 
 router.post('/login', userController.loginUser);
+router.get('/verify', userController.verifyUser);
 
 router.use('/student', require('./student'));
 router.use('/staff', require('./staff'));

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import DaysCheckList from '../DaysCheckList';
 import { getMenu, getAttendenceAction } from '../../store/actions/';
 import './StudentHome.css';
+import StudentSideMenu from '../StudentSideMenu';
 
 const mapStateToProps = (state) => {
   if (state.menu) {
@@ -18,7 +19,7 @@ class StudentHome extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.days = ["day0", "day1", "day2", "day3", "day4", "day5", "day6"];
+    this.days = ["day1", "day2", "day3", "day4", "day5", "day6", "day0"];
   }
 
   componentDidMount() {
@@ -30,16 +31,19 @@ class StudentHome extends Component {
     const { menu, attendance } = this.props;
     // console.log('m');    
     return (
-      <div className="wrapper">
-        {/* <SideMenu /> */}
-        <div className="home">
-          {(menu && menu.day1) ? (
-            this.days.map((val, index) => {
-              return <DaysCheckList key={index} onDay={menu[val]} attendance={attendance[index]} />
-            })
-          ) : ''}
+      <>
+        <StudentSideMenu />
+        <div className="wrapper">
+          {/* <SideMenu /> */}
+          <div className="home">
+            {(menu && menu.day1) ? (
+              this.days.map((val, index) => {
+                return <DaysCheckList key={index} onDay={menu[val]} attendance={attendance[index]} />
+              })
+            ) : ''}
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 }

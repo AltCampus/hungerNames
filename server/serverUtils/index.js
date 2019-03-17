@@ -1,4 +1,4 @@
-
+const jwt = require('jsonwebtoken')
 // DATE UTILS
 const isValidDate = (date) => {
   return date && Object.prototype.toString.call(date) === "[object Date]" && !isNaN(date);
@@ -35,14 +35,19 @@ const cleanUser = (user) => {
     isKitchenStaff
   }
 }
-const getUserFromToken = (token) => {
-  jwt.verify(token, 'secret', (err, decode) => {
+//dont use this
+const getUserFromToken = async (token) => {
+  let user = null;
+  await jwt.verify(token, 'secret', (err, decode) => {
+    console.log(err, decode, "util")
     if (err) return false
-    return decode.body;
+    user = decode.user;
   })
+  console.log(user);
+  return user;
 }
 
-const dateManupulater = (days) =>{
+const dateManupulater = (days) => {
   //provide no of days to add in current date
   let today = new Date();
   today = removeTimeFromDate(today);
