@@ -22,9 +22,9 @@ router.use('/admin', require('./admin'));
 //   bootStrapped.createMenu()
 // });
 
-// router.get('/createbufferboot', (req, res) => {
-//   bootStrapped.createBuffer();
-// });
+router.get('/createbufferboot', (req, res) => {
+  bootStrapped.createBuffer(10);
+});
 
 
 module.exports = router;
