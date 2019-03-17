@@ -10,9 +10,12 @@ import StudentFeedback from './StudentFeedback';
 import StaffHome from './StaffHome';
 import Feedbacks from './Feedbacks';
 import StudentList from './StudentList';
-import './Main.css';
 import FeedbackListView from './FeedbackListView';
 import StaffRemarkForm from './StaffRemarkForm';
+import FeedbackDetail from './FeedbackDetail';
+import AdminMenu from './AdminMenu';
+import NewInvite from './NewInvite';
+import './Main.css';
 
 const Main = () => {
   return (    
@@ -27,17 +30,20 @@ const Main = () => {
           </div>          
           <Switch>
             <Route path='/register' component={ Register } />
-            <Route path='/login' component={ Login } />
-            <Route exact path='/staff' component={ StaffHome } />
-            <Route exact path='/student' component={ StudentHome } />            
+            <Route path='/login' component={ Login } />            
+            <Route exact path='/student' component={ StudentHome } />
             <Route exact path='/student/:day' component={ DayList } />
-            <Route exact path='/student/feedbacks/:id' component={ StudentFeedback } />
+            <Route exact path='/student/feedbacks/' component={ StudentFeedback } />
+            <Route exact path='/staff' component={ StaffHome } />
             <Route exact path='/staff/feedbacks' component={ FeedbackListView } />
-            <Route exact path='/staff/remark' component={ StaffRemarkForm } />            
+            <Route exact path='/staff/remark' component={ StaffRemarkForm } />
             <Route exact path='/staff/list/:meal' component={ StudentList } />
-            <Route exact path='/staff/feedbacks/feedbacklist/:id' component={ Feedbacks } />            
+            <Route exact path='/staff/feedbacks' component={ Feedbacks } />
+            <Route exact path='/staff/feedbacks/feedbacklist/feedbackdetail' component={ FeedbackDetail } />
             <Route exact path='/admin' component={ AdminHome } />
-            <Route exact path='/admin/menu/:day' component={ AdminDayList } />            
+            <Route exact path='/admin/invite' component={ NewInvite } />
+            <Route exact path='/admin/menu/:day' component={ AdminDayList } />
+            
             {/* checking staff and admin side menu for tesing purpose */}
           </Switch>
         </>

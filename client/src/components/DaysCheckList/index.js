@@ -28,6 +28,7 @@ class DaysCheckList extends Component {
                 {/* <i className="fas fa-circle"></i> */}
               </div>
             </span>
+
             <Link to={`/student/${day}`} className="day-mark unlink content-justify">
               <div >
                 <p className='day-name'>{ day }</p>
@@ -55,6 +56,7 @@ class DaysCheckList extends Component {
                     <span>{ meal.dinner ?  meal.dinner.title : '' }</span>
                   </div>                          
                 </div>
+              </div>
               </div>
               <div className="meal-arrow">
                 <i className="fas checklist-icon fa-angle-right fa-3x"></i>

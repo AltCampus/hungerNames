@@ -3,10 +3,18 @@ import { Link } from 'react-router-dom';
 import '../DaysCheckList/DaysCheckList.css';
 import AdminSideMenu from '../AdminSideMenu';
 
+class AdminDaysCheckList extends Component {
+    constructor(props){
+      super(props);
+      this.state ={
+        check : false,
+      }
+    }
+    setCheck = () => {
+      this.setState({ check: !this.state.check });
+    }
 
-class DaysCheckList extends Component {
-
-  render() {
+    render() {
     const { day, meal } = this.props.onDay;
     return (
       <>
@@ -52,4 +60,4 @@ class DaysCheckList extends Component {
   }
 }
 
-export default DaysCheckList;
+export default AdminDaysCheckList;

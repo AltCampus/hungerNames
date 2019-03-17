@@ -4,6 +4,7 @@ const INIT_STATE = {
   menu: {},
   userFeedback: [],
   userAttendance: [],
+  allUserFeedback: []
 };
 
 export default function rootReducer(state = INIT_STATE, action) {
@@ -37,6 +38,12 @@ export default function rootReducer(state = INIT_STATE, action) {
       return {
         ...state,
         userAttendance: action.attendance
+      }
+    
+    case 'GET_ALL_FEEDBACK':
+      return {
+        ...state,
+        allUserFeedback: action.feedback
       }
 
     default:
