@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.scss';
 import {verifyTokenAction} from './store/actions'
 import Main from './components/Main';
+import { connect } from 'react-redux';
 
 class App extends Component {
   componentDidMount(){
@@ -19,11 +20,11 @@ class App extends Component {
   }
 }
 
-const mapStatetoProps = (state) =>{
+const mapStateToProps = (state) =>{
   return{
-    token:state.currenToken,
-    user:state.currentUser
+    token: state.currentToken,
+    user: state.currentUser
   }
 }
 
-export default connect()(App);
+export default connect(mapStateToProps)(App);

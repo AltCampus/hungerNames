@@ -17,6 +17,8 @@ import AdminMenu from './AdminMenu';
 import NewInvite from './NewInvite';
 import './Main.css';
 import ListStudentsAdmin from './ListStudentsAdmin';
+import AdminSideMenu from './AdminSideMenu';
+import StaffSideMenu from './StaffSideMenu';
 
 const Main = () => {
   return (    
