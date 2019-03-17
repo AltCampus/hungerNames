@@ -39,7 +39,7 @@ export function loginUserAction(data) {
           localStorage.setItem('hungerNamesJWT', token) //will modify acc to server
           dispatch({
             type: "LOGIN_USER",
-            data: data.user,
+            user: data.user,
             token: token,
           });
         }
@@ -206,3 +206,27 @@ export function getallstudentslist() {
     })
   }
 }
+
+export function verifyTokenAction(token) {
+  return async (dispatch) => {
+    const verifyedUser = await fetch(`http://localhost:8000/api/v1/verify`,{
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': token
+      },
+    }).then(res => res.json());
+    
+    if (!verifyedUser.error) {
+      let token = `Hungry ${data.token}`;
+      localStorage.setItem('hungerNamesJWT', token) //will modify acc to server
+      dispatch({
+        type: "LOGIN_USER",
+        user: data.user,
+        token: token,
+      });
+    }
+    }    
+  }
+
+

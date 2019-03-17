@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', (err, res)=>{
+router.get('/student', (err, res)=>{
   res.render('index');
 });
 router.get('/register', (err, res)=>{
@@ -10,7 +10,7 @@ router.get('/register', (err, res)=>{
 router.get('/login', (err, res)=>{
   res.render('index');
 });
-router.get('/:day', (err, res) => {
+router.get('/student/:day', (err, res) => {
   res.render('index');
 })
 router.get('/admin', (err, res) => {
@@ -42,6 +42,10 @@ router.get('/staff/attendees', (req, res) => {
 })
 
 router.get('/staff', (req, res) => {
+  res.render('index');
+})
+
+router.get('/staff/remark', (req, res) => {
   res.render('index');
 })
 

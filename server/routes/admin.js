@@ -3,7 +3,7 @@ const router = express.Router();
 const adminController = require('../controller/admin.controller');
 const isUser = require('../config/auth');
 
-router.get('/', adminController.getAdmin);
+// router.get('/', adminController.getAdmin);
 // router.post('/login',adminController.loginAdmin);
 
 router.post('login/forget',adminController.forgetPassword);
