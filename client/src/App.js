@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import './App.scss';
+import {verifyTokenAction} from './store/actions'
 import Main from './components/Main';
 
 class App extends Component {
+  componentDidMount(){
+    const {token,user} = this.props;
+    if(!user && token){
+      this.props.dispatch(verifyTokenAction(token))
+    }
+  }
   render() {
     return (
       <div className="App">
@@ -12,4 +19,11 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStatetoProps = (state) =>{
+  return{
+    token:state.currenToken,
+    user:state.currentUser
+  }
+}
+
+export default connect()(App);

@@ -40,8 +40,7 @@ module.exports = {
       });
   },
 
-  addRemarkStaff: (req, res, next) => {
-    
+  addRemarkStaff: (req, res, next) => {  
     const {mealtype,date,remark} = req.body
     let breakfast = mealtype
     Attendance.update({},{$set: {"remark": "remark"}},(err,done) => {
