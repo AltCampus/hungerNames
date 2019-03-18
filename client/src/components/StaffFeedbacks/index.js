@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import './Feedbacks.css';
+import './StaffFeedbacks.css';
 import { connect } from 'react-redux';
 import FeedbackListView from '../FeedbackListView'
-
+import StaffSideMenu from '../StaffSideMenu';
 
 function mapStateToProps(state) {
   if(state) {
@@ -11,17 +11,14 @@ function mapStateToProps(state) {
     };
   }
 }
- class Feedbacks extends Component {
+ class StaffFeedbacks extends Component {
   constructor(props){
     super(props)
   }
   
   render() {
     const { feedbacks } = this.props;
-    console.log(feedbacks, 'feedbacks');
-    Object.keys(feedbacks).forEach((v) => {
-      console.log(feedbacks[v],'ff')
-    })
+    
     return(
       <>
         <div className="back-btn-box">
@@ -30,6 +27,7 @@ function mapStateToProps(state) {
             <span>Back</span>
           </div>
         </div>
+        <StaffSideMenu />
         {!(feedbacks) ? 'loading' : (Object.keys(feedbacks).map((val) => {    
           return <FeedbackListView date={val} dateFeedbacks={feedbacks[val]}   />
         }) )
@@ -45,4 +43,4 @@ function mapStateToProps(state) {
 //   }
 // }
 
-export default connect(mapStateToProps)(Feedbacks);
+export default connect(mapStateToProps)(StaffFeedbacks);

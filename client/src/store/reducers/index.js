@@ -1,11 +1,12 @@
 const INIT_STATE = {
   currentUser: null,
   currentToken: localStorage.getItem('hungerNamesJWT') || null,
-  isAuthenticated: false,
+  isAuthenticated: (localStorage.getItem('hungerNamesJWT'))? true : false,
   menu: {},
   userFeedback: [],
   userAttendance: [],
-  allUserFeedback: []
+  allUserFeedback: [],
+  listAllStudents: []
 };
 
 // async function verifyTokenAction(token) {
@@ -67,6 +68,13 @@ export default function rootReducer(state = INIT_STATE, action) {
         ...state,
         allUserFeedback: action.feedback
       }
+
+    case 'GET_ALL_STUDENTS_LIST': {
+      return {
+        ...state,
+        listAllStudents: action.students
+      }
+    }
 
     default:
       return state;
