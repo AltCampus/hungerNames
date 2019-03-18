@@ -88,6 +88,25 @@ export function getMenu() {
   }
 }
 
+export function postStaffRemark(data) {
+  console.log('ins')
+  return (dispath) => {
+    fetch(`${util.baseURL}/staff/addRemarkStaff`,{
+      method: "PUT",
+      headers : {
+        'Content-Type' : 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(data => {
+      if(!data.error) {
+        cb(true)
+      } else cb(false)
+    })
+  }
+}
+
 // export const  getMenu = () => (dispatch) =>  {
 //   fetch(`http://localhost:8000/api/v1/admin/menu`)
 //     .then(res => res.json())
