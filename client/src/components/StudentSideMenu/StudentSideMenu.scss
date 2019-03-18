@@ -59,7 +59,7 @@
   position: absolute;
   max-width: 500px;
   width: 20rem;
-  background: #e4e4e4;
+  background: #1B1A1F;
   height: 100vh;
   top: -25px;
   z-index: 999;
@@ -74,17 +74,24 @@
 .user-info {
   img {
     border: 1px solid rgba(255,255,255,0.03);
-    width: 100px;
-    height: 100px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
   }
-  h3 {
-    letter-spacing: 1px;
-    margin-top: 1.2rem;
+  .user-detail {
+    h3 {
+      letter-spacing: 1px;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    h3, p {
+      margin-left: 0.3em 0;
+    }
+    margin-left: 0.8em;
   }
-  h3, p {
-    margin-left: 0.8rem;
-  }
+  display: flex;
+  margin-right: 0.5em;
+  align-items: center;
 }
 
 .link_wrapper {
@@ -93,11 +100,11 @@
     color: white;
     font-weight: 600;
     font-size: 0.80rem;
-    background-color: #11a0a0;
+    background-color: #fff;
     border: none;
-    padding: 0.6em 0.8em;
+    padding: 0.9em 1.2em;
     text-align: center;
-    margin: 0.5em;
+    margin: 0.8em;
     border-radius: 5px;
     text-transform: uppercase;
     letter-spacing: -0.5px;
@@ -123,8 +130,9 @@
     //   100% { left: 82%}
     // }
     .links {
-      color: #e4e4e4;
+      color: var(--teal);
       text-decoration: none;
+      font-weight: 700;
     }  
   }
 }
