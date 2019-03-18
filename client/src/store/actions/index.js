@@ -88,10 +88,10 @@ export function getMenu() {
   }
 }
 
-export function postStaffRemark(data) {
-  console.log('ins')
+export function postStaffRemark(data,cb) {
+  console.log(data)
   return (dispath) => {
-    fetch(`${util.baseURL}/staff/addRemarkStaff`,{
+    fetch(`${util.baseURL}/staff/menu`,{
       method: "PUT",
       headers : {
         'Content-Type' : 'application/json'
@@ -101,7 +101,7 @@ export function postStaffRemark(data) {
     .then(res => res.json())
     .then(data => {
       if(!data.error) {
-        cb(true)
+        cb(data,true)
       } else cb(false)
     })
   }
@@ -155,8 +155,7 @@ export function getStudentFeedback(id, cb) {
   }
 }
 
-export function postStudentFeedback(data, cb) {
-  let id = '5c8894dbf2ad3e1b1f7f1c95'
+export function postStudentFeedback(data,id, cb) {
   return dispatch => {
     fetch(`${util.baseURL}/student/${id}/feedback`, {
       method: 'POST',

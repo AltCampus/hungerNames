@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const mongoose_delete = require('mongoose-delete');
 const bcrypt = require("bcrypt");
 const SALT_ROUNDS = 10;
 
@@ -8,7 +7,7 @@ const StudentSchema = new Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  isDeleted: { type: Boolean, default: false },
+  // isDeleted: { type: Boolean, default: false },
   isAdmin: { type: Boolean, default: false },
   isKitchenStaff: { type: Boolean, default: false },
   isStudent: { type: Boolean, default: false },
@@ -33,5 +32,5 @@ StudentSchema.pre("save", function (next) {
   });
 });
 
-const Student = mongoose.model('Students', StudentSchema);
+const Student = mongoose.model('Student', StudentSchema);
 module.exports = Student;

@@ -36,4 +36,8 @@ const mapStatetoProps = (state) => {
   };
 }
 
+<<<<<<< HEAD
+export default connect(mapStateToProps)(App);
+=======
 export default connect(mapStatetoProps)(App);
+>>>>>>> 8d7f7f463252b82d6e774476d8c8b46c40471ac7
