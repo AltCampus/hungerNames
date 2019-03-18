@@ -8,7 +8,7 @@ const FeedbackSchema = new Schema({
     rating: { type: Number },
     date: { type: Date, default: new Date() },
     // studentId: { type:Schema.Types.ObjectId},
-    student: { type: Schema.Types.ObjectId, ref: 'Students' }
+    student: { type: Schema.Types.ObjectId, ref: 'Student' }
   }, {
     timestamps: { createdAt: 'created_at' }
   }

@@ -13,17 +13,28 @@ class AdminToggleOpen extends Component {
         </div>
         <div className="sidebar-content">
           <div className="user-info">
-            <img src="https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2F1.bp.blogspot.com%2F-oPxmzDQdtF4%2FUSqzMDokh3I%2FAAAAAAAAD7k%2FSNzkXsnJg18%2Fs1600%2Fcute-cat.jpg&f=1" alt="user"/>
-            <h3>Suraj</h3>
-            <p>Suraj@gmail.com</p>
+            <img src='https://static.productionready.io/images/smiley-cyrus.jpg' alt="user"/>
+            <div className='user-detail'>
+              <h3>Suraj</h3>
+              <p>Suraj@gmail.com</p>
+            </div>
           </div>
           <div className="link_wrapper">
             <div className="menu-link-wrapper">
-              <Link className="links" to={`/notification`}>Notifications</Link>
+              <Link className="links" to={`/admin/invite`}>Invite Student</Link>
+            </div>
+            <div className="menu-link-wrapper">
+              <Link className="links" to={`/admin/users`}>Users List</Link>
+            </div>
+            <div className="menu-link-wrapper">
+              <Link className="links" to={`/admin/menu`}>Edit Menu</Link>
             </div>
             {/* <div className="feedback-link-wrapper">
               <Link className="links" to={`/student/:id/feedback`}>Feedback</Link>
             </div> */}
+            <div className="logout-link-wrapper">
+              <Link className="links" to={`/admin/getallstudentslist`}>Get all student list</Link>
+            </div>
             <div className="logout-link-wrapper">
               <Link className="links" to={`/admin/logout`}>Log out</Link>
             </div>

@@ -36,15 +36,22 @@ class NewInvite extends Component {
 
   render() {
     return (
-      <div className="invite-box">
-        <label htmlFor="invite" className="label-box">
-          <span className="label-text">Send a new invite</span>
-          
-          <input onChange={this.handleChange} type="text" id="invite" name="invitemail" placeholder="Enter an email"/>
-          <div>{this.state.message}</div>
-          <button onClick={this.handleClick}>INVITE</button>
-        </label>
-      </div>
+      <>
+        <div className="back-btn-box">
+          <div onClick={this.props.history.goBack} className="back-btn">
+            <i className="fas fa-angle-left fa-lg"></i>
+            <span>Back</span>
+          </div>
+        </div>
+        <div className="invite-box">
+          <label htmlFor="invite" className="label-box column">
+            <span className="label-text">Send a new invite</span>          
+            <input onChange={this.handleChange} className="input-field" type="text" id="invite" name="invitemail" placeholder="Enter an email"/>
+            <div>{this.state.message}</div>
+            <button className='send-btn form-btn' onClick={this.handleClick}>INVITE</button>
+          </label>
+        </div>
+      </>
     );
   }
 }
