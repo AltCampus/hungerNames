@@ -5,8 +5,7 @@ import { connect } from 'react-redux';
 class ToggleOpen extends Component {
 
   render() {
-    const { handleToggleClose, currentUser } = this.props;
-  
+    const { handleToggleClose, currentUser } = this.props;  
     return (
       <div className="sidebar-open">
         <div className="toggle-close" onClick={ handleToggleClose } >
