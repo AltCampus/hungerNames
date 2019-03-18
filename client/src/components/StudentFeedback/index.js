@@ -40,9 +40,10 @@ class StudentFeedback extends Component {
     //   alert('please fill all content before submiting')
     //   return;
     // }
+    const id = this.props.match.params.id;
     const data = { meal, mealType, review, rating, date };
     this.props.dispatch(
-      postStudentFeedback(data, cb => {
+      postStudentFeedback(data,id, cb => {
         if (!cb) {
           this.setState({
             isLoading: true

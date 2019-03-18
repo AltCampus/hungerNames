@@ -56,12 +56,12 @@
 
 // sidebar
 .sidebar-open {
-  position: absolute;
-  max-width: 500px;
-  width: 20rem;
+  position: fixed;
+  max-width: 600px;
+  width: 23rem;
   background: #1B1A1F;
   height: 100vh;
-  top: -25px;
+  top: 0;
   z-index: 999;
 }
 

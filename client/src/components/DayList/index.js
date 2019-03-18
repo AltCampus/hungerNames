@@ -18,10 +18,10 @@ class DayList extends Component {
     this.state = {
       date: "",
       dayVal: 'day1',
-      breakfast: '',
-      lunch: '',
-      dinner: '',
-      brunch: '',
+      breakfast: false,
+      lunch: false,
+      dinner: false,
+      brunch: false,
     }
   }
 
@@ -34,7 +34,6 @@ class DayList extends Component {
     (menu && menu.day1) && Object.keys(menu).forEach((val, index) => {
       if (menu[val].day == day) { dayVal = val; dayIndex = index }
     })
-    console.log(dayVal, dayIndex, attendance, "helllllllllllllllll");
 
     if (dayIndex != -1 && attendance.length) {
       this.setState({
@@ -49,12 +48,13 @@ class DayList extends Component {
   }
 
   handlechange = (e) => {
-    this.setState({ [e.target.name]: e.target.value })
+    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+    this.setState({ [e.target.name]: value })
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
-    let arrayAttendence
+    // let arrayAttendence
     let data = {
       date: this.state.date,
       attendance: [

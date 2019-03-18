@@ -22,14 +22,13 @@ class App extends Component {
 
     if (!user && token) this.runVerify();
     return (
-
       <div className="App">
         <Main />
       </div>
     );
   }
 }
-const mapStatetoProps = (state) => {
+const mapStateToProps = (state) => {
   return {
     redux: state,
     token: state.currentToken,
@@ -37,4 +36,4 @@ const mapStatetoProps = (state) => {
   };
 }
 
-export default connect(mapStatetoProps)(App);
+export default connect(mapStateToProps)(App);

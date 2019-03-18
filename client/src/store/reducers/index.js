@@ -1,7 +1,7 @@
 const INIT_STATE = {
   currentUser: null,
   currentToken: localStorage.getItem('hungerNamesJWT') || null,
-  isAuthenticated: false,
+  isAuthenticated: (localStorage.getItem('hungerNamesJWT'))? true : false,
   menu: {},
   userFeedback: [],
   userAttendance: [],
@@ -44,6 +44,7 @@ export default function rootReducer(state = INIT_STATE, action) {
         ...state,
         currentUser: null,
         currentToken: null,
+        isAuthenticated: false,
       }
     // break;
     case 'GET_MENU_DATA':

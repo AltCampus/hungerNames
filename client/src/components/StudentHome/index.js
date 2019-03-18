@@ -29,7 +29,6 @@ class StudentHome extends Component {
 
   render() {
     const { menu, attendance } = this.props;
-    
     return (
       <>
         <StudentSideMenu />

@@ -8,7 +8,7 @@ class AdminDaysCheckList extends Component {
     const { day, meal } = this.props.onDay;
     return (
       <>
-        <AdminSideMenu />
+        {/* <AdminSideMenu /> */}
         <div className="check-list">
           <div className="content__check-list">
             <Link to={`/admin/menu/${day}`} className="day-mark unlink content-justify">

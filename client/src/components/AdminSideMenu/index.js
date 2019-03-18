@@ -43,11 +43,4 @@ class AdminSideMenu extends Component {
   }
 }
 
-// const mapStateToProps = (state) => {
-//   return {
-//     userFeedback: state.userFeedback,
-//     currentUser: state.currentUser 
-//   }
-// }
-
 export default AdminSideMenu;
