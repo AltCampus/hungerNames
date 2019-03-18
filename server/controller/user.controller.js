@@ -59,6 +59,7 @@ module.exports = {
   },
 
   loginUser: (req, res, next) => {
+    console.log(req.body)
     passport.authenticate('local', {
       session: false
     }, (err, data, info) => {
@@ -159,6 +160,7 @@ module.exports = {
       { refCode: ref },
       { $set: { isVerified: true } },
       (err, code) => {
+        console.log(code)
         if (err) res.json({ msg: `you're link is expired` });
         res.json({
           emailId: code.emailId,
