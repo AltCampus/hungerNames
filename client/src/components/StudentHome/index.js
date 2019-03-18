@@ -8,7 +8,7 @@ import StudentSideMenu from '../StudentSideMenu';
 const mapStateToProps = (state) => {
   if (state.menu) {
     return {
-      attendance: state.userAttendance,
+      attendance: state.userAttendance || [],
       menu: state.menu.menu || {},
       message: state.menu.message || {}
     };

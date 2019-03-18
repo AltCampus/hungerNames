@@ -6,6 +6,7 @@ class ToggleOpen extends Component {
 
   render() {
     const { handleToggleClose, currentUser } = this.props;
+    console.log(currentUser, 'inside toggle open');
     return (
       <div className="sidebar-open">
         <div className="toggle-close" onClick={ handleToggleClose } >
