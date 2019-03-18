@@ -22,13 +22,9 @@ const StudentSchema = new Schema({
 
 StudentSchema.pre("save", function (next) {
   const password = this.password;
-<<<<<<< HEAD
-  if(this.isModified(password)) return next();
-=======
 
   if (this.isModified(password)) return next();
 
->>>>>>> 8d7f7f463252b82d6e774476d8c8b46c40471ac7
   bcrypt.hash(password, SALT_ROUNDS, (err, hash) => {
     if (err) throw err;
     this.password = hash;
