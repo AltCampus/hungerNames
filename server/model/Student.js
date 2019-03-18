@@ -11,6 +11,7 @@ const StudentSchema = new Schema({
   isDeleted: { type: Boolean, default: false },
   isAdmin: { type: Boolean, default: false },
   isKitchenStaff: { type: Boolean, default: false },
+  isStudent: { type: Boolean, default: false },
   feedback: [{ type: Schema.Types.ObjectId, ref: 'Feedback' }]
 }, {
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }

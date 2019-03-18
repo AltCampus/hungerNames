@@ -6,8 +6,8 @@ import Main from './components/Main';
 
 class App extends Component {
   constructor(props) {
-    super(props);>>>>>>> development
-  }2 conflicts ￼ Prev  ￼ Next 
+    super(props)
+  }
 
   runVerify() {
     const { token, user } = this.props;

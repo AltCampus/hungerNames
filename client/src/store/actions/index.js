@@ -274,32 +274,37 @@ export function verifyTokenAction(token) {
         type: "LOGIN_USER",
         user: verifyedUser.user,
         token: token,
-        authenticated: true
+        authenticated: auth,
+      });
+      
+    } else {
+      dispatch({
+        type: "LOGOUT_USER",
       });
     }
   }
 }
 
+
 // export function verifyDataTokenAction(token) {
 //   return async (dispatch) => {
-//     const verifyedUser = await fetch(`http://localhost:8000/api/v1/verify`, {
+//     const verifyedUser = await fetch(`http://localhost:8000/api/v1/verify`,{
 //       method: 'GET',
 //       headers: {
 //         'Content-Type': 'application/json',
 //         'authorization': token
 //       },
-//     }).then(res => res.json());
-
+//     }).then(res => res.json());    
 //     if (!verifyedUser.error) {
 //       let token = `Hungry ${data.token}`;
 //       localStorage.setItem('hungerNamesJWT', token) //will modify acc to server
 //       dispatch({
 //         type: "LOGIN_USER",
 //         user: data.user,
-//         token: token,
+//         token: token,        
 //       });
 //     }
-//   }
+//   }    
 // }
 
 // removing a particular user from db
