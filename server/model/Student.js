@@ -13,7 +13,7 @@ const StudentSchema = new Schema({
   isKitchenStaff: { type: Boolean, default: false },
   isStudent: { type: Boolean, default: false },
   feedback: [{ type: Schema.Types.ObjectId, ref: 'Feedback' }]
-  }, {
+}, {
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
   }
 )
@@ -21,13 +21,13 @@ const StudentSchema = new Schema({
 // using plugin from mongoose-delete
 // StudentSchema.plugin(mongoose_delete);
 
-StudentSchema.pre("save", function(next) {
+StudentSchema.pre("save", function (next) {
   const password = this.password;
 
-  if(this.isModified(password)) return next();
+  if (this.isModified(password)) return next();
 
   bcrypt.hash(password, SALT_ROUNDS, (err, hash) => {
-    if(err) throw err;
+    if (err) throw err;
     this.password = hash;
     next();
   });

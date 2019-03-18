@@ -1,4 +1,4 @@
-const Attendance = require("../model/attendanceBuffer");
+const AttendanceBufferSchema = require('../model/attendanceBuffer')
 const Feedback = require("../model/Feedback");
 const Student = require("../model/Student");
 const serverUtils = require("../serverUtils/index");
@@ -40,28 +40,24 @@ module.exports = {
       });
   },
 
-  addRemarkStaff: (req, res, next) => {  
+  addRemarkStaff: (req, res, next) => { 
+    console.log('indone') 
+    console.log(req.body)
     const {mealtype,date,remark} = req.body
-    let breakfast = mealtype
-    Attendance.update({},{$set: {"remark": "remark"}},(err,done) => {
-      if (err) return res.json({
-        error: 'database error'
-      })
-      res.json({
-        done,
-        message: 'sucessfully updated'
-      })
+    // let mealType = breakfast
+    let remarks = 'remarks';
+    let breakfast = `breakfast.${remarks}`
+    let dat = '2019-03-13T11:40:08.743+00:00'
+    // AttendanceBufferSchema.find({date : '2019-04-27T18:30:00.000+00:00'},(err,data) => {
+    //   res.json({
+    //     data
+    //   })
+    // })
+    AttendanceBufferSchema.findOneAndUpdate({ date : dat},{$set:{[breakfast]:"sdds"}},{new: true},(err,doc) => {
+   res.json({
+     doc
+   })
     })
-  //   const atten = new Attendance({
-  //     date: "2019-03-13T11:40:08.743+00:00",
-  //     breakfast: {
-  //       title: 'poha',
-  //     },
-  //     brunch: {
-  //       title: 'water',
-  //     },
-  //   })
-  //   atten.save()
-  // }
-}
+  }
+
 }

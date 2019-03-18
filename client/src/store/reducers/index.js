@@ -44,6 +44,7 @@ export default function rootReducer(state = INIT_STATE, action) {
         ...state,
         currentUser: null,
         currentToken: null,
+        isAuthenticated: false,
       }
     // break;
     case 'GET_MENU_DATA':
@@ -60,7 +61,7 @@ export default function rootReducer(state = INIT_STATE, action) {
     case 'GET_USER_ATTENDANCE':
       return {
         ...state,
-        userAttendance: action.attendance
+        userAttendance: action.attendance.attendance
       }
 
     case 'GET_ALL_FEEDBACK':

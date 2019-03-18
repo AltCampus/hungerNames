@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const AttendanceBufferSchema = new Schema({
-  date: { type: Date },
+  date: { type: String, unique: true },
   breakfast: {
     title: String,
     remarks: String,

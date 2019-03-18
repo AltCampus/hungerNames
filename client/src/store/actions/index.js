@@ -88,6 +88,25 @@ export function getMenu() {
   }
 }
 
+export function postStaffRemark(data) {
+  console.log('ins')
+  return (dispath) => {
+    fetch(`${util.baseURL}/staff/addRemarkStaff`,{
+      method: "PUT",
+      headers : {
+        'Content-Type' : 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(data => {
+      if(!data.error) {
+        cb(true)
+      } else cb(false)
+    })
+  }
+}
+
 // export const  getMenu = () => (dispatch) =>  {
 //   fetch(`http://localhost:8000/api/v1/admin/menu`)
 //     .then(res => res.json())
@@ -111,7 +130,6 @@ export function updateMenu(menu, cb) {
     }).then(data => data.json());
 
     if (updatedMenu.error) {
-      console.log(updatedMenu.error);
       cb(false)
     }
     dispatch({
@@ -128,7 +146,6 @@ export function getStudentFeedback(id, cb) {
     fetch(`${util.baseURL}/student/${id}/feedback`)
       .then(res => res.json())
       .then(data => {
-        console.log(data, 'inside getStudentFeedback');
         dispatch({
           user: data,
           type: 'GET_USER_FEEDBACK'
@@ -159,8 +176,7 @@ export function postStudentFeedback(data, cb) {
 
 export function getAttendenceAction() {
   return async (dispatch, getState) => {
-    const userId = getState().currentUser._id
-    const AttendanceData = await fetch(`${util.baseURL}/student/${userId}/attendance`, {
+    const AttendanceData = await fetch(`${util.baseURL}/student/attendance`, {
       method: 'GET',
       headers: {
         "authorization": localStorage.getItem('hungerNamesJWT'),
@@ -171,6 +187,36 @@ export function getAttendenceAction() {
       type: 'GET_USER_ATTENDANCE',
       attendance: AttendanceData,
     });
+  }
+}
+
+export function updateAttendenceAction(data) {
+  return async (dispatch, getState) => {
+    if (!getState().currentUser) return
+    const userId = getState().currentUser._id
+    const flag = await fetch(`${util.baseURL}/student/attendance`, {
+      method: 'PUT',
+      headers: {
+        "authorization": localStorage.getItem('hungerNamesJWT'),
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data),
+    }).then(res => res.json());
+    if (!flag.error) {
+      const AttendanceData = await fetch(`${util.baseURL}/student/attendance`, {
+        method: 'GET',
+        headers: {
+          "authorization": localStorage.getItem('hungerNamesJWT'),
+          "Content-Type": "application/json"
+        },
+      }).then(res => res.json());
+      dispatch({
+        type: 'GET_USER_ATTENDANCE',
+        attendance: AttendanceData,
+      });
+      cb(true);
+    }
+    cb(false)
   }
 }
 
@@ -200,13 +246,13 @@ export function getAllFeedback() {
 export function getallstudentslist() {
   return dispatch => {
     fetch(`${util.baseURL}/student`)
-    .then(res => res.json())
-    .then(students => {
-      dispatch({
-        students: students.user,
-        type: "GET_ALL_STUDENTS_LIST"
+      .then(res => res.json())
+      .then(students => {
+        dispatch({
+          students: students.user,
+          type: "GET_ALL_STUDENTS_LIST"
+        })
       })
-    })
   }
 }
 
@@ -270,9 +316,9 @@ export function removeStudent(id) {
         'content-type': 'application/json'
       }
     })
-    .then(res => res.json())
-    .then(users => {
-      console.log(users, 'inside remove student/action');
-    })
+      .then(res => res.json())
+      .then(users => {
+        console.log(users, 'inside remove student/action');
+      })
   }
 }

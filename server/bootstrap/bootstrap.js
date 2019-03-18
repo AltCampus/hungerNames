@@ -131,7 +131,7 @@ function createBuffer(n) {
         console.log("inside loop")
 
         const newAttendanceBuffer = new AttendanceBuffer({
-          date: serverUtil.dateManupulater(i),
+          date: serverUtil.convDateToDateStr(serverUtil.dateManupulater(i)),
           breakfast: {
             //still have to make it automatic according to menu 
             title: "poha",
