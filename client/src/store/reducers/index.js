@@ -44,6 +44,7 @@ export default function rootReducer(state = INIT_STATE, action) {
         ...state,
         currentUser: null,
         currentToken: null,
+        isAuthenticated: false,
       }
     // break;
     case 'GET_MENU_DATA':

@@ -246,13 +246,13 @@ export function getAllFeedback() {
 export function getallstudentslist() {
   return dispatch => {
     fetch(`${util.baseURL}/student`)
-    .then(res => res.json())
-    .then(students => {
-      dispatch({
-        students: students.user,
-        type: "GET_ALL_STUDENTS_LIST"
+      .then(res => res.json())
+      .then(students => {
+        dispatch({
+          students: students.user,
+          type: "GET_ALL_STUDENTS_LIST"
+        })
       })
-    })
   }
 }
 
@@ -274,32 +274,33 @@ export function verifyTokenAction(token) {
         type: "LOGIN_USER",
         user: verifyedUser.user,
         token: token,
+        authenticated: true
       });
     }
   }
 }
 
-export function verifyDataTokenAction(token) {
-  return async (dispatch) => {
-    const verifyedUser = await fetch(`http://localhost:8000/api/v1/verify`,{
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'authorization': token
-      },
-    }).then(res => res.json());
-    
-    if (!verifyedUser.error) {
-      let token = `Hungry ${data.token}`;
-      localStorage.setItem('hungerNamesJWT', token) //will modify acc to server
-      dispatch({
-        type: "LOGIN_USER",
-        user: data.user,
-        token: token,
-      });
-    }
-  }    
-}
+// export function verifyDataTokenAction(token) {
+//   return async (dispatch) => {
+//     const verifyedUser = await fetch(`http://localhost:8000/api/v1/verify`, {
+//       method: 'GET',
+//       headers: {
+//         'Content-Type': 'application/json',
+//         'authorization': token
+//       },
+//     }).then(res => res.json());
+
+//     if (!verifyedUser.error) {
+//       let token = `Hungry ${data.token}`;
+//       localStorage.setItem('hungerNamesJWT', token) //will modify acc to server
+//       dispatch({
+//         type: "LOGIN_USER",
+//         user: data.user,
+//         token: token,
+//       });
+//     }
+//   }
+// }
 
 // removing a particular user from db
 export function removeStudent(id) {
@@ -310,9 +311,9 @@ export function removeStudent(id) {
         'content-type': 'application/json'
       }
     })
-    .then(res => res.json())
-    .then(users => {
-      console.log(users, 'inside remove student/action');
-    })
+      .then(res => res.json())
+      .then(users => {
+        console.log(users, 'inside remove student/action');
+      })
   }
 }
