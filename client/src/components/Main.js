@@ -16,6 +16,9 @@ import FeedbackDetail from './FeedbackDetail';
 import AdminMenu from './AdminMenu';
 import NewInvite from './NewInvite';
 import './Main.css';
+import ListStudentsAdmin from './ListStudentsAdmin';
+import AdminSideMenu from './AdminSideMenu';
+import StaffSideMenu from './StaffSideMenu';
 
 const Main = () => {
   return (    
@@ -29,7 +32,7 @@ const Main = () => {
             <Route path='/login' component={ Login } />            
             <Route exact path='/student' component={ StudentHome } />
             <Route exact path='/student/:day' component={ DayList } />
-            <Route exact path='/student/feedbacks/:id' component={ StudentFeedback } />
+            <Route exact path='/student/:id/feedback' component={ StudentFeedback } />
             <Route exact path='/staff' component={ StaffHome } />
             <Route exact path='/staff/feedbacks' component={ FeedbackListView } />
             <Route exact path='/staff/remark' component={ StaffRemarkForm } />
@@ -42,6 +45,9 @@ const Main = () => {
             <Route exact path='/admin/menu/:day' component={ AdminDayList } />
             
             {/* checking staff and admin side menu for tesing purpose */}
+            <Route exact path='/admin/sidemenu' component={ AdminSideMenu } />
+            <Route exact path='/staff/sidemenu' component={ StaffSideMenu } />           
+            <Route exact path='/admin/getallstudentslist' component={ ListStudentsAdmin } />
           </Switch>
         </>
       </BrowserRouter>

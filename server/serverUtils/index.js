@@ -1,4 +1,5 @@
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+
 // DATE UTILS
 const isValidDate = (date) => {
   return date && Object.prototype.toString.call(date) === "[object Date]" && !isNaN(date);

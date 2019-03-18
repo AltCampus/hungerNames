@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './Feedbacks.css';
 import { connect } from 'react-redux';
 import FeedbackListView from '../FeedbackListView'
-
+import StaffSideMenu from '../StaffSideMenu';
 
 function mapStateToProps(state) {
   if(state) {
@@ -30,6 +30,7 @@ function mapStateToProps(state) {
             <span>Back</span>
           </div>
         </div>
+        <StaffSideMenu />
         {!(feedbacks) ? 'loading' : (Object.keys(feedbacks).map((val) => {    
           return <FeedbackListView date={val} dateFeedbacks={feedbacks[val]}   />
         }) )

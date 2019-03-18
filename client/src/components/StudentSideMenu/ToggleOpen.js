@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 class ToggleOpen extends Component {
 
   render() {
-    const { handleToggleClose } = this.props;
+    const { handleToggleClose, currentUser } = this.props;
     return (
       <div className="sidebar-open">
         <div className="toggle-close" onClick={ handleToggleClose } >
@@ -24,7 +25,7 @@ class ToggleOpen extends Component {
               <Link className="links" to={`/notification`}>Meal Attendees</Link>
             </div>
             <div className="feedback-link-wrapper">
-              <Link className="links" to={`/student/feedbacks/:id`}>Send Feedback</Link>
+              <Link className="links" to={`/student/${currentUser._id}/feedback`}>Send Feedback</Link>
             </div>
             <div className="feedback-link-wrapper">
               <Link className="links" to={`/student/feedback/`}>My Feedbacks</Link>
@@ -39,4 +40,10 @@ class ToggleOpen extends Component {
   }
 }
 
-export default ToggleOpen
+const mapStateToProps = (state) => {
+  return {
+    currentUser: state.currentUser
+  }
+}
+
+export default connect(mapStateToProps)(ToggleOpen)
