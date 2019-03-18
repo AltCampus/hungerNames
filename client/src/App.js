@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.scss';
+import { connect } from 'react-redux';
 import {verifyTokenAction} from './store/actions'
 import Main from './components/Main';
 
@@ -26,4 +27,4 @@ const mapStatetoProps = (state) =>{
   }
 }
 
-export default connect()(App);
+export default connect(mapStatetoProps)(App);

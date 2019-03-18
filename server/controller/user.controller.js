@@ -58,6 +58,7 @@ module.exports = {
   },
 
   loginUser: (req, res, next) => {
+    console.log(req.body)
     passport.authenticate('local', {
       session: false
     }, (err, data, info) => {
@@ -153,11 +154,14 @@ module.exports = {
   },
 
   verifyStudent: (req, res, next) => {
+    console.log(req.body)
     const ref  = req.query.ref
+    console.log(ref)
     Invite.findOneAndUpdate(
       { refCode: ref },
       { $set: { isVerified: true } },
       (err, code) => {
+        console.log(code)
         if (err) res.json({ msg: `you're link is expired` });
         res.json({
           emailId: code.emailId,

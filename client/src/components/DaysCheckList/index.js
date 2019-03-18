@@ -57,7 +57,6 @@ class DaysCheckList extends Component {
                   </div>                          
                 </div>
               </div>
-              </div>
               <div className="meal-arrow">
                 <i className="fas checklist-icon fa-angle-right fa-3x"></i>
               </div>
