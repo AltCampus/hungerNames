@@ -1,4 +1,6 @@
 // DATE UTILS
+//haripallikare93@gmail.com
+//28391839
 const isValidDate = (date) => {
   return date && Object.prototype.toString.call(date) === "[object Date]" && !isNaN(date);
 }
@@ -25,7 +27,7 @@ const convDateStrToDate = (dateStr) => {
 
 
 export const util = {
-  baseURL : "http://localhost:8000/api/v1",
+  baseURL: "http://localhost:8000/api/v1",
 
   ValidateEmail: (mail) => {
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {

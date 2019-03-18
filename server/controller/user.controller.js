@@ -170,17 +170,17 @@ module.exports = {
     );
   },
 
-  getUserAttendence: (req, res) => {
+  getUserAttendence: async (req, res) => {
     const token = req.headers['authorization'];
     if (!token) return res.json({ message: 'unAuthorized Student' });
     const headerToken = token.split(' ')[1];
-    const user = serverUtils.getUserFromToken(headerToken);
+    const user = await serverUtils.getUserFromToken(headerToken);
     if (!user) return res.json({ error: `user not found` })
     let today = new Date();
     let todayDay = today.getDay();
     let weekStart = serverUtils.dateManupulater(-todayDay);
     let weekEnd = serverUtils.dateManupulater((6 - todayDay));
-    AttendanceBuffer.find({ date: { $gte: weekStart, $lte: weekEnd } }, (err, Att) => {
+    AttendanceBuffer.find({ $query: { date: { $gte: weekStart, $lte: weekEnd } }, $orderby: { date: 1 } }, (err, Att) => {
       if (err) return res.json({ err: `DB error ` })
       let userAttendence = [];
       Att.forEach(atte => {
@@ -203,23 +203,24 @@ module.exports = {
 
   },
 
-  updateUserAttendence: (req, res) => {
+  updateUserAttendence: async (req, res) => {
     attendanceArr = req.body.attendance;
     date = req.body.date;
     const token = req.headers['authorization'];
     if (!token) return res.json({ message: 'unAuthorized Student' });
     const headerToken = token.split(' ')[1];
-    const user = serverUtils.getUserFromToken(headerToken);
+    const user = await serverUtils.getUserFromToken(headerToken);
     if (!user) {
       return res.json({
         error: `user not Authorise`,
       })
     }
     AttendanceBuffer.findOne({ date: date }, (err, prevAtt) => {
+      console.log(currentAtt, "currentAtttttttttttt")
       let currentAtt = prevAtt;
       let flag = false; //to check if doc chenged or not
       attendanceArr.forEach(attendence => {
-        const mealType = attendanceArr.title.split('-')[1];
+        const mealType = attendence.mealType;
         const value = attendence.value;
         let index = -1;
         //c;heck if student present

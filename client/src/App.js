@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import './App.scss';
-import { connect } from 'react-redux';
-import {verifyTokenAction} from './store/actions'
-
+import { verifyTokenAction, getMenu, getAttendenceAction } from './store/actions'
+import { connect } from 'react-redux'
 import Main from './components/Main';
 
 class App extends Component {
   constructor(props) {
-    super(props);
-  }
+    super(props);>>>>>>> development
+  }2 conflicts ￼ Prev  ￼ Next 
+
   runVerify() {
     const { token, user } = this.props;
     if (!user && token) {
       this.props.dispatch(verifyTokenAction(token))
+      this.props.dispatch(getMenu());
+      this.props.dispatch(getAttendenceAction())
     }
   }
   render() {
@@ -27,8 +29,7 @@ class App extends Component {
     );
   }
 }
-
-const mapStateToProps = (state) => {  
+const mapStatetoProps = (state) => {
   return {
     redux: state,
     token: state.currentToken,
@@ -36,5 +37,4 @@ const mapStateToProps = (state) => {
   };
 }
 
-export default connect(mapStateToProps)(App);
-
+export default connect(mapStatetoProps)(App);
