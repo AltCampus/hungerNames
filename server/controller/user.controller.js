@@ -173,12 +173,13 @@ module.exports = {
     if (!token) return res.json({ message: 'unAuthorized Student' });
     const headerToken = token.split(' ')[1];
     const user = await serverUtils.getUserFromToken(headerToken);
+    console.log(user);
     if (!user) return res.json({ error: `user not found` })
     let today = new Date();
     let todayDay = today.getDay();
-    let weekStart = serverUtils.dateManupulater(-todayDay);
-    let weekEnd = serverUtils.dateManupulater((6 - todayDay));
-    AttendanceBuffer.find({ $query: { date: { $gte: weekStart, $lte: weekEnd } }, $orderby: { date: 1 } }, (err, Att) => {
+    let weekStart = serverUtils.convDateToDateStr(serverUtils.dateManupulater(-todayDay));
+    let weekEnd = serverUtils.convDateToDateStr(serverUtils.dateManupulater((6 - todayDay)));
+    AttendanceBuffer.find({ date: { $gte: weekStart, $lte: weekEnd } }, (err, Att) => {
       if (err) return res.json({ err: `DB error ` })
       let userAttendence = [];
       Att.forEach(atte => {
@@ -204,6 +205,7 @@ module.exports = {
   updateUserAttendence: async (req, res) => {
     attendanceArr = req.body.attendance;
     date = req.body.date;
+    console.log(date, attendanceArr)
     const token = req.headers['authorization'];
     if (!token) return res.json({ message: 'unAuthorized Student' });
     const headerToken = token.split(' ')[1];
