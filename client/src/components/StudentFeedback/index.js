@@ -149,4 +149,4 @@ function preTwoDate(preDate) {
   return preDate;
 }
 
-export default connect()(StudentFeedback);
+export default connect(null)(StudentFeedback);

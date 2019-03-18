@@ -13,13 +13,15 @@ class StaffToggleOpen extends Component {
         </div>
         <div className="sidebar-content">
           <div className="user-info">
-            <img src="https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2F1.bp.blogspot.com%2F-oPxmzDQdtF4%2FUSqzMDokh3I%2FAAAAAAAAD7k%2FSNzkXsnJg18%2Fs1600%2Fcute-cat.jpg&f=1" alt="user"/>
-            <h3>Amit</h3>
-            <p>Amit@gmail.com</p>
+            <img src='https://static.productionready.io/images/smiley-cyrus.jpg' alt="user"/>
+            <div className="user-detail">
+              <h3>Amit</h3>
+              <p>Amit@gmail.com</p>
+            </div>
           </div>
           <div className="link_wrapper">
             <div className="menu-link-wrapper">
-              <Link className="links" to={`/notification`}>Notifications</Link>
+              <Link className="links" to={`/staff/remark`}>Send Remark</Link>
             </div>
             <div className="logout-link-wrapper">
               <Link className="links" to={`/admin/logout`}>Log out</Link>
