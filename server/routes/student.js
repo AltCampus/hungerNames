@@ -13,8 +13,8 @@ router.get('/profile/:id', userController.profileStudent);
 router.put('/:id/:day', isUser.isLoggedIn, userController.attendanceStudent);
 router.post('/:id/feedback', userController.postFeedbackStudent);
 router.get('/:id/feedback', userController.getFeedback);
-router.get('/:id/attendance', userController.getUserAttendence);
-router.put('/:id/attendance', userController.updateUserAttendence);
+router.get('/attendance', userController.getUserAttendence);
+router.put('/attendance', userController.updateUserAttendence);
 
 //admin handle student route
 router.post('/invite', adminController.inviteStudent);
