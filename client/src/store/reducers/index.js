@@ -60,7 +60,7 @@ export default function rootReducer(state = INIT_STATE, action) {
     case 'GET_USER_ATTENDANCE':
       return {
         ...state,
-        userAttendance: action.attendance
+        userAttendance: action.attendance.attendance
       }
 
     case 'GET_ALL_FEEDBACK':

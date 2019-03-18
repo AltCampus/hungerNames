@@ -16,7 +16,7 @@ class DaysCheckList extends Component {
   render() {
     const { attendance, onDay } = this.props;
     const { day, meal } = onDay;
-    
+
     return (
       <>
         <div className="check-list">
