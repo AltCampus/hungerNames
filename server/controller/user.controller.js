@@ -178,7 +178,7 @@ module.exports = {
     let todayDay = today.getDay();
     let weekStart = serverUtils.dateManupulater(-todayDay);
     let weekEnd = serverUtils.dateManupulater((6 - todayDay));
-    AttendanceBuffer.find({ date: { $gte: weekStart, $lte: weekEnd } }, (err, Att) => {
+    AttendanceBuffer.find({ $query: { date: { $gte: weekStart, $lte: weekEnd } }, $orderby: { date: 1 } }, (err, Att) => {
       if (err) return res.json({ err: `DB error ` })
       let userAttendence = [];
       Att.forEach(atte => {

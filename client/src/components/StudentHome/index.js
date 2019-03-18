@@ -29,7 +29,7 @@ class StudentHome extends Component {
 
   render() {
     const { menu, attendance } = this.props;
-    // console.log('m');    
+    
     return (
       <>
         <StudentSideMenu />

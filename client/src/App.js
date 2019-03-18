@@ -10,9 +10,7 @@ class App extends Component {
   }
   runVerify() {
     const { token, user } = this.props;
-    console.log("inverify didmount", user, token, this.props)
     if (!user && token) {
-      console.log("inverify didmount if")
       this.props.dispatch(verifyTokenAction(token))
       this.props.dispatch(getMenu());
       this.props.dispatch(getAttendenceAction())
@@ -39,4 +37,4 @@ const mapStatetoProps = (state) => {
   };
 }
 
-export default connect(mapStatetoProps)(App);
+export default connect(mapStateToProps)(App);

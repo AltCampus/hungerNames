@@ -18,8 +18,10 @@ router.put('/attendance', userController.updateUserAttendence);
 
 //admin handle student route
 router.post('/invite', adminController.inviteStudent);
-router.get('/', isUser.isLoggedIn, adminController.getStudent);
-router.delete('/:id', isUser.isLoggedIn, adminController.removeStudent);
+
+// removed router auth middleware for getting list of students
+router.get('/', adminController.getStudent);
+router.delete('/:id/delete', adminController.removeStudent);
 
 //staff handle student route
 router.get('/attendees', staffController.getAllStudentAttendance);
