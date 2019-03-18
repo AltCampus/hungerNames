@@ -24,6 +24,12 @@ function mapStateToProps(state) {
     })
     return(
       <>
+        <div className="back-btn-box">
+          <div onClick={this.props.history.goBack} className="back-btn">
+            <i className="fas fa-angle-left fa-lg"></i>
+            <span>Back</span>
+          </div>
+        </div>
         {!(feedbacks) ? 'loading' : (Object.keys(feedbacks).map((val) => {    
           return <FeedbackListView date={val} dateFeedbacks={feedbacks[val]}   />
         }) )

@@ -23,10 +23,6 @@ const Main = () => {
         <>
           <div className="logo-box">
             <Link to="/" className="logo wrapper">Hogger<span className="sub-logo"></span></Link>
-          </div>
-
-          <div className="side-menu">
-              
           </div>          
           <Switch>
             <Route path='/register' component={ Register } />
