@@ -19,7 +19,7 @@ class StudentHome extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.days = ["day1", "day2", "day3", "day4", "day5", "day6", "day0"];
+    this.days = ["day0", "day1", "day2", "day3", "day4", "day5", "day6"];
   }
 
   componentDidMount() {
@@ -37,9 +37,13 @@ class StudentHome extends Component {
           {/* <SideMenu /> */}
           <div className="home">
             {(menu && menu.day1) ? (
-              this.days.map((val, index) => {
-                return <DaysCheckList key={index} onDay={menu[val]} attendance={attendance[index]} />
-              })
+              <>
+                {this.days.map((val, index) => {
+                  if (val != 'day0')
+                    return <DaysCheckList key={index} onDay={menu[val]} attendance={attendance[index]} />
+                })}
+                < DaysCheckList key={0} onDay={menu["day0"]} attendance={attendance[0]} />
+              </>
             ) : ''}
           </div>
         </div>

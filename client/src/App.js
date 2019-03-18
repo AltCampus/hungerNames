@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.scss';
-import { verifyTokenAction } from './store/actions'
+import { verifyTokenAction, getMenu, getAttendenceAction } from './store/actions'
 import { connect } from 'react-redux'
 import Main from './components/Main';
 
@@ -14,11 +14,12 @@ class App extends Component {
     if (!user && token) {
       console.log("inverify didmount if")
       this.props.dispatch(verifyTokenAction(token))
+      this.props.dispatch(getMenu());
+      this.props.dispatch(getAttendenceAction())
     }
   }
   render() {
     const { token, user } = this.props;
-    console.log("inverify render", user, token, this.props)
 
     if (!user && token) this.runVerify();
     return (
@@ -31,7 +32,6 @@ class App extends Component {
 }
 
 const mapStatetoProps = (state) => {
-  console.log(state);
   return {
     redux: state,
     token: state.currentToken,
