@@ -67,11 +67,11 @@ module.exports = {
   },
 
   registerStudent: (req, res, next) => {
-    const { email, password, name, refCode } = req.body;
+    const { email, password, name, refCode } = req.body;    
     Invite.findOne({ refCode: refCode }, (err, user) => {
       const { isAdmin, isStaff, isStudent } = user;
       if (err) res.json({ message: "not verified" });
-      if (user.isVerified) {
+      if (user.isVerified) {      
         const newStudent = new Student({
           name,
           email,
@@ -80,8 +80,7 @@ module.exports = {
           isStaff,
           isStudent
         });
-        newStudent.save((err, user) => {
-          console.log(user, 'inside register student');
+        newStudent.save((err, user) => {          
           if (err || !user) {
             return res.status(401).json({
               error: "user is not found"

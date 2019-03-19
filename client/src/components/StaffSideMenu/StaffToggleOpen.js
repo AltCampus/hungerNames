@@ -8,8 +8,9 @@ class StaffToggleOpen extends Component {
   }
 
   handleLogout = () => {    
-    this.props.dispatch(logoutUserAction());
-    this.props.history.push('/login')
+    this.props.dispatch(logoutUserAction((logOutStatus) => {
+      if (logOutStatus) this.props.history.push('/login');
+    }));
   }
 
   render() {
@@ -33,7 +34,7 @@ class StaffToggleOpen extends Component {
               <Link className="links" to={`/staff/remark`}>Send Remark</Link>
             </div>
             <div className="logout-link-wrapper">
-              <div className="links" onClick={this.handleLogout}>Log out</div>
+              <Link className="links" onClick={this.handleLogout} to={`/login`}>Log out</Link>              
             </div>
           </div>
         </div>

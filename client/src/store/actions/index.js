@@ -72,12 +72,13 @@ export function loginUserAction(data, cb) {
   };
 };
 
-export function logoutUserAction() {
+export function logoutUserAction(cb) {
   return (dispatch) => {
     localStorage.removeItem('hungerNamesJWT');
     dispatch({
       type: "LOGOUT_USER",
     });
+    cb(true)
   };
 };
 
@@ -101,13 +102,14 @@ export function registerUserAction(data, cb) {
 };
 
 
-export function getMenu() {
+export function getMenu(menu = {}, cb) {
   return async (dispatch) => {
     const menuData = await fetch(`${util.baseURL}/admin/menu`).then(res => res.json());
     dispatch({
       type: 'GET_MENU_DATA',
       menuData: menuData[0]
     });
+    cb(true);
   }
 }
 
