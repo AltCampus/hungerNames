@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
-import FeedbackList from '../FeedbackList';
-import './FeedbackListView.css'
+import FeedbackList from '../StaffFeedbackList';
+import './FeedbackListView.css';
+import { connect } from 'react-redux';
+import {getAllFeedback} from '../../store/actions';
 
-export default class FeedbackListView extends Component {
+class FeedbackListView extends Component {
+  constructor(props) {
+    super(props)
+  }
+  componentDidMount = () => {
+    this.props.dispatch(getAllFeedback())
+  }
   render() {
     const { date, dateFeedbacks} = this.props;
     console.log(dateFeedbacks,'props')
@@ -20,9 +28,9 @@ export default class FeedbackListView extends Component {
             })
           }
         </div>
-
-      }}
       </>
      );
   }
 }
+
+export default connect()(FeedbackListView)

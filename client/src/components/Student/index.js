@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PrivateRoute from '../PrivateRoute';
 import StudentHome from '../StudentHome';
 import DayList from '../DayList';
-import StudentFeedback from '../StudentFeedback';
+import StudentFeedbackForm from '../StudentFeedbackForm';
 
 function mapStateToProps(state) {
   return {
@@ -23,7 +23,7 @@ class Student extends Component {
           <Switch>
             <PrivateRoute exact path='/student' component={ StudentHome } auth={this.props.isAuthenticated}/>
             <PrivateRoute exact path='/student/:day' component={ DayList } auth={this.props.isAuthenticated}/>
-            <PrivateRoute exact path='/student/:id/feedback' component={ StudentFeedback } auth={this.props.isAuthenticated}/>
+            <PrivateRoute exact path='/student/:id/feedback' component={ StudentFeedbackForm } auth={this.props.isAuthenticated}/>
           </Switch>
         </BrowserRouter>
       </>
