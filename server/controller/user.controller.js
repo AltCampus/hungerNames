@@ -18,16 +18,16 @@ module.exports = {
   },
 
   registerStudent: (req, res, next) => {
-    const { email, password, name, refCode } = req.body;
+    const { email, password, name, refCode } = req.body;    
     Invite.findOne({ refCode: refCode }, (err, user) => {
       if (err) res.json({ message: "not verified" });
-      if (user.isVerified) {
+      if (user.isVerified) {      
         const newStudent = new Student({
           name,
           email,
           password          
         });
-        newStudent.save((err, user) => {
+        newStudent.save((err, user) => {          
           if (err || !user) {
             return res.status(401).json({
               error: "user is not found"
