@@ -1,8 +1,17 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { logoutUserAction } from "../../store/actions";
 
 class ToggleOpen extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  handleLogout = (event) => {
+    event.preventDefault();
+    this.props.dispatch(logoutUserAction());    
+  }
 
   render() {
     const { handleToggleClose, currentUser } = this.props;  
@@ -28,10 +37,10 @@ class ToggleOpen extends Component {
               <Link className="links" to={`/student/${currentUser._id}/feedback`}>Send Feedback</Link>
             </div>
             <div className="feedback-link-wrapper">
-              <Link className="links" to={`/student/feedback/`}>My Feedbacks</Link>
+              <Link className="links" to={`/student/feedbacks/`}>My Feedbacks</Link>
             </div>
             <div className="logout-link-wrapper">
-              <Link className="links" to={`/student/:id/logout`}>Log out</Link>
+              <Link className="links" onClick={this.handleLogout} to={`/login`}>Log out</Link>
             </div>
           </div>
         </div>
@@ -42,7 +51,7 @@ class ToggleOpen extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    currentUser: state.currentUser
+    currentUser: state.currentUser || {},
   }
 }
 

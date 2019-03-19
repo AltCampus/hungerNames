@@ -4,7 +4,7 @@ import StaffSideMenu from '../StaffSideMenu';
 import StaffHome from '../StaffHome';
 import StaffRemarkForm from '../StaffRemarkForm';
 import StudentList from '../StudentList';
-import FeedbackDetail from '../FeedbackDetail';
+import FeedbackDetail from '../StaffFeedbackDetail';
 import StaffFeedbacks from '../StaffFeedbacks';
 import PrivateRoute from '../PrivateRoute';
 import { connect } from 'react-redux';
