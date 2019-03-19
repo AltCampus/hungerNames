@@ -25,7 +25,7 @@ module.exports = {
         const newStudent = new Student({
           name,
           email,
-          password
+          password          
         });
         newStudent.save((err, user) => {
           if (err || !user) {
@@ -62,7 +62,7 @@ module.exports = {
     passport.authenticate('local', {
       session: false
     }, (err, data, info) => {
-      if(!data) return res.json({message: 'incorrect password/user not found'})
+      if (!data) return res.json({ message: 'incorrect password/user not found' })
       if (err) return res.json({ error: 'user not found' })
       const user = serverUtils.cleanUser(data);
       const token = jwt.sign({
@@ -85,7 +85,7 @@ module.exports = {
   profileStudent: (req, res, next) => {
     const studentId = req.params.id;
     Student.findById({ _id: studentId }, (err, user) => {
-      if (!user) return res.json({message:'user not present'})
+      if (!user) return res.json({ message: 'user not present' })
       if (err) res.status(401).json({
         message: 'user not found'
       })
@@ -110,13 +110,37 @@ module.exports = {
     });
   },
 
-  
+  postFeedbackStudent: (req, res, next) => {
+    const studentId = req.params.id;
+    const feedbackBody = req.body;
+    const feedBack = new FeedBack({
+      student: studentId,
+      ...feedbackBody
+    });
+    Student.findById((studentId), (err, user) => {
+      if (err) return res.json({ error: 'db error' })
+      if (!user) return res.json({ message: 'user not present' })
+      feedBack.save((err, feedback) => {
+        if (err) return res.json({ error: 'internal error' })
+        Student.findByIdAndUpdate(studentId, { $push: { feedback: feedback._id } }, { upsert: true }, (err, student) => {
+          if (err) return res.json({
+            error: 'sorry mate youre not found'
+          })
+          const { name, email } = student
+          res.json({
+            name,
+            email
+          })
+        })
+      })
+    })
+  },
 
   getFeedback: (req, res, next) => {
     const studentId = req.params.id;
-    Student.findById({ _id: studentId },(err,user) => {
-      if (err) return res.json({error: 'db tandoor'})
-      if(!user) return res.json({message:'user not found'})
+    Student.findById({ _id: studentId }, (err, user) => {
+      if (err) return res.json({ error: 'db tandoor' })
+      if (!user) return res.json({ message: 'user not found' })
     })
       .populate("feedback")
       .exec((err, student) => {
@@ -213,7 +237,7 @@ module.exports = {
   updateUserAttendence: async (req, res) => {
     attendanceArr = req.body.attendance;
     date = req.body.date;
-    console.log(date, attendanceArr)
+    console.log('----', req.body, date, attendanceArr, '----------------------------------')
     const token = req.headers['authorization'];
     if (!token) return res.json({ message: 'unAuthorized Student' });
     const headerToken = token.split(' ')[1];
@@ -224,8 +248,7 @@ module.exports = {
       })
     }
     AttendanceBuffer.findOne({ date: date }, (err, prevAtt) => {
-      console.log(currentAtt, "currentAtttttttttttt")
-      let currentAtt = prevAtt;
+      let currentAtt = prevAtt;      
       let flag = false; //to check if doc chenged or not
       attendanceArr.forEach(attendence => {
         const mealType = attendence.mealType;

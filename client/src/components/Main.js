@@ -21,7 +21,7 @@ class Main extends Component {
           </div>          
           <Switch>
             <Route path='/register' component={ Register } />
-            <Route path='/login' component={ Login } />            
+            <Route path='/login' component={ Login } />
             <Route path='/admin' component={ Admin } />
             <Route path='/student' component={ Student } />
             <Route path='/staff' component={ Staff } />

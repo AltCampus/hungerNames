@@ -16,24 +16,28 @@ class DayList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      date: "",
-      dayVal: 'day1',
+      newDate: new Date,
+      date: '',
+      dayVal: '',
       breakfast: false,
       lunch: false,
       dinner: false,
       brunch: false,
-    }
+      lunchTime: false,
+      brunchTime: false,
+      breakfastTime:false,
+      dinnerTime: false,
+    }    
   }
 
   componentDidMount() {
-
     const { menu, attendance } = this.props;
     const { day } = this.props.match.params;
     let dayVal = "";
     let dayIndex = -1;
     (menu && menu.day1) && Object.keys(menu).forEach((val, index) => {
       if (menu[val].day == day) { dayVal = val; dayIndex = index }
-    })
+    })    
 
     if (dayIndex != -1 && attendance.length) {
       this.setState({
@@ -44,6 +48,41 @@ class DayList extends Component {
         dinner: attendance[dayIndex].dinner,
         brunch: attendance[dayIndex].brunch,
       })
+    }
+
+
+
+    let currentTime = this.state.newDate.toLocaleTimeString();        
+    if(day === 'Sunday') {
+      switch(true) {
+        case (currentTime > (menu[dayVal].meal.brunch.time)):   
+          this.setState({
+            brunchTime: true,
+          });
+        case (currentTime > (menu[dayVal].meal.dinner.time)):
+          this.setState({
+            brunchTime: true,
+            dinnerTime: true,
+          });
+      }
+    } else {      
+      switch(true) {
+        case (currentTime > (menu[dayVal].meal.breakfast.time)):
+          this.setState({
+            breakfastTime: true,
+          });                  
+        case (currentTime > (menu[dayVal].meal.lunch.time)):          
+          this.setState({
+            breakfastTime: true,
+            lunchTime: true,
+          });         
+        case (currentTime > (menu[dayVal].meal.dinner.time)):          
+          this.setState({
+            breakfastTime: true,
+            lunchTime: true,
+            dinnerTime: true,            
+          });
+      }      
     }
   }
 
@@ -65,7 +104,7 @@ class DayList extends Component {
       ]
     }
     this.props.dispatch(updateAttendenceAction(data, (cb) => {
-      if (cb) this.this.props.history.goBack();
+      if (cb) this.props.history.goBack();
     }))
   }
 
@@ -84,19 +123,19 @@ class DayList extends Component {
           </div>
         </div>
         <div className="check-list-page">
-          {(menu && menu.day1) ? (
+          {(menu && menu.day1 && dayVal) ? (
             <form onSubmit={this.handleSubmit} key={day} >
-              <h2 className="day-name">{day}</h2>
+              <h2 className="day-name">{day}</h2>              
               {(menu[dayVal].day !== 'Sunday') ? (
                 <>
-                  <label className="label-box" htmlFor="breakfast">
-                    <input checked={this.state.breakfast} type="checkbox" onChange={(e) => this.handlechange(e)} id="breakfast" name="breakfast" />
+                  <label className="label-box" htmlFor="breakfast">                    
+                    <input checked={this.state.breakfast} type="checkbox" onChange={(e) => this.handlechange(e)} id="breakfast" name="breakfast" disabled={this.state.breakfastTime}/>
                     <p className="meal">
                       Breakfast: {menu[dayVal].meal.breakfast.title}
                     </p>
                   </label>
                   <label className="label-box" htmlFor="lunch">
-                    <input checked={this.state.lunch} type="checkbox" onChange={(e) => this.handlechange(e)} id="lunch" name="lunch" />
+                    <input checked={this.state.lunch} type="checkbox" onChange={(e) => this.handlechange(e)} id="lunch" name="lunch" disabled={this.state.lunchTime}/>
                     <p className="meal">
                       Lunch: {menu[dayVal].meal.lunch.title}
                     </p>
@@ -105,14 +144,14 @@ class DayList extends Component {
                 :
                 (<>
                   <label className="label-box" htmlFor="brunch">
-                    <input checked={this.state.brunch} type="checkbox" onChange={(e) => this.handlechange(e)} id="brunch" name="brunch" />
+                    <input checked={this.state.brunch} type="checkbox" onChange={(e) => this.handlechange(e)} id="brunch" name="brunch" disabled={this.state.brunchTime}/>
                     <p className="meal">
                       Brunch: {menu[dayVal].meal.brunch.title}
                     </p>
                   </label>
                 </>)}
               <label className="label-box" htmlFor="dinner" >
-                <input checked={this.state.dinner} type="checkbox" onChange={(e) => this.handlechange(e)} id="dinner" name="dinner" />
+                <input checked={this.state.dinner} type="checkbox" onChange={(e) => this.handlechange(e)} id="dinner" name="dinner" disabled={this.state.dinnerTime}/>
                 <p className="meal">
                   Dinner: {menu[dayVal].meal.dinner.title}
                 </p>

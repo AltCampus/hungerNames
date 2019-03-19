@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 class AdminToggleOpen extends Component {
 
   render() {
-    const { handleToggleClose } = this.props;
+    const { handleToggleClose, currentUser } = this.props;
     return (
       <div className="sidebar-open">
         <div className="toggle-close" onClick={ handleToggleClose } >
@@ -15,8 +16,8 @@ class AdminToggleOpen extends Component {
           <div className="user-info">
             <img src='https://static.productionready.io/images/smiley-cyrus.jpg' alt="user"/>
             <div className='user-detail'>
-              <h3>Suraj</h3>
-              <p>Suraj@gmail.com</p>
+              <h3>{currentUser.name}</h3>
+              <p>{currentUser.email}</p>
             </div>
           </div>
           <div className="link_wrapper">
@@ -39,7 +40,7 @@ class AdminToggleOpen extends Component {
               <div className="links">Log out</div>
             </div> */}
             <div className="logout-link-wrapper">
-              <Link className="links" to={`/admin/logout`}>Log out</Link>
+              <Link className="links" to={`/login`}>Log out</Link>
             </div>
           </div>
         </div>
@@ -48,4 +49,10 @@ class AdminToggleOpen extends Component {
   }
 }
 
-export default AdminToggleOpen;
+const mapStateToProps = (state) => {
+  return {
+    currentUser: state.currentUser || {},
+  }
+}
+
+export default connect(mapStateToProps)(AdminToggleOpen);
