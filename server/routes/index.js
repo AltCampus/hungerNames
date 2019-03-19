@@ -34,6 +34,10 @@ router.get('/student/:id/feedback', (req, res) => {
   res.render('index');
 })
 
+router.get('/student/:id/myfeedback/', (req, res) => {
+  res.render('index');
+})
+
 router.get('/staff/feedbacks', (req, res) => {
   res.render('index');
 })

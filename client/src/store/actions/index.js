@@ -357,3 +357,19 @@ export function removeStudent(id, cb) {
     })
   }
 }
+
+// getting feedback of a particular student from db
+export function getSingleStudentFeedback(id) {
+  return async (dispatch) => {
+    await fetch(`${util.baseURL}/student/${id}/feedback`)
+    .then(res => res.json())
+    .then(feedback => {
+      console.log(feedback, 'getting feedback')
+      if (feedback.message) return;
+      dispatch({
+        type: "GET_SINGLE_STUDENT_FEEDBACK",
+        feedback: feedback.student.feedback
+      })
+    })
+  }
+}
