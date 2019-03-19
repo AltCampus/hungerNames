@@ -76,7 +76,12 @@ export default function rootReducer(state = INIT_STATE, action) {
         listAllStudents: action.students
       }
     }
-
+    case 'REMAINING_STUDENTS': {
+      return {
+        ...state,
+        listAllStudents: action.users
+      }
+    }
     default:
       return state;
   }
