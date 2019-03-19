@@ -33,6 +33,7 @@ export function loginUserAction(data, cb) {
     })
       .then(res => res.json())
       .then(data => {
+        console.log(data);
         if (!data.error) {
           let token = `Hungry ${data.token}`;
           localStorage.setItem('hungerNamesJWT', token) //will modify acc to server
@@ -50,7 +51,7 @@ export function loginUserAction(data, cb) {
   };
 };
 
-export function logoutUserAction(data) {
+export function logoutUserAction() {
   return (dispatch) => {
     localStorage.removeItem('hungerNamesJWT');
     dispatch({
@@ -58,6 +59,7 @@ export function logoutUserAction(data) {
     });
   };
 };
+
 export function registerUserAction(data, cb) {
   return async (dispatch) => {
     await fetch(`${util.baseURL}/student/register`, {

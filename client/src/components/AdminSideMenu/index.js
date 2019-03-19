@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'; 
 import { getStudentFeedback } from '../../store/actions';
 import '../StudentSideMenu/StudentSideMenu.scss';
 import AdminToggleOpen from './AdminToggleOpen';

@@ -25,7 +25,7 @@ module.exports = {
         const newStudent = new Student({
           name,
           email,
-          password
+          password          
         });
         newStudent.save((err, user) => {
           if (err || !user) {
@@ -222,9 +222,7 @@ module.exports = {
       })
     }
     AttendanceBuffer.findOne({ date: date }, (err, prevAtt) => {
-      let currentAtt = prevAtt;
-      console.log(currentAtt, "currentAtttttttttttt")
-
+      let currentAtt = prevAtt;      
       let flag = false; //to check if doc chenged or not
       attendanceArr.forEach(attendence => {
         const mealType = attendence.mealType;
