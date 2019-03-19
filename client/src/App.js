@@ -6,7 +6,7 @@ import Main from './components/Main';
 
 class App extends Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   runVerify() {
@@ -28,7 +28,7 @@ class App extends Component {
     );
   }
 }
-const mapStatetoProps = (state) => {
+const mapStateToProps = (state) => {
   return {
     redux: state,
     token: state.currentToken,
@@ -36,4 +36,4 @@ const mapStatetoProps = (state) => {
   };
 }
 
-export default connect(mapStatetoProps)(App);
+export default connect(mapStateToProps)(App);

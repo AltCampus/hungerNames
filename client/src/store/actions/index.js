@@ -59,8 +59,8 @@ export function logoutUserAction(data) {
   };
 };
 export function registerUserAction(data, cb) {
-  return (dispatch) => {
-    fetch(`${util.baseURL}/student/register`, {
+  return async (dispatch) => {
+    await fetch(`${util.baseURL}/student/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -89,7 +89,6 @@ export function getMenu() {
 }
 
 export function postStaffRemark(data,cb) {
-  console.log(data)
   return (dispath) => {
     fetch(`${util.baseURL}/staff/menu`,{
       method: "PUT",

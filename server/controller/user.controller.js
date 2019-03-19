@@ -102,11 +102,38 @@ module.exports = {
       })
     })
   },
+
   attendanceStudent: (req, res, next) => {
     const { day } = req.params;
     res.json({
       message: "attendance"
     });
+  },
+
+  
+
+  getFeedback: (req, res, next) => {
+    const studentId = req.params.id;
+    Student.findById({ _id: studentId },(err,user) => {
+      if (err) return res.json({error: 'db tandoor'})
+      if(!user) return res.json({message:'user not found'})
+    })
+      .populate("feedback")
+      .exec((err, student) => {
+        const { feedback, _id, name, email } = student
+        if (err) return res.json({ error: "server busy" })
+        if (feedback.length === 0) return res.json({
+          message: 'not feedback to display'
+        })
+        res.json({
+          student: {
+            feedback,
+            _id,
+            name,
+            email
+          }
+        })
+      });
   },
 
   postFeedbackStudent: (req, res, next) => {
@@ -134,31 +161,6 @@ module.exports = {
       })
     })
   },
-
-  getFeedback: (req, res, next) => {
-    const studentId = req.params.id;
-    Student.findById({ _id: studentId },(err,user) => {
-      if (err) return res.json({error: 'db tandoor'})
-      if(!user) return res.json({message:'user not found'})
-    })
-      .populate("feedback")
-      .exec((err, student) => {
-        const { feedback, _id, name, email } = student
-        if (err) return res.json({ error: "server busy" })
-        if (feedback.length === 0) return res.json({
-          message: 'not feedback to display'
-        })
-        res.json({
-          student: {
-            feedback,
-            _id,
-            name,
-            email
-          }
-        })
-      });
-  },
-
   verifyStudent: (req, res, next) => {
     const ref = req.query.ref
     Invite.findOneAndUpdate(

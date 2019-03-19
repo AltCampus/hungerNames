@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link, Route } from 'react-router-dom';
 import './FeedbackList.css';
-import FeedbackDetail from '../FeedbackDetail';
+import FeedbackDetail from '../StaffFeedbackDetail';
 
 export default class FeedbackList extends Component {
   render() {

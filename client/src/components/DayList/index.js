@@ -34,7 +34,6 @@ class DayList extends Component {
     (menu && menu.day1) && Object.keys(menu).forEach((val, index) => {
       if (menu[val].day == day) { dayVal = val; dayIndex = index }
     })
-    console.log(dayVal, dayIndex, attendance, "helllllllllllllllll");
 
     if (dayIndex != -1 && attendance.length) {
       this.setState({
