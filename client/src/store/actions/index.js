@@ -273,7 +273,7 @@ export function verifyTokenAction(token) {
         type: "LOGIN_USER",
         user: verifyedUser.user,
         token: token,
-        authenticated: auth,
+        authenticated: true,
       });
       
     } else {
