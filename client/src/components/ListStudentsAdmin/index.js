@@ -17,6 +17,12 @@ class ListStudentsAdmin extends Component {
     const { listAllStudents } = this.props;
     return (
       <>
+        <div className="back-btn-box">
+          <div onClick={this.props.history.goBack} className="back-btn">
+            <i className="fas fa-angle-left fa-lg"></i>
+            <span>Back</span>
+          </div>
+        </div>
         <div className="listStudent-wrapper">
           {
             listAllStudents && listAllStudents.map(student => (

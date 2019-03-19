@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { util } from "../../util";
 import './NewInvite.css';
+import Loader from '../Loader'
 
 class NewInvite extends Component {
   constructor(props){
@@ -8,6 +9,7 @@ class NewInvite extends Component {
     this.state ={
       invitemail : "",
       message:"",
+      loading: false,
     }
   }
 
@@ -16,6 +18,9 @@ class NewInvite extends Component {
   }
 
   handleClick = (e) => {
+    this.setState({
+      loading: true,
+    })
     let email = this.state.invitemail.trim();
     if(!util.ValidateEmail(email)) return;
     fetch(`${util.baseURL}/student/invite`, {
@@ -29,8 +34,14 @@ class NewInvite extends Component {
     .then(data=> {
       console.log(data);
       if(!data.error) {
-        this.setState({message:data.msg})
-      } else this.setState({ message: data.error.msg })
+        this.setState({
+          message: data.message,
+          loading: false
+        })
+      } else this.setState({ 
+        message: data.error,
+        loading: false,
+      })
     })
   }
 
@@ -47,10 +58,12 @@ class NewInvite extends Component {
           <label htmlFor="invite" className="label-box column">
             <span className="label-text">Send a new invite</span>          
             <input onChange={this.handleChange} className="input-field" type="text" id="invite" name="invitemail" placeholder="Enter an email"/>
-            <div>{this.state.message}</div>
-            <button className='send-btn form-btn' onClick={this.handleClick}>INVITE</button>
+            <div className='label-text strong'>{this.state.message}</div>
+            {(this.state.loading) ? <Loader /> : ''}
+            <button className='send-btn form-btn center' onClick={this.handleClick}>INVITE</button>
           </label>
         </div>
+
       </>
     );
   }
