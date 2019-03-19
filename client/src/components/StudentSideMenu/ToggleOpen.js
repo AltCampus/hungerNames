@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 class ToggleOpen extends Component {
 
   render() {
-    const { handleToggleClose, currentUser } = this.props;
+    const { handleToggleClose, currentUser } = this.props;  
     return (
       <div className="sidebar-open">
         <div className="toggle-close" onClick={ handleToggleClose } >
@@ -16,8 +16,8 @@ class ToggleOpen extends Component {
           <div className="user-info">
             <img src='https://static.productionready.io/images/smiley-cyrus.jpg' alt="user"/>
             <div className="user-detail">
-              <h3>Mickey</h3>
-              <p>mickey@gmail.com</p>
+              <h3>{currentUser.name}</h3>
+              <p>{currentUser.email}</p>
             </div>
           </div>
           <div className="link_wrapper">

@@ -1,4 +1,4 @@
-const AttendanceBufferSchema = require('../model/attendanceBuffer')
+const AttendanceBufferSchema = require("../model/attendanceBuffer");
 const Feedback = require("../model/Feedback");
 const Student = require("../model/Student");
 const serverUtils = require("../serverUtils/index");
@@ -15,6 +15,7 @@ module.exports = {
   },
 
   getAllStudentFeedback: (req, res, next) => {
+    console.log(req,'sdfsfsfsfs')
     let today = new Date();
     let todayMinus2 = new Date();
     todayMinus2 = serverUtils.removeTimeFromDate(todayMinus2);
@@ -22,7 +23,8 @@ module.exports = {
     Feedback.find({ date: { $gte: todayMinus2, $lte: today } })
       .populate("student")
       .exec((err, feedback) => {
-        if(err) return res.json({message:'not able to fetch'})
+        console.log(feedback,'feedback')
+        if (err) return res.json({ message: "not able to fetch" });
         let filteredFeedback = [];
         feedback.forEach(feed => {
           let obj = {};
@@ -31,7 +33,7 @@ module.exports = {
           obj.mealType = feed.mealType;
           obj.review = feed.review;
           obj.rating = feed.rating;
-          obj.date = new Date(feed.date).toDateString()
+          obj.date = new Date(feed.date).toDateString();
           filteredFeedback.push(obj);
         });
         res.json({
@@ -40,24 +42,38 @@ module.exports = {
       });
   },
 
-  addRemarkStaff: (req, res, next) => { 
-    console.log('indone') 
-    console.log(req.body)
-    const {mealtype,date,remark} = req.body
-    // let mealType = breakfast
-    let remarks = 'remarks';
-    let breakfast = `breakfast.${remarks}`
-    let dat = '2019-03-13T11:40:08.743+00:00'
-    // AttendanceBufferSchema.find({date : '2019-04-27T18:30:00.000+00:00'},(err,data) => {
-    //   res.json({
-    //     data
-    //   })
+  addRemarkStaff: (req, res, next) => {
+    const { mealtype, date, remark } = req.body;
+    let newDate = date;
+    let remarks = `${remark}`;
+    let mealType = `${mealtype}.remarks`;
+    AttendanceBufferSchema.findOneAndUpdate(
+      { date: newDate },
+      { $set: { [mealType]: [remarks] }},{new: true}  ,
+      (err, doc) => {
+        if (err) return res.json({
+          error: 'could not update'
+        })
+        return res.json({
+          message: 'updated sucessfully'
+        })
+      }
+    );
+    // const att = new AttendanceBufferSchema({
+    //   date: '2019-04-05',
+    //   breakfast: {
+    //     title: "idli",
+    //   },
+    //   lunch : {
+    //     title: 'samar'
+    //   },
+    //   dinner: {
+    //     title: 'rice curd'
+    //   }
     // })
-    AttendanceBufferSchema.findOneAndUpdate({ date : dat},{$set:{[breakfast]:"sdds"}},{new: true},(err,doc) => {
-   res.json({
-     doc
-   })
-    })
-  }
-
+    // att.save((err,done) => {
+    //   if (err) console.log(err)
+    //   console.log(done)
+    // })
+    }
 }

@@ -1,7 +1,7 @@
 const INIT_STATE = {
   currentUser: null,
   currentToken: localStorage.getItem('hungerNamesJWT') || null,
-  isAuthenticated: false,
+  isAuthenticated: (localStorage.getItem('hungerNamesJWT'))? true : false,
   menu: {},
   userFeedback: [],
   userAttendance: [],

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./StaffRemarkForm.css";
-import { postStaffRemark} from "../../store/actions"
+import { postStaffRemark} from "../../store/actions";
 
 
 class StaffRemarkForm extends Component {
@@ -10,7 +10,8 @@ class StaffRemarkForm extends Component {
     this.state = {
       date: new Date(),
       mealtype: "",
-      remark: ""
+      remark: "",
+      isLoading: false
     };
   }
 
@@ -21,16 +22,16 @@ class StaffRemarkForm extends Component {
   };
 
   handleSubmit = (event) => {
-    console.log(this.props);
     event.preventDefault();
     const { date, mealtype, remark } = this.state;
     const data = { date, mealtype, remark };
     this.props.dispatch(postStaffRemark(data,cb => {
-      console.log(cb)
+      
     }))
   };
 
   render() {
+    const {isloading} = this.state
     return (
       <>
         <form onSubmit={this.handleSubmit}>
