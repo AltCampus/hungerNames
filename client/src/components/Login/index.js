@@ -29,28 +29,14 @@ class Login extends Component {
     }
     dispatch(loginUserAction(data, (isLoggedIn) => {
       if (isLoggedIn) {
-        this.handleRoute();
+        this.props.history.push('/');
       } else {
         this.props.history.push('/login');
       }
     }));
   }
 
-  handleRoute = () => {
-    const { user } = this.props;
-    if (user) {
-      if (user.isAdmin !== 'undefined' && user.isAdmin) {
-        this.props.history.push('/admin');
-      } else if (user.isKitchenStaff !== 'undefined' && user.isKitchenStaff) {
-        this.props.history.push('/staff');
-      } else {
-        this.props.history.push('/student');
-      }
-    }
-  }
-
   render() {
-    this.handleRoute();
     return (
       <form onSubmit={this.handleSubmit} className='form-page'>
         <h2 className='h2-title'>Sign in</h2>
@@ -68,10 +54,6 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.currentUser
-  };
-}
 
-export default connect(mapStateToProps)(Login);
+
+export default connect()(Login);
