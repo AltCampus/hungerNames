@@ -9,6 +9,7 @@ const Invite = require('../model/Invite');
 
 module.exports = {
   inviteStudent: (req, res, next) => {
+    console.log(req.body, 'in invite student');
     const smtpTransport = nodemailer.createTransport({
       service: "Gmail",
       auth: {
@@ -46,7 +47,10 @@ module.exports = {
       else {
         const newInvite = new Invite({
           emailId: email,
-          refCode: refCode
+          refCode: refCode,
+          isStudent: req.body.isStudent,
+          isAdmin: req.body.isAdmin,
+          isKitchenStaff: req.body.isStaff
         });
         newInvite.save(err => {
           if (!err) return res.json({ message: `Message sent to ${mailOptions.to}` })
@@ -59,13 +63,14 @@ module.exports = {
   },
 
   getStudent: (req, res, next) => {
-    Student.aggregate([{ $match: { isAdmin: false, isKitchenStaff: false } },
+    Student.aggregate([{ $match: { isStudent: true } },
     {
       $group: {
         _id: "Students List", students: {
           $push: {
-            id: "$_id", name:
-              "$name", email: "$email"
+            id: "$_id",
+            name: "$name",
+            email: "$email"
           }
         }
       }
@@ -118,11 +123,11 @@ module.exports = {
     const studentId = req.params.id;
     User.findByIdAndDelete(studentId, (err, students) => {
       if (err) return res.json({ error: 'Could not delete student' });
-      User.find({}, (err, students) => {
-        if (err) return res.json({ error: 'No students found :)' })
+      User.find({ isStudent: true }, (err, user) => {
+        if (user.length === 0) return res.json({ message: 'no student found in database' })
+        if (err) return res.json({ error: "couldn't fetch" });
         res.json({
-          message: 'Successfully deleted',
-          students: students
+          user: user
         })
       })
     })

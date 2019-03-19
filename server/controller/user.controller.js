@@ -20,14 +20,19 @@ module.exports = {
   registerStudent: (req, res, next) => {
     const { email, password, name, refCode } = req.body;
     Invite.findOne({ refCode: refCode }, (err, user) => {
+      const { isAdmin, isStaff, isStudent } = user;
       if (err) res.json({ message: "not verified" });
       if (user.isVerified) {
         const newStudent = new Student({
           name,
           email,
-          password
+          password,
+          isAdmin,
+          isStaff,
+          isStudent
         });
         newStudent.save((err, user) => {
+          console.log(user, 'inside register student');
           if (err || !user) {
             return res.status(401).json({
               error: "user is not found"
@@ -165,6 +170,7 @@ module.exports = {
       { refCode: ref },
       { $set: { isVerified: true } },
       (err, code) => {
+        console.log('called', code);
         if (err) return res.json({ msg: `you're link is expired` });
         res.json({
           emailId: code.emailId,
@@ -179,7 +185,7 @@ module.exports = {
     if (!token) return res.json({ message: 'unAuthorized Student' });
     const headerToken = token.split(' ')[1];
     const user = await serverUtils.getUserFromToken(headerToken);
-    console.log(user);
+    // console.log(user);
     if (!user) return res.json({ error: `user not found` })
     let today = new Date();
     let todayDay = today.getDay();
@@ -211,7 +217,7 @@ module.exports = {
   updateUserAttendence: async (req, res) => {
     attendanceArr = req.body.attendance;
     date = req.body.date;
-    console.log(date, attendanceArr)
+    // console.log(date, attendanceArr)
     const token = req.headers['authorization'];
     if (!token) return res.json({ message: 'unAuthorized Student' });
     const headerToken = token.split(' ')[1];
@@ -222,7 +228,7 @@ module.exports = {
       })
     }
     AttendanceBuffer.findOne({ date: date }, (err, prevAtt) => {
-      console.log(currentAtt, "currentAtttttttttttt")
+      // console.log(currentAtt, "currentAtttttttttttt")
       let currentAtt = prevAtt;
       let flag = false; //to check if doc chenged or not
       attendanceArr.forEach(attendence => {

@@ -22,8 +22,9 @@ class ListStudentsAdmin extends Component {
     return (
       <>
         <div className="listStudent-wrapper">
-          {
-            listAllStudents && listAllStudents.map(student => (
+          { listAllStudents.length == 0 || listAllStudents == 'undefined' ? <div className="empty">No students found :)</div>
+            :
+            listAllStudents.map(student => (
               <div key={student.id} className="list-students">
                 <h3>Name: {student.name}</h3>
                 <p>Email: {student.email}</p>
@@ -31,7 +32,7 @@ class ListStudentsAdmin extends Component {
                   <button onClick={() => this.handleDelete(student.id)}>X</button>
                 </div>
               </div>
-            ))
+            )) 
           }
         </div>
       </>

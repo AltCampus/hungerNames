@@ -246,6 +246,7 @@ export function getallstudentslist() {
     fetch(`${util.baseURL}/student`)
       .then(res => res.json())
       .then(students => {
+        if (students.message) return;
         dispatch({
           students: students.user,
           type: "GET_ALL_STUDENTS_LIST"
@@ -316,10 +317,11 @@ export function removeStudent(id, cb) {
     })
     .then(res => res.json())
     .then(users => {
+      if (users.message) return;
       if (!users.error) {
         dispatch({
           type: "REMAINING_STUDENTS",
-          users: users.students
+          users: users.user
         })
         cb(true)
       } else {

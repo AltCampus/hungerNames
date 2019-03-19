@@ -4,6 +4,9 @@ const Schema = mongoose.Schema;
 const InviteSchema = new Schema({
   emailId: { type: String },
   refCode: { type: String },
+  isStudent: { type: Boolean, default: false },
+  isAdmin: { type: Boolean, default: false },
+  isKitchenStaff: { type: Boolean, default: false },
   isVerified: { type: Boolean, default: false },
 })
 
