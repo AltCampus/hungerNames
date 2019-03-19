@@ -5,6 +5,12 @@ import { loginUserAction } from '../../store/actions'
 import './Login.css';
 
 
+// TODO:
+// Kitchen Stff Creds
+// email - catchabid@gmail.com
+// passowrd: 
+
+
 
 class Login extends Component {
   constructor(props) {
