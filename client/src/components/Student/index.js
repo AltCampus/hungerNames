@@ -5,6 +5,7 @@ import PrivateRoute from '../PrivateRoute';
 import StudentHome from '../StudentHome';
 import DayList from '../DayList';
 import StudentFeedbackForm from '../StudentFeedbackForm';
+import StudentFeedbacks from '../StudentFeedbacks';
 
 function mapStateToProps(state) {
   return {
@@ -24,6 +25,7 @@ class Student extends Component {
             <PrivateRoute exact path='/student' component={ StudentHome } auth={this.props.isAuthenticated}/>
             <PrivateRoute exact path='/student/:day' component={ DayList } auth={this.props.isAuthenticated}/>
             <PrivateRoute exact path='/student/:id/feedback' component={ StudentFeedbackForm } auth={this.props.isAuthenticated}/>
+            <PrivateRoute exact path='/student/:id/myfeedback' component={ StudentFeedbacks } auth={ this.props.isAuthenticated } />
           </Switch>
         </BrowserRouter>
       </>

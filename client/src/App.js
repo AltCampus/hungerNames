@@ -3,6 +3,7 @@ import './App.scss';
 import { verifyTokenAction, getMenu, getAttendenceAction } from './store/actions'
 import { connect } from 'react-redux'
 import Main from './components/Main';
+import Notification from './components/Notification/Notification';
 
 class App extends Component {
   constructor(props) {
@@ -23,6 +24,7 @@ class App extends Component {
     if (!user && token) this.runVerify();
     return (
       <div className="App">
+        <Notification />
         <Main />
       </div>
     );

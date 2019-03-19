@@ -6,7 +6,8 @@ const INIT_STATE = {
   userFeedback: [],
   userAttendance: [],
   allUserFeedback: [],
-  listAllStudents: []
+  listAllStudents: [],
+  singleUserFeedback: []
 };
 
 // async function verifyTokenAction(token) {
@@ -80,6 +81,12 @@ export default function rootReducer(state = INIT_STATE, action) {
       return {
         ...state,
         listAllStudents: action.users
+      }
+    }
+    case 'GET_SINGLE_STUDENT_FEEDBACK': {
+      return {
+        ...state,
+        singleUserFeedback: action.feedback
       }
     }
     default:

@@ -28,8 +28,9 @@ module.exports = {
         let filteredFeedback = [];
         console.log(filteredFeedback)
         feedback.forEach(feed => {
+          console.log(feed);
           let obj = {};
-          obj.name = feed.student.name;
+          obj.name = (feed.student) ? feed.student.name : null ;
           obj.meal = feed.meal;
           obj.mealType = feed.mealType;
           obj.review = feed.review;
