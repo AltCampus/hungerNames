@@ -7,8 +7,8 @@ const isValidDate = (date) => {
 
 const convDateToDateStr = (date) => {
   if (isValidDate) {
-    let dateStr = date.toDateString();
-    return dateStr.split(' ').join('_')
+    let dateStr = date.toISOString();
+    return dateStr.split('T')[0];
   }
   return false;
 }
