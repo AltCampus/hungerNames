@@ -1,4 +1,5 @@
 import { util } from "../../util";
+import socket from "../../modules/socketIO";
 
 // export function loginUserAction(data) {
 //   return dispatch => {
@@ -22,7 +23,7 @@ import { util } from "../../util";
 // };
 
 export function loginUserAction(data, cb) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     fetch(`${util.baseURL}/login`, {
       method: "POST",
       headers: {
@@ -43,6 +44,26 @@ export function loginUserAction(data, cb) {
             token: token,
             authenticated: true
           });
+          
+          // handling work for socket.io
+          const { name, isAdmin, isStudent, isKitchenStaff } = getState().currentUser;
+          console.log(name);
+          
+          let role;
+          
+          if ( isAdmin ) {
+            role = 'admin';
+          } else if (isKitchenStaff) {
+            role = 'kitchenStaff'
+          } else {
+            role = 'student'
+          }
+          
+          socket.emit('login', {
+            name: name,
+            role
+          })
+
           cb(true);
         } else if (data.error) {
           cb(false);
@@ -51,12 +72,13 @@ export function loginUserAction(data, cb) {
   };
 };
 
-export function logoutUserAction() {
+export function logoutUserAction(cb) {
   return (dispatch) => {
     localStorage.removeItem('hungerNamesJWT');
     dispatch({
       type: "LOGOUT_USER",
     });
+    cb(true)
   };
 };
 
@@ -80,13 +102,14 @@ export function registerUserAction(data, cb) {
 };
 
 
-export function getMenu() {
+export function getMenu(menu = {}, cb) {
   return async (dispatch) => {
     const menuData = await fetch(`${util.baseURL}/admin/menu`).then(res => res.json());
     dispatch({
       type: 'GET_MENU_DATA',
       menuData: menuData[0]
     });
+    cb(true);
   }
 }
 
@@ -168,6 +191,8 @@ export function postStudentFeedback(data, id, cb) {
       .then(res => res.json())
       .then(data => {
         if (!data.error) {
+          socket.emit('feedbackPosted', {});
+
           cb(true)
         } else cb(false)
       })

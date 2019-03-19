@@ -8,6 +8,55 @@ const Student = require("../model/Student");
 const Invite = require("../model/Invite");
 const serverUtils = require('../serverUtils/index')
 const AttendanceBuffer = require('../model/attendanceBuffer');
+const socket = require('socket.io');
+
+const io = require('./../../app').io;
+
+const onlineUsers = [];
+
+let isPosted = false
+
+// Pushing online Users
+io.on('connection', (socket) => {
+  console.log(`${socket.id} is connected`)
+  socket.on('login', (userData) => {
+    onlineUsers.push({
+      ...userData,
+      socketId: socket.id
+    })
+    console.log(onlineUsers);
+  })
+
+  socket.on('feedbackPosted', () => {
+    const kitchenStaff = onlineUsers.filter(v => v.role === 'kitchenStaff');
+    console.log(kitchenStaff);
+    
+    if (kitchenStaff.length) {
+      const id = socket.id;
+      const regexp = new RegExp(id, 'i')
+  
+      const student = onlineUsers.filter(v => regexp.test(v.socketId));
+      socket.to(kitchenStaff[0].socketId).emit('notification', `${student[0].name} added a feedback.`)
+    }
+  })
+
+  socket.on('disconnect', () => {
+    let id = 0;
+
+    onlineUsers.forEach((v,i) => {
+      if (v.socketId == socket.id) {
+        id = i
+      }
+    })
+
+    onlineUsers.splice(id, 1)
+  })
+})
+
+
+// io.on('connection', (socket) => {
+
+// })
 
 
 module.exports = {
@@ -18,11 +67,11 @@ module.exports = {
   },
 
   registerStudent: (req, res, next) => {
-    const { email, password, name, refCode } = req.body;
+    const { email, password, name, refCode } = req.body;    
     Invite.findOne({ refCode: refCode }, (err, user) => {
       const { isAdmin, isStaff, isStudent } = user;
       if (err) res.json({ message: "not verified" });
-      if (user.isVerified) {
+      if (user.isVerified) {      
         const newStudent = new Student({
           name,
           email,
@@ -31,8 +80,7 @@ module.exports = {
           isStaff,
           isStudent
         });
-        newStudent.save((err, user) => {
-          console.log(user, 'inside register student');
+        newStudent.save((err, user) => {          
           if (err || !user) {
             return res.status(401).json({
               error: "user is not found"
@@ -115,31 +163,31 @@ module.exports = {
     });
   },
 
-  postFeedbackStudent: (req, res, next) => {
-    const studentId = req.params.id;
-    const feedbackBody = req.body;
-    const feedBack = new FeedBack({
-      student: studentId,
-      ...feedbackBody
-    });
-    Student.findById((studentId), (err, user) => {
-      if (err) return res.json({ error: 'db error' })
-      if (!user) return res.json({ message: 'user not present' })
-      feedBack.save((err, feedback) => {
-        if (err) return res.json({ error: 'internal error' })
-        Student.findByIdAndUpdate(studentId, { $push: { feedback: feedback._id } }, { upsert: true }, (err, student) => {
-          if (err) return res.json({
-            error: 'sorry mate youre not found'
-          })
-          const { name, email } = student
-          res.json({
-            name,
-            email
-          })
-        })
-      })
-    })
-  },
+  // postFeedbackStudent: (req, res, next) => {
+  //   const studentId = req.params.id;
+  //   const feedbackBody = req.body;
+  //   const feedBack = new FeedBack({
+  //     student: studentId,
+  //     ...feedbackBody
+  //   });
+  //   Student.findById((studentId), (err, user) => {
+  //     if (err) return res.json({ error: 'db error' })
+  //     if (!user) return res.json({ message: 'user not present' })
+  //     feedBack.save((err, feedback) => {
+  //       if (err) return res.json({ error: 'internal error' })
+  //       Student.findByIdAndUpdate(studentId, { $push: { feedback: feedback._id } }, { upsert: true }, (err, student) => {
+  //         if (err) return res.json({
+  //           error: 'sorry mate youre not found'
+  //         })
+  //         const { name, email } = student
+  //         res.json({
+  //           name,
+  //           email
+  //         })
+  //       })
+  //     })
+  //   })
+  // },
 
   getFeedback: (req, res, next) => {
     const studentId = req.params.id;
@@ -170,19 +218,41 @@ module.exports = {
   postFeedbackStudent: (req, res, next) => {
     const studentId = req.params.id;
     const feedbackBody = req.body;
+    console.log(feedbackBody,'body')
     const feedBack = new FeedBack({
       student: studentId,
       ...feedbackBody
     });
-    Student.findById((studentId), (err, user) => {
-      if (err) return res.json({ error: 'db error' })
-      if (!user) return res.json({ message: 'user not present' })
+    Student.findById(studentId,(err,user) => {
+      if(err) return res.json({error:'db error'})
+      if(!user) return res.json({message:'user not present'})
       feedBack.save((err, feedback) => {
         if (err) return res.json({ error: 'internal error' })
         Student.findByIdAndUpdate(studentId, { $push: { feedback: feedback._id } }, { upsert: true }, (err, student) => {
+          console.log(student,'stu')
           if (err) return res.json({
             error: 'sorry mate youre not found'
           })
+
+          console.log('ghhjjjguyf');
+
+          // Sending Notification to Kitchen Staff
+          const kitchenStaff = onlineUsers.filter(v => v.role === 'kitchenStaff')
+          console.log(kitchenStaff, 'kitchenStaff');
+
+          isPosted = true
+
+
+          // io.on('connection', (socket) => {
+          //   console.log(`${socket.id} is connected`)
+          //   socket.to(kitchenStaff[0].socketId).emit('notification', `User added a feedback.`)
+          // })
+
+          // io.on('connection', (socket) => {
+          //   console.log(socket.id);
+          //   // socket.emit('notification', `User added a feedback.`)
+          // })
+
           const { name, email } = student
           res.json({
             name,
@@ -192,6 +262,7 @@ module.exports = {
       })
     })
   },
+
   verifyStudent: (req, res, next) => {
     const ref = req.query.ref
     Invite.findOneAndUpdate(

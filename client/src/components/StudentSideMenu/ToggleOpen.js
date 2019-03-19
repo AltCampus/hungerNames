@@ -8,10 +8,11 @@ class ToggleOpen extends Component {
     super(props);
   }
 
-  handleLogout = (event) => {
-    event.preventDefault();
-    this.props.dispatch(logoutUserAction());    
-  }
+  handleLogout = () => {    
+    this.props.dispatch(logoutUserAction((logOutStatus) => {
+      if (logOutStatus) this.props.history.push('/login');
+    }));
+  } 
 
   render() {
     const { handleToggleClose, currentUser } = this.props;  
