@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { util } from "../../util";
 import './NewInvite.css';
+import Loader from '../Loader'
 
 class NewInvite extends Component {
   constructor(props){
@@ -44,8 +45,14 @@ class NewInvite extends Component {
     .then(data=> {
       console.log(data);
       if(!data.error) {
-        this.setState({message:data.msg})
-      } else this.setState({ message: data.error.msg })
+        this.setState({
+          message: data.message,
+          loading: false
+        })
+      } else this.setState({ 
+        message: data.error,
+        loading: false,
+      })
     })
   }
 
@@ -77,6 +84,7 @@ class NewInvite extends Component {
             <button className='send-btn form-btn' onClick={this.handleClick}>INVITE</button>
           </div>
         </div>
+
       </>
     );
   }

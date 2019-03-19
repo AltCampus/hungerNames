@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
+import { logoutUserAction } from '../../store/actions';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 class AdminToggleOpen extends Component {
+  handleLogout = () => {    
+    this.props.dispatch(logoutUserAction((logOutStatus) => {
+      if (logOutStatus) this.props.history.push('/login');
+    }));
+  }
 
   render() {
     const { handleToggleClose, currentUser } = this.props;
@@ -23,24 +29,15 @@ class AdminToggleOpen extends Component {
           <div className="link_wrapper">
             <div className="menu-link-wrapper">
               <Link className="links" to={`/admin/invite`}>Invite Student</Link>
-            </div>
-            <div className="menu-link-wrapper">
-              <Link className="links" to={`/admin/users`}>Users List</Link>
-            </div>
+            </div>            
             <div className="menu-link-wrapper">
               <Link className="links" to={`/admin/menu`}>Edit Menu</Link>
             </div>
-            {/* <div className="feedback-link-wrapper">
-              <Link className="links" to={`/student/:id/feedback`}>Feedback</Link>
-            </div> */}
             <div className="logout-link-wrapper">
               <Link className="links" to={`/admin/getallstudentslist`}>Get all student list</Link>
             </div>
-            {/* <div className="logout-link-wrapper">
-              <div className="links">Log out</div>
-            </div> */}
             <div className="logout-link-wrapper">
-              <Link className="links" to={`/login`}>Log out</Link>
+              <Link className="links" onClick={this.handleLogout} to={`/login`}>Log out</Link>
             </div>
           </div>
         </div>

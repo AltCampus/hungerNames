@@ -10,7 +10,7 @@
   top: 27px;
   width: 11px;
   height: 11px;
-  background: var(--teal);
+  background: #fff;
   border-radius: 50%;  
   animation-timing-function: cubic-bezier(0, 1, 1, 0);
 }
