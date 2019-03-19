@@ -102,6 +102,7 @@ module.exports = {
       })
     })
   },
+
   attendanceStudent: (req, res, next) => {
     const { day } = req.params;
     res.json({
@@ -159,6 +160,31 @@ module.exports = {
       });
   },
 
+  postFeedbackStudent: (req, res, next) => {
+    const studentId = req.params.id;
+    const feedbackBody = req.body;
+    const feedBack = new FeedBack({
+      student: studentId,
+      ...feedbackBody
+    });
+    Student.findById((studentId),(err,user) => {
+      if(err) return res.json({error:'db error'})
+      if(!user) return res.json({message:'user not present'})
+      feedBack.save((err, feedback) => {
+        if (err) return res.json({ error: 'internal error' })
+        Student.findByIdAndUpdate(studentId, { $push: { feedback: feedback._id } }, { upsert: true }, (err, student) => {
+          if (err) return res.json({
+            error: 'sorry mate youre not found'
+          })
+          const { name, email } = student
+            res.json({
+              name,
+              email
+            })
+        })
+      })
+    })
+  },
   verifyStudent: (req, res, next) => {
     const ref = req.query.ref
     Invite.findOneAndUpdate(

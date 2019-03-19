@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import './StaffFeedbacks.css';
 import { connect } from 'react-redux';
-import FeedbackListView from '../FeedbackListView'
+import FeedbackListView from '../StaffFeedbackListView'
 import StaffSideMenu from '../StaffSideMenu';
+import {getAllFeedback} from '../../store/actions';
+
 
 function mapStateToProps(state) {
   if(state) {
@@ -14,6 +16,9 @@ function mapStateToProps(state) {
  class StaffFeedbacks extends Component {
   constructor(props){
     super(props)
+  }
+  componentDidMount = () => {
+    this.props.dispatch(getAllFeedback())
   }
   
   render() {

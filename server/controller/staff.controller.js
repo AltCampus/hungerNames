@@ -1,5 +1,5 @@
 const AttendanceBufferSchema = require("../model/attendanceBuffer");
-const Feedback = require("../model/Feedback");
+const Feedback = require("../model/Feedback") 
 const Student = require("../model/Student");
 const serverUtils = require("../serverUtils/index");
 
@@ -14,18 +14,19 @@ module.exports = {
     console.log(req);
   },
 
-  getAllStudentFeedback: (req, res, next) => {
-    console.log(req,'sdfsfsfsfs')
+  getAllStudentFeedback:(req, res, next) => {
     let today = new Date();
     let todayMinus2 = new Date();
-    todayMinus2 = serverUtils.removeTimeFromDate(todayMinus2);
     todayMinus2.setDate(today.getDate() - 2);
-    Feedback.find({ date: { $gte: todayMinus2, $lte: today } })
+    let dateStringToday = serverUtils.convDateToDateStr(today)
+    let dateStringMinus2 = serverUtils.convDateToDateStr(todayMinus2);
+    Feedback.find({ date: {$gte: dateStringMinus2, $lte: dateStringToday}  })
       .populate("student")
       .exec((err, feedback) => {
         console.log(feedback,'feedback')
         if (err) return res.json({ message: "not able to fetch" });
         let filteredFeedback = [];
+        console.log(filteredFeedback)
         feedback.forEach(feed => {
           let obj = {};
           obj.name = feed.student.name;
@@ -35,7 +36,9 @@ module.exports = {
           obj.rating = feed.rating;
           obj.date = new Date(feed.date).toDateString();
           filteredFeedback.push(obj);
+          console.log(filteredFeedback)
         });
+        console.log(filteredFeedback)
         res.json({
           feedback: filteredFeedback
         });
@@ -45,6 +48,7 @@ module.exports = {
   addRemarkStaff: (req, res, next) => {
     const { mealtype, date, remark } = req.body;
     let newDate = date;
+    console.log(newDate)
     let remarks = `${remark}`;
     let mealType = `${mealtype}.remarks`;
     AttendanceBufferSchema.findOneAndUpdate(
