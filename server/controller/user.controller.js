@@ -69,14 +69,19 @@ module.exports = {
   registerStudent: (req, res, next) => {
     const { email, password, name, refCode } = req.body;
     Invite.findOne({ refCode: refCode }, (err, user) => {
+      const { isAdmin, isStaff, isStudent } = user;
       if (err) res.json({ message: "not verified" });
       if (user.isVerified) {
         const newStudent = new Student({
           name,
           email,
-          password          
+          password,
+          isAdmin,
+          isStaff,
+          isStudent
         });
         newStudent.save((err, user) => {
+          console.log(user, 'inside register student');
           if (err || !user) {
             return res.status(401).json({
               error: "user is not found"
@@ -159,6 +164,32 @@ module.exports = {
     });
   },
 
+  // postFeedbackStudent: (req, res, next) => {
+  //   const studentId = req.params.id;
+  //   const feedbackBody = req.body;
+  //   const feedBack = new FeedBack({
+  //     student: studentId,
+  //     ...feedbackBody
+  //   });
+  //   Student.findById((studentId), (err, user) => {
+  //     if (err) return res.json({ error: 'db error' })
+  //     if (!user) return res.json({ message: 'user not present' })
+  //     feedBack.save((err, feedback) => {
+  //       if (err) return res.json({ error: 'internal error' })
+  //       Student.findByIdAndUpdate(studentId, { $push: { feedback: feedback._id } }, { upsert: true }, (err, student) => {
+  //         if (err) return res.json({
+  //           error: 'sorry mate youre not found'
+  //         })
+  //         const { name, email } = student
+  //         res.json({
+  //           name,
+  //           email
+  //         })
+  //       })
+  //     })
+  //   })
+  // },
+
   getFeedback: (req, res, next) => {
     const studentId = req.params.id;
     Student.findById({ _id: studentId }, (err, user) => {
@@ -237,6 +268,7 @@ module.exports = {
       { refCode: ref },
       { $set: { isVerified: true } },
       (err, code) => {
+        console.log('called', code);
         if (err) return res.json({ msg: `you're link is expired` });
         res.json({
           emailId: code.emailId,
@@ -251,7 +283,7 @@ module.exports = {
     if (!token) return res.json({ message: 'unAuthorized Student' });
     const headerToken = token.split(' ')[1];
     const user = await serverUtils.getUserFromToken(headerToken);
-    console.log(user);
+    // console.log(user);
     if (!user) return res.json({ error: `user not found` })
     let today = new Date();
     let todayDay = today.getDay();
@@ -283,7 +315,7 @@ module.exports = {
   updateUserAttendence: async (req, res) => {
     attendanceArr = req.body.attendance;
     date = req.body.date;
-    console.log('----', req.body, date, attendanceArr, '----------------------------------')
+    
     const token = req.headers['authorization'];
     if (!token) return res.json({ message: 'unAuthorized Student' });
     const headerToken = token.split(' ')[1];
@@ -294,7 +326,8 @@ module.exports = {
       })
     }
     AttendanceBuffer.findOne({ date: date }, (err, prevAtt) => {
-      let currentAtt = prevAtt;      
+      // console.log(currentAtt, "currentAtttttttttttt")
+      let currentAtt = prevAtt;
       let flag = false; //to check if doc chenged or not
       attendanceArr.forEach(attendence => {
         const mealType = attendence.mealType;
@@ -335,5 +368,32 @@ module.exports = {
         });
       }
     })
+  },
+
+  getAttendees: (req, res) => {
+    const today = serverUtils.convDateToDateStr(new Date());
+    console.log(today, "hello")
+
+    //find todays attendence
+    AttendanceBuffer.findOne({ date: today })
+      .populate([
+        { path: 'brunch.attendance.student' }, { path: 'lunch.attendance.student' }, { path: 'dinner.attendance.student' }, { path: 'breakfast.attendance.student' }])
+      .exec((err, data) => {
+        if (err) return res.json({ error: "DB ERROR" })
+        console.log(data, err, "inside");
+        const breakfastAtt = data.breakfast.attendance.map(obj => (obj.student) ? obj.student.name : null);
+        const brunchAtt = data.brunch.attendance.map(obj => (obj.student) ? obj.student.name : null);
+        const lunchAtt = data.lunch.attendance.map(obj => (obj.student) ? obj.student.name : null);
+        const dinnerAtt = data.dinner.attendance.map(obj => (obj.student) ? obj.student.name : null);
+        const object = {
+          date: today,
+          breakfast: breakfastAtt,
+          brunch: brunchAtt,
+          lunch: lunchAtt,
+          dinner: dinnerAtt,
+        }
+        res.json(object);
+      })
   }
+
 };

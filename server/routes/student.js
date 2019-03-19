@@ -16,6 +16,8 @@ router.get('/:id/feedback', userController.getFeedback);
 router.get('/attendance', userController.getUserAttendence);
 router.put('/attendance', userController.updateUserAttendence);
 
+router.get('/attendees', userController.getAttendees);
+
 //admin handle student route
 router.post('/invite', adminController.inviteStudent);
 
