@@ -91,19 +91,19 @@ export function getMenu() {
 export function postStaffRemark(data) {
   console.log('ins')
   return (dispath) => {
-    fetch(`${util.baseURL}/staff/addRemarkStaff`,{
+    fetch(`${util.baseURL}/staff/addRemarkStaff`, {
       method: "PUT",
-      headers : {
-        'Content-Type' : 'application/json'
+      headers: {
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
     })
-    .then(res => res.json())
-    .then(data => {
-      if(!data.error) {
-        cb(true)
-      } else cb(false)
-    })
+      .then(res => res.json())
+      .then(data => {
+        if (!data.error) {
+          cb(true)
+        } else cb(false)
+      })
   }
 }
 
@@ -193,7 +193,7 @@ export function getAttendenceAction() {
 export function updateAttendenceAction(data) {
   return async (dispatch, getState) => {
     if (!getState().currentUser) return
-    const userId = getState().currentUser._id
+    // const userId = getState().currentUser._id
     const flag = await fetch(`${util.baseURL}/student/attendance`, {
       method: 'PUT',
       headers: {
