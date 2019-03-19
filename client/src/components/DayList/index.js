@@ -64,8 +64,8 @@ class DayList extends Component {
         { mealType: "dinner", value: this.state.dinner },
       ]
     }
-    this.props.dispatch(updateAttendenceAction(data, (cb) => {
-      if (cb) this.props.history.goBack();
+    this.props.dispatch(updateAttendenceAction(data, (val) => {
+      if (val) this.props.history.goBack();
     }))
   }
 
