@@ -10,7 +10,11 @@ class ListStudentsAdmin extends Component {
   }
 
   handleDelete = (id) => {
-    this.props.dispatch(removeStudent(id));
+    this.props.dispatch(removeStudent(id, succeed => {
+      if (succeed) {
+        this.props.history.push(`/admin/getallstudentslist`)
+      }
+    }));
   }
 
   render() {

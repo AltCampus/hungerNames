@@ -118,9 +118,12 @@ module.exports = {
     const studentId = req.params.id;
     User.findByIdAndDelete(studentId, (err, students) => {
       if (err) return res.json({ error: 'Could not delete student' });
-      res.json({
-        message: 'Successfully deleted',
-        students: students
+      User.find({}, (err, students) => {
+        if (err) return res.json({ error: 'No students found :)' })
+        res.json({
+          message: 'Successfully deleted',
+          students: students
+        })
       })
     })
   }
