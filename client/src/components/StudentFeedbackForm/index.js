@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import "./StudentFeedback.scss";
 import StarRatings from "react-star-ratings";
-import "../DayList/DayList.css";
 import { postStudentFeedback } from "../../store/actions";
 import Loaders from "../Loader/index";
 import StudentSideMenu from "../StudentSideMenu";
+import "../DayList/DayList.css";
+import "./StudentFeedbackForm.scss";
 
-class StudentFeedback extends Component {
+class StudentFeedbackForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -51,6 +51,7 @@ class StudentFeedback extends Component {
         }
       })
     );
+    this.props.history.push('/student');
   };
 
   render() {
@@ -109,15 +110,18 @@ class StudentFeedback extends Component {
               name="rating"
             />
             <div className="review-wrapper">
-              <input
+              <textarea
                 type="text"
                 name="review"
                 id=""
                 value={this.state.review}
                 onChange={this.handleChange}
                 placeholder="write review here..."
-              />
-            </div>
+                cols="30"
+                rows="10"
+              >
+              </textarea>
+            </div>            
             <div className="submit-wrapper">
               <button name="submit" value="submit">
                 Submit
@@ -150,4 +154,4 @@ function preTwoDate(preDate) {
   return preDate;
 }
 
-export default connect(null)(StudentFeedback);
+export default connect(null)(StudentFeedbackForm);

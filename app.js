@@ -9,6 +9,8 @@ const morgan = require('morgan');
 const cors = require("cors");
 const path = require("path");
 const port = 8000;
+const socket = require('socket.io');
+
 
 mongoose.connect(
   "mongodb://adminalt01:adminalt01@ds137740.mlab.com:37740/hungernames",
@@ -55,10 +57,13 @@ require('./server/model/Student');
 // importing passport config
 require('./server/config/passport')(passport);
 
+const server = app.listen(port, () => {
+  console.log(`server is running on http://localhost:${port}`);
+});
+
+const io = socket(server);
+
+module.exports = {io};
 
 app.use("/api/v1", require("./server/routes/api"));
 app.use(require("./server/routes/index"));
-
-app.listen(port, () => {
-  console.log(`server is running on http://localhost:${port}`);
-});

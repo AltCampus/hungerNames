@@ -1,4 +1,5 @@
 import { util } from "../../util";
+import socket from "../../modules/socketIO";
 
 // export function loginUserAction(data) {
 //   return dispatch => {
@@ -22,7 +23,7 @@ import { util } from "../../util";
 // };
 
 export function loginUserAction(data, cb) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     fetch(`${util.baseURL}/login`, {
       method: "POST",
       headers: {
@@ -33,6 +34,7 @@ export function loginUserAction(data, cb) {
     })
       .then(res => res.json())
       .then(data => {
+        console.log(data);
         if (!data.error) {
           let token = `Hungry ${data.token}`;
           localStorage.setItem('hungerNamesJWT', token) //will modify acc to server
@@ -42,6 +44,26 @@ export function loginUserAction(data, cb) {
             token: token,
             authenticated: true
           });
+          
+          // handling work for socket.io
+          const { name, isAdmin, isStudent, isKitchenStaff } = getState().currentUser;
+          console.log(name);
+          
+          let role;
+          
+          if ( isAdmin ) {
+            role = 'admin';
+          } else if (isKitchenStaff) {
+            role = 'kitchenStaff'
+          } else {
+            role = 'student'
+          }
+          
+          socket.emit('login', {
+            name: name,
+            role
+          })
+
           cb(true);
         } else if (data.error) {
           cb(false);
@@ -50,7 +72,7 @@ export function loginUserAction(data, cb) {
   };
 };
 
-export function logoutUserAction(data) {
+export function logoutUserAction() {
   return (dispatch) => {
     localStorage.removeItem('hungerNamesJWT');
     dispatch({
@@ -58,6 +80,7 @@ export function logoutUserAction(data) {
     });
   };
 };
+
 export function registerUserAction(data, cb) {
   return async (dispatch) => {
     await fetch(`${util.baseURL}/student/register`, {
@@ -88,21 +111,21 @@ export function getMenu() {
   }
 }
 
-export function postStaffRemark(data,cb) {
+export function postStaffRemark(data, cb) {
   return (dispath) => {
-    fetch(`${util.baseURL}/staff/menu`,{
+    fetch(`${util.baseURL}/staff/menu`, {
       method: "PUT",
-      headers : {
-        'Content-Type' : 'application/json'
+      headers: {
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
     })
-    .then(res => res.json())
-    .then(data => {
-      if(!data.error) {
-        cb(data,true)
-      } else cb(false)
-    })
+      .then(res => res.json())
+      .then(data => {
+        if (!data.error) {
+          cb(data, true)
+        } else cb(false)
+      })
   }
 }
 
@@ -154,7 +177,7 @@ export function getStudentFeedback(id, cb) {
   }
 }
 
-export function postStudentFeedback(data,id, cb) {
+export function postStudentFeedback(data, id, cb) {
   return dispatch => {
     fetch(`${util.baseURL}/student/${id}/feedback`, {
       method: 'POST',
@@ -166,6 +189,8 @@ export function postStudentFeedback(data,id, cb) {
       .then(res => res.json())
       .then(data => {
         if (!data.error) {
+          socket.emit('feedbackPosted', {});
+
           cb(true)
         } else cb(false)
       })
@@ -188,10 +213,10 @@ export function getAttendenceAction() {
   }
 }
 
-export function updateAttendenceAction(data) {
+export function updateAttendenceAction(data, cb) {
   return async (dispatch, getState) => {
     if (!getState().currentUser) return
-    const userId = getState().currentUser._id
+    // const userId = getState().currentUser._id
     const flag = await fetch(`${util.baseURL}/student/attendance`, {
       method: 'PUT',
       headers: {
@@ -274,7 +299,7 @@ export function verifyTokenAction(token) {
         token: token,
         authenticated: true,
       });
-      
+
     } else {
       dispatch({
         type: "LOGOUT_USER",
