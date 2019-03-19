@@ -20,29 +20,37 @@ class Login extends Component {
   }
   handleSubmit = (e) => {
     e.preventDefault();
-    const { dispatch, user } = this.props;
+    const { dispatch } = this.props;
     let { email, password } = this.state;
     email = email.trim();
     if (!util.ValidateEmail(email)) return;
     const data = {
       email, password
     }
-    dispatch(loginUserAction(data, (isLoggedIn) => {      
-      if(isLoggedIn && user) {
-        if(user.isAdmin !== 'undefined' && user.isAdmin) {
-          this.props.history.push('/admin');
-        } else if (user.isKitchenStaff !== 'undefined' && user.isKitchenStaff) {
-          this.props.history.push('/staff');
-        } else {
-          this.props.history.push('/student');
-        }
+    dispatch(loginUserAction(data, (isLoggedIn) => {
+      if (isLoggedIn) {
+        this.handleRoute();
       } else {
-          this.props.history.push('/login');
+        this.props.history.push('/login');
       }
-    } ));
+    }));
+  }
+
+  handleRoute = () => {
+    const { user } = this.props;
+    if (user) {
+      if (user.isAdmin !== 'undefined' && user.isAdmin) {
+        this.props.history.push('/admin');
+      } else if (user.isKitchenStaff !== 'undefined' && user.isKitchenStaff) {
+        this.props.history.push('/staff');
+      } else {
+        this.props.history.push('/student');
+      }
+    }
   }
 
   render() {
+    this.handleRoute();
     return (
       <form onSubmit={this.handleSubmit} className='form-page'>
         <h2 className='h2-title'>Sign in</h2>
@@ -60,7 +68,7 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = (state) => {  
+const mapStateToProps = (state) => {
   return {
     user: state.currentUser
   };
