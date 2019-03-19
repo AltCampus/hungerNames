@@ -25,7 +25,7 @@ module.exports = {
         const newStudent = new Student({
           name,
           email,
-          password          
+          password
         });
         newStudent.save((err, user) => {
           if (err || !user) {
@@ -167,9 +167,9 @@ module.exports = {
       student: studentId,
       ...feedbackBody
     });
-    Student.findById((studentId),(err,user) => {
-      if(err) return res.json({error:'db error'})
-      if(!user) return res.json({message:'user not present'})
+    Student.findById((studentId), (err, user) => {
+      if (err) return res.json({ error: 'db error' })
+      if (!user) return res.json({ message: 'user not present' })
       feedBack.save((err, feedback) => {
         if (err) return res.json({ error: 'internal error' })
         Student.findByIdAndUpdate(studentId, { $push: { feedback: feedback._id } }, { upsert: true }, (err, student) => {
@@ -177,10 +177,10 @@ module.exports = {
             error: 'sorry mate youre not found'
           })
           const { name, email } = student
-            res.json({
-              name,
-              email
-            })
+          res.json({
+            name,
+            email
+          })
         })
       })
     })
@@ -248,7 +248,7 @@ module.exports = {
       })
     }
     AttendanceBuffer.findOne({ date: date }, (err, prevAtt) => {
-      let currentAtt = prevAtt;      
+      let currentAtt = prevAtt;
       let flag = false; //to check if doc chenged or not
       attendanceArr.forEach(attendence => {
         const mealType = attendence.mealType;
@@ -289,5 +289,32 @@ module.exports = {
         });
       }
     })
+  },
+
+  getAttendees: (req, res) => {
+    const today = serverUtils.convDateToDateStr(new Date());
+    console.log(today, "hello")
+
+    //find todays attendence
+    AttendanceBuffer.findOne({ date: today })
+      .populate([
+        { path: 'brunch.attendance.student' }, { path: 'lunch.attendance.student' }, { path: 'dinner.attendance.student' }, { path: 'breakfast.attendance.student' }])
+      .exec((err, data) => {
+        if (err) return res.json({ error: "DB ERROR" })
+        console.log(data, err, "inside");
+        const breakfastAtt = data.breakfast.attendance.map(obj => (obj.student) ? obj.student.name : null);
+        const brunchAtt = data.brunch.attendance.map(obj => (obj.student) ? obj.student.name : null);
+        const lunchAtt = data.lunch.attendance.map(obj => (obj.student) ? obj.student.name : null);
+        const dinnerAtt = data.dinner.attendance.map(obj => (obj.student) ? obj.student.name : null);
+        const object = {
+          date: today,
+          breakfast: breakfastAtt,
+          brunch: brunchAtt,
+          lunch: lunchAtt,
+          dinner: dinnerAtt,
+        }
+        res.json(object);
+      })
   }
+
 };
