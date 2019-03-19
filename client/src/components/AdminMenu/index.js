@@ -28,7 +28,7 @@ class AdminMenu extends Component {
       isLoading: true
     });
 
-    this.props.dispatch(getMenu(null, (menuRecieved) => {
+    this.props.dispatch(getMenu((menuRecieved) => {
       if(menuRecieved) {
         this.setState({
           isLoading: false,

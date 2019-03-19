@@ -18,28 +18,37 @@
 
 // calender
 .calender-wrapper {
+  p {
+    text-align: left;
+  }
   input {
     height: 40px;
+    padding: 10px;
     outline: none;
-    background: darkgray;
+    background: var(--light-grey);
     color: aliceblue;
     width: 10rem;
-    border-radius: 2px;
+    border-radius: 5px;
     border: 1px solid transparent;
-  }
+    color: var(--black);
+  }  
 }
 
 // meal type
 .mealtype-wrapper {
+  display: grid;
+  justify-content: center;
+  justify-items: start;
   select {
     height: 40px;
     outline: none;
-    background: darkgray;
+    background: var(--light-grey);
     color: aliceblue;
     width: 10rem;
-    border-radius: 2px;
+    border-radius: 5px;
     font-size: 1rem;
     border: 1px solid transparent;
+    margin-bottom: 0.4em;
     option {
      font-size: 1rem;
     }
@@ -95,11 +104,16 @@
 
 // review
 .review-wrapper {
-  input {
+  margin-top: 0.5em;
+  input, textarea {
     padding: 5px;
     margin-top: 10px;
     height: 40px;
+    border: 1px solid var(--grey);
+    border-radius: 3px;
   }
+
+
 }
 .submit-mealType {
   margin-left: 5px;
@@ -111,6 +125,7 @@
 }
 // submit button
 .submit-wrapper {
+  margin: 0.5em 0;
   button {
     color: white;
     font-weight: 600;
