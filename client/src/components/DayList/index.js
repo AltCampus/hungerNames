@@ -104,7 +104,7 @@ class DayList extends Component {
       ]
     }
     this.props.dispatch(updateAttendenceAction(data, (cb) => {
-      if (cb) this.this.props.history.goBack();
+      if (cb) this.props.history.goBack();
     }))
   }
 

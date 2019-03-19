@@ -90,21 +90,21 @@ export function getMenu() {
   }
 }
 
-export function postStaffRemark(data,cb) {
+export function postStaffRemark(data, cb) {
   return (dispath) => {
-    fetch(`${util.baseURL}/staff/menu`,{
+    fetch(`${util.baseURL}/staff/menu`, {
       method: "PUT",
-      headers : {
-        'Content-Type' : 'application/json'
+      headers: {
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
     })
-    .then(res => res.json())
-    .then(data => {
-      if(!data.error) {
-        cb(data,true)
-      } else cb(false)
-    })
+      .then(res => res.json())
+      .then(data => {
+        if (!data.error) {
+          cb(data, true)
+        } else cb(false)
+      })
   }
 }
 
@@ -156,7 +156,7 @@ export function getStudentFeedback(id, cb) {
   }
 }
 
-export function postStudentFeedback(data,id, cb) {
+export function postStudentFeedback(data, id, cb) {
   return dispatch => {
     fetch(`${util.baseURL}/student/${id}/feedback`, {
       method: 'POST',
@@ -190,10 +190,10 @@ export function getAttendenceAction() {
   }
 }
 
-export function updateAttendenceAction(data) {
+export function updateAttendenceAction(data, cb) {
   return async (dispatch, getState) => {
     if (!getState().currentUser) return
-    const userId = getState().currentUser._id
+    // const userId = getState().currentUser._id
     const flag = await fetch(`${util.baseURL}/student/attendance`, {
       method: 'PUT',
       headers: {
@@ -276,7 +276,7 @@ export function verifyTokenAction(token) {
         token: token,
         authenticated: true,
       });
-      
+
     } else {
       dispatch({
         type: "LOGOUT_USER",
