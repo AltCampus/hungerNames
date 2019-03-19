@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
+import Login from '../Login';
 
 class Dashboard extends Component {
   constructor(props) {
@@ -15,16 +16,14 @@ class Dashboard extends Component {
       } else {
         this.props.history.push('/student');
       }
-    } else {
-      this.props.history.push('/login')
     }
   }
   render() {
     this.handleRoute()
     return (
-      <div>
-
-      </div>
+      <>
+        <Login />
+      </>
     );
   }
 }
