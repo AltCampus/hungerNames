@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Menu = require("../model/Menu");
 const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
@@ -46,7 +47,6 @@ module.exports = {
     if (!oldToken) return res.json({ message: 'unAuthorized Student' });
     const headerToken = oldToken.split(' ')[1];
     const user = await serverUtils.getUserFromToken(headerToken)
-    console.log(user, oldToken, headerToken)
     if (!user) return res.json({ error: 'not verified' })
     const token = jwt.sign({
       user
@@ -59,12 +59,12 @@ module.exports = {
   },
 
   loginUser: (req, res, next) => {
-    console.log(req.body)
     passport.authenticate('local', {
       session: false
     }, (err, data, info) => {
+      if(!data) return res.json({message: 'incorrect password/user not found'})
+      if (err) return res.json({ error: 'user not found' })
       const user = serverUtils.cleanUser(data);
-      if (err) return res.json({ error: 'not verified' })
       const token = jwt.sign({
         user
       }, 'secret');
@@ -85,6 +85,7 @@ module.exports = {
   profileStudent: (req, res, next) => {
     const studentId = req.params.id;
     Student.findById({ _id: studentId }, (err, user) => {
+      if (!user) return res.json({message:'user not present'})
       if (err) res.status(401).json({
         message: 'user not found'
       })
@@ -115,19 +116,20 @@ module.exports = {
       student: studentId,
       ...feedbackBody
     });
-    feedBack.save((err, feedback) => {
-      if (err) return res.json({ error: 'internal error' })
-      Student.findOneAndUpdate({ _id: studentId }, { $push: { feedback: feedback._id } }, { upsert: true }, (err, student) => {
-        if (err) return res.json({
-          error: 'sorry mate youre not found'
-        })
-        const { name, email, _id } = student
-        res.json({
-          student: {
-            _id,
-            name,
-            email
-          }
+    Student.findById((studentId),(err,user) => {
+      if(err) return res.json({error:'db error'})
+      if(!user) return res.json({message:'user not present'})
+      feedBack.save((err, feedback) => {
+        if (err) return res.json({ error: 'internal error' })
+        Student.findByIdAndUpdate(studentId, { $push: { feedback: feedback._id } }, { upsert: true }, (err, student) => {
+          if (err) return res.json({
+            error: 'sorry mate youre not found'
+          })
+          const { name, email } = student
+            res.json({
+              name,
+              email
+            })
         })
       })
     })
@@ -135,12 +137,15 @@ module.exports = {
 
   getFeedback: (req, res, next) => {
     const studentId = req.params.id;
-    Student.findOne({ _id: studentId })
+    Student.findById({ _id: studentId },(err,user) => {
+      if (err) return res.json({error: 'db tandoor'})
+      if(!user) return res.json({message:'user not found'})
+    })
       .populate("feedback")
       .exec((err, student) => {
         const { feedback, _id, name, email } = student
         if (err) return res.json({ error: "server busy" })
-        if (feedback.length === 0) return res, json({
+        if (feedback.length === 0) return res.json({
           message: 'not feedback to display'
         })
         res.json({
@@ -160,8 +165,7 @@ module.exports = {
       { refCode: ref },
       { $set: { isVerified: true } },
       (err, code) => {
-        console.log(code)
-        if (err) res.json({ msg: `you're link is expired` });
+        if (err) return res.json({ msg: `you're link is expired` });
         res.json({
           emailId: code.emailId,
           refCode: code.refCode

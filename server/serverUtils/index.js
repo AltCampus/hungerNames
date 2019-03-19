@@ -33,11 +33,9 @@ const cleanUser = (user) => {
 const getUserFromToken = async (token) => {
   let user = null;
   await jwt.verify(token, 'secret', (err, decode) => {
-    console.log(err, decode, "util")
     if (err) return false
     user = decode.user;
   })
-  console.log(user);
   return user;
 }
 
