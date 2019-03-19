@@ -248,6 +248,7 @@ export function getallstudentslist() {
     fetch(`${util.baseURL}/student`)
       .then(res => res.json())
       .then(students => {
+        if (students.message) return;
         dispatch({
           students: students.user,
           type: "GET_ALL_STUDENTS_LIST"
@@ -308,17 +309,26 @@ export function verifyTokenAction(token) {
 // }
 
 // removing a particular user from db
-export function removeStudent(id) {
+export function removeStudent(id, cb) {
   return async dispatch => {
     await fetch(`${util.baseURL}/student/${id}/delete`, {
       method: 'DELETE',
       headers: {
-        'content-type': 'application/json'
+        'Content-Type': 'application/json'
       }
     })
-      .then(res => res.json())
-      .then(users => {
-        console.log(users, 'inside remove student/action');
-      })
+    .then(res => res.json())
+    .then(users => {
+      if (users.message) return;
+      if (!users.error) {
+        dispatch({
+          type: "REMAINING_STUDENTS",
+          users: users.user
+        })
+        cb(true)
+      } else {
+        cb(false)
+      }
+    })
   }
 }
