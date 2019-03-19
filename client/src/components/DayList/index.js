@@ -65,7 +65,7 @@ class DayList extends Component {
       ]
     }
     this.props.dispatch(updateAttendenceAction(data, (cb) => {
-      if (cb) this.this.props.history.goBack();
+      if (cb) this.props.history.goBack();
     }))
   }
 
@@ -84,7 +84,7 @@ class DayList extends Component {
           </div>
         </div>
         <div className="check-list-page">
-          {(menu && menu.day1) ? (
+          {(menu && menu.day1 && dayVal) ? (
             <form onSubmit={this.handleSubmit} key={day} >
               <h2 className="day-name">{day}</h2>
               {(menu[dayVal].day !== 'Sunday') ? (

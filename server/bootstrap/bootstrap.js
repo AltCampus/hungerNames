@@ -127,7 +127,7 @@ function createBuffer(n) {
       console.log(studentArr, "studentArr in create buffer")
 
       //now do date loop and bootstrap attBuffer
-      for (i = 0; i <= n; i++) {
+      for (i = -2; i <= n; i++) {
         console.log("inside loop")
 
         const newAttendanceBuffer = new AttendanceBuffer({
