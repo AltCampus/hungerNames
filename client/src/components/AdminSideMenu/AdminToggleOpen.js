@@ -37,7 +37,7 @@ class AdminToggleOpen extends Component {
               <Link className="links" to={`/admin/getallstudentslist`}>Get all student list</Link>
             </div>
             <div className="logout-link-wrapper">
-              <Link className="links" onClick={this.handleLogout} to={`/login`}>Log out</Link>
+              <div className="logout links" onClick={this.handleLogout}>Log out</div>
             </div>
           </div>
         </div>

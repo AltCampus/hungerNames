@@ -1,4 +1,4 @@
-const serverUtil = require('../serverUtils')
+const serverUtil = require('../serverUtils');
 function createMenu() {
   const Menu = require("../model/Menu");
   const newMenu = new Menu({
@@ -103,35 +103,26 @@ function createMenu() {
 
   newMenu.save(function (err, menu) {
     if (err) { return next(err); }
-    console.log(menu);
   })
-
 }
 
-
-
-function createBuffer(n) {
-  console.log();
+function createBuffer(n) {  
   const AttendanceBuffer = require("../model/attendanceBuffer");
   const Students = require('../model/Student')
 
   Students.find({ isAdmin: false, isKitchenStaff: false }, { _id: 1 }, (err, data) => {
-    if (!err) {
-      console.log(data);
+    if (!err) {      
       var studentArr = data.reduce((acc, v) => {
         let newObj = {};
         newObj.student = v._id;
         acc.push(newObj);
         return acc;
-      }, []);
-      console.log(studentArr, "studentArr in create buffer")
+      }, []);      
       let today = new Date();
       let todayDay = today.getDay();
     
       //now do date loop and bootstrap attBuffer
       for (i = -todayDay; i <= n; i++) {
-        console.log("inside loop")
-
         const newAttendanceBuffer = new AttendanceBuffer({
           date: serverUtil.convDateToDateStr(serverUtil.dateManupulater(i)),
           breakfast: {
@@ -153,8 +144,7 @@ function createBuffer(n) {
           },
         })
         newAttendanceBuffer.save(function (err, menu) {
-          if (err) { return next(err); }
-          console.log(menu);
+          if (err) { return next(err); }          
         })
       }
     }
@@ -165,4 +155,3 @@ module.exports = {
   createMenu,
   createBuffer,
 }
-

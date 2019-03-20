@@ -51,10 +51,8 @@ class DayList extends Component {
     }
 
 
-    let currentDate = util.convDateToDateStr(this.state.newDate);
-    console.log(currentDate, attendance[dayIndex].date, 'day list');
-    if (currentDate == attendance[dayIndex].date) {
-    console.log(currentDate, attendance[dayIndex].date, 'inside equal');
+    let currentDate = util.convDateToDateStr(this.state.newDate);    
+    if (currentDate == attendance[dayIndex].date) {  
       
       let currentTime = this.state.newDate.toLocaleTimeString();
       if (day === 'Sunday') {
