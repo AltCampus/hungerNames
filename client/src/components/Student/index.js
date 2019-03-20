@@ -9,7 +9,8 @@ import StudentFeedbacks from '../StudentFeedbacks';
 
 function mapStateToProps(state) {
   return {
-    isAuthenticated: state.isAuthenticated
+    isAuthenticated: state.isAuthenticated,
+    user: state.currentUser || {},
   }
 }
 
@@ -22,10 +23,10 @@ class Student extends Component {
       <>
         <BrowserRouter>
           <Switch>
-            <PrivateRoute exact path='/student' component={ StudentHome } auth={this.props.isAuthenticated}/>
-            <PrivateRoute exact path='/student/:day' component={ DayList } auth={this.props.isAuthenticated}/>
-            <PrivateRoute exact path='/student/:id/feedback' component={ StudentFeedbackForm } auth={this.props.isAuthenticated}/>
-            <PrivateRoute exact path='/student/:id/myfeedback' component={ StudentFeedbacks } auth={ this.props.isAuthenticated } />
+            <PrivateRoute exact path='/student' component={StudentHome} auth={this.props.user.isStudent} />
+            <PrivateRoute exact path='/student/:day' component={DayList} auth={this.props.user.isStudent} />
+            <PrivateRoute exact path='/student/:id/feedback' component={StudentFeedbackForm} auth={this.props.user.isStudent} />
+            <PrivateRoute exact path='/student/:id/myfeedback' component={StudentFeedbacks} auth={this.props.user.isStudent} />
           </Switch>
         </BrowserRouter>
       </>

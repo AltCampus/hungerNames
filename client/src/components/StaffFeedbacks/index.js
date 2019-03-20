@@ -3,28 +3,27 @@ import './StaffFeedbacks.css';
 import { connect } from 'react-redux';
 import FeedbackListView from '../StaffFeedbackListView'
 import StaffSideMenu from '../StaffSideMenu';
-import {getAllFeedback} from '../../store/actions';
-
+import { getAllFeedback } from '../../store/actions';
 
 function mapStateToProps(state) {
-  if(state) {
+  if (state) {
     return {
       feedbacks: state.allUserFeedback || {},
     };
   }
 }
- class StaffFeedbacks extends Component {
-  constructor(props){
+class StaffFeedbacks extends Component {
+  constructor(props) {
     super(props)
   }
   componentDidMount = () => {
     this.props.dispatch(getAllFeedback())
   }
-  
+
   render() {
     const { feedbacks } = this.props;
-    
-    return(
+
+    return (
       <>
         <div className="back-btn-box">
           <div onClick={this.props.history.goBack} className="back-btn">
@@ -33,19 +32,13 @@ function mapStateToProps(state) {
           </div>
         </div>
         <StaffSideMenu />
-        {!(feedbacks) ? 'loading' : (Object.keys(feedbacks).map((val) => {    
-          return <FeedbackListView date={val} dateFeedbacks={feedbacks[val]}   />
-        }) )
-        }        
+        {!(feedbacks) ? 'loading' : (Object.keys(feedbacks).map((val) => {
+          return <FeedbackListView date={val} dateFeedbacks={feedbacks[val]} />
+        }))
+        }
       </>
     );
   }
 }
-
-// const mapStateToProps = () => {
-//   return{
-//     state
-//   }
-// }
 
 export default connect(mapStateToProps)(StaffFeedbacks);

@@ -34,7 +34,7 @@ export function loginUserAction(data, cb) {
     })
       .then(res => res.json())
       .then(data => {
-        console.log(data);
+        console.log(data, 'login_data');
         if (!data.error) {
           let token = `Hungry ${data.token}`;
           localStorage.setItem('hungerNamesJWT', token) //will modify acc to server
@@ -102,7 +102,7 @@ export function registerUserAction(data, cb) {
 };
 
 
-export function getMenu(menu = {}, cb) {
+export function getMenu(cb) {
   return async (dispatch) => {
     const menuData = await fetch(`${util.baseURL}/admin/menu`).then(res => res.json());
     dispatch({
@@ -126,7 +126,7 @@ export function postStaffRemark(data, cb) {
       .then(data => {
         if (!data.error) {
           cb(data, true)
-        } else cb(false)
+        } else cb(data, false)
       })
   }
 }

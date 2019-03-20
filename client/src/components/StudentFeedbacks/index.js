@@ -14,27 +14,34 @@ class StudentFeedbacks extends Component {
   render() {
     const { singleUserFeedback } = this.props;
     return (
-      <div className="feedback-wrapper">
-        {
-          singleUserFeedback.length === 0 ? <div className="empty">No feedback found :)</div>
-          : 
-          singleUserFeedback && singleUserFeedback.map(feedback => (
-            <div className="feedback-card" key={feedback._id}>
-              <p className="feedback-date">Date: {feedback.date}</p>
-              <p className="feedback-mealType">Meal Type: {feedback.mealType}</p>
-              <p className="feedback-meal">Meal: {feedback.meal}</p>
-              <p className="feedback-review">Review: {feedback.review}</p>
-              <StarRatings
-              starDimension="30px"
-              starSpacing="10px"
-              starRatedColor="yellow"
-              numberOfStars={feedback.rating}
-              name="rating"
-            />
-            </div>
-          ))
-        }
-      </div>
+      <>
+        <div className="back-btn-box">
+          <div onClick={this.props.history.goBack} className="back-btn">
+            <i className="fas fa-angle-left fa-lg"></i>
+            <span>Back</span>
+          </div>
+        </div>
+        <div className="feedback-wrapper">
+          {singleUserFeedback.length === 0 ? <div className="empty">No feedbacks made yet :/</div>
+            : 
+            singleUserFeedback && singleUserFeedback.map(feedback => (
+              <div className="feedback-card" key={feedback._id}>
+                <p className="feedback-date"><span>Date:</span> {feedback.date}</p>
+                <p className="feedback-mealType"><span>Meal Type:</span> {feedback.mealType}</p>
+                <p><span>Meal Item:</span> {feedback.meal}</p>
+                <div><span>Review:</span><p>{feedback.review}</p></div>
+                <StarRatings
+                starDimension="30px"
+                starSpacing="10px"
+                starRatedColor="yellow"
+                numberOfStars={feedback.rating}
+                name="rating"
+              />
+              </div>
+            ))
+          }
+        </div>
+      </>
     )
   }
 }

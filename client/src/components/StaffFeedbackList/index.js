@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { Link, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './FeedbackList.css';
-import FeedbackDetail from '../StaffFeedbackDetail';
+import '../StudentFeedbacks/StudentFeedbacks.scss';
+import StarRatings from "react-star-ratings";
+
 
 export default class FeedbackList extends Component {
   render() {
@@ -13,17 +15,22 @@ export default class FeedbackList extends Component {
           state: {
             feedbackData: data
           }
-        }}
-
-          className='user-feedback unlink' >
-        
-        <div>
-          <p>student: {data.name}</p>
-          <p>meal: {data.meal}</p>
-          <p>mealType: {data.mealType}</p>
-          <p>rating: {data.rating}</p>
-        </div>
-        
+        }} className='user-feedback unlink' >        
+          <div className="feedback-card">
+            <p className="feedback-mealtype">{data.mealType}</p>
+            <p><span>Student:</span> {data.name}</p>
+            <p><span>Meal Item:</span> {data.meal}</p>
+            <div>
+              <span>Rated:  </span> 
+              <StarRatings
+                starDimension="30px"
+                starSpacing="10px"
+                starRatedColor="yellow"
+                numberOfStars={data.rating}
+                name="rating"
+              />
+            </div>
+          </div>        
         </Link>        
       </>
     );

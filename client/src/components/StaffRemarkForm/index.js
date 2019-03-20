@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import "./StaffRemarkForm.css";
-import { postStaffRemark} from "../../store/actions";
+import { postStaffRemark } from "../../store/actions";
+import StaffSideMenu from '../StaffSideMenu';
+import Loader from '../Loader';
+import '../StudentFeedbackForm/StudentFeedbackForm.scss';
 
 
 class StaffRemarkForm extends Component {
@@ -9,82 +11,113 @@ class StaffRemarkForm extends Component {
     super(props);
     this.state = {
       date: new Date(),
-      mealtype: "",
-      remark: "",
-      isLoading: false
+      mealtype: '',
+      remark: '',
+      isLoading: false,
+      message: '',
     };
   }
 
   handleChange = event => {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
+      message: '',
     });
   };
 
   handleSubmit = (event) => {
+    this.setState({
+      isLoading: true,
+    })
     event.preventDefault();
     const { date, mealtype, remark } = this.state;
     const data = { date, mealtype, remark };
-    this.props.dispatch(postStaffRemark(data,cb => {
-      
+    this.props.dispatch(postStaffRemark(data, (message, cb) => {
+      if(cb) {
+        this.setState({
+          isLoading:false,
+          message: message.message,
+        })
+      } else {
+        this.setState({
+          isLoading:false,
+          message: message.error,
+        })
+      }
     }))
   };
 
   render() {
-    const {isloading} = this.state
+    const { isloading } = this.state
     return (
       <>
-        <form onSubmit={this.handleSubmit}>
-          <div className="calender-wrapper">
-            <input
-              value={this.state.date}
-              type="date"
-              name="date"
-              id=""
-              onChange={this.handleChange}
-              min={this.state.newDate}
-              max={this.state.newDate}
-            />
+        <StaffSideMenu />
+        <div className="back-btn-box">
+          <div onClick={this.props.history.goBack} className="back-btn">
+            <i className="fas fa-angle-left fa-lg"></i>
+            <span>Back</span>
           </div>
-          <div className="mealtype-wrapper">
-            <select
-              name="mealtype"
-              id="meal-type"
-              onChange={this.handleChange}
-            >
-              <option name="select" value={this.state.mealtype}>
-                select
-              </option>
-              <option name="brunch" value="brunch">
-                Brunch
-              </option>
-              <option name="breakfast" value="breakfast">
-                Breakfast
-              </option>
-              <option name="lunch" value="lunch">
-                Lunch
-              </option>
-              <option name="dinner" value="dinner">
-                Dinner
-              </option>
-            </select>
-          </div>
-          <textarea
-            name="remark"
-            id="remark"
-            cols="30"
-            value={this.state.remark}
-            onChange={this.handleChange}
-            rows="5"
-            placeholder="Write remark here.."
-          />
-          <input
-            type="submit"
-            name="submit-staff-remark"
-            id="submit-staff-remark"
-            className="send-btn form-btn"
-          />
-        </form>
+        </div>
+        <div className="studentFeedback-wrapper">
+          <form className="mealtype-wrapper" onSubmit={this.handleSubmit}>
+            <div className="calender-wrapper">
+              <p>Remark Date:</p>
+              <input
+                value={this.state.date}
+                type="date"
+                name="date"
+                id=""
+                onChange={this.handleChange}
+                min={this.state.newDate}
+              />
+            </div>
+            <div className="mealtype-wrapper">
+              <select
+                name="mealtype"
+                id="meal-type"
+                onChange={this.handleChange}
+              >
+                <option name="select" value={this.state.mealtype}>
+                  Select Meal Type
+                  </option>
+                <option name="brunch" value="brunch">
+                  Brunch
+                  </option>
+                <option name="breakfast" value="breakfast">
+                  Breakfast
+                  </option>
+                <option name="lunch" value="lunch">
+                  Lunch
+                  </option>
+                <option name="dinner" value="dinner">
+                  Dinner
+                  </option>
+              </select>
+            </div>
+            <div className="review-wrapper">
+              <textarea
+                name="remark"
+                id="remark"
+                cols="30"
+                value={this.state.remark}
+                onChange={this.handleChange}
+                rows="5"
+                placeholder="Write remark here.."
+                className="textarea-format"
+              />
+            </div>
+            <div className="submit-wrapper">
+              <button type="submit"
+                name="submit-staff-remark"
+                id="submit-staff-remark"
+                className="send-btn form-btn">
+                Submit
+              </button>
+            </div>
+            {(this.state.isLoading) ? <Loader /> : ''}
+            {this.state.message}
+          </form>
+        </div>
       </>
     );
   }
