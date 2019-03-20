@@ -42,7 +42,7 @@ class StudentHome extends Component {
                   if (val != 'day0')
                     return <DaysCheckList key={index} onDay={menu[val]} attendance={attendance[index]} />
                 })}
-                < DaysCheckList key={0} onDay={menu["day0"]} attendance={attendance[0]} />
+                <DaysCheckList key={0} onDay={menu["day0"]} attendance={attendance[0]} />
               </>
             ) : ''}
           </div>
