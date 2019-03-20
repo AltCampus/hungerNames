@@ -4,6 +4,7 @@ import DaysCheckList from '../DaysCheckList';
 import { getMenu, getAttendenceAction } from '../../store/actions/';
 import './StudentHome.css';
 import StudentSideMenu from '../StudentSideMenu';
+import Loader from '../Loader';
 
 const mapStateToProps = (state) => {
   if (state.menu) {
@@ -18,35 +19,61 @@ const mapStateToProps = (state) => {
 class StudentHome extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isLoading: false
+    };
     this.days = ["day0", "day1", "day2", "day3", "day4", "day5", "day6"];
   }
 
   componentDidMount() {
-    this.props.dispatch(getAttendenceAction());
-    this.props.dispatch(getMenu(() => { }));
+    this.setState({
+      isLoading: true
+    })
+    this.props.dispatch(getAttendenceAction(getAttendance => {
+      if (getAttendance) {
+        this.setState({
+          isLoading: false
+        })
+      }
+    }));
+    this.props.dispatch(getMenu((getmenu) => {
+      if (getmenu) {
+        this.setState({
+          isLoading: false
+        })
+      }
+     }));
 
   }
 
   render() {
     const { menu, attendance } = this.props;
+    const { isLoading } = this.state;
     return (
       <>
         <StudentSideMenu />
-        <div className="wrapper">
-          {/* <SideMenu /> */}
-          <div className="home">
-            {(menu && menu.day1) ? (
-              <>
-                {this.days.map((val, index) => {
-                  if (val != 'day0')
-                    return <DaysCheckList key={index} onDay={menu[val]} attendance={attendance[index]} />
-                })}
-                < DaysCheckList key={0} onDay={menu["day0"]} attendance={attendance[0]} />
-              </>
-            ) : ''}
-          </div>
-        </div>
+        {
+          isLoading ? (
+            <div className="center">
+              <Loader />
+            </div>
+          ) : (
+            <div className="wrapper">
+              {/* <SideMenu /> */}
+              <div className="home">
+                {(menu && menu.day1) ? (
+                  <>
+                    {this.days.map((val, index) => {
+                      if (val != 'day0')
+                        return <DaysCheckList key={index} onDay={menu[val]} attendance={attendance[index]} />
+                    })}
+                    < DaysCheckList key={0} onDay={menu["day0"]} attendance={attendance[0]} />
+                  </>
+                ) : ''}
+              </div>
+            </div>
+          )
+        }
       </>
     );
   }
