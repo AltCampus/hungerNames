@@ -24,6 +24,9 @@
 .toggle-close {
   cursor: pointer;
   div {
+    position: relative;
+    top: 5px;
+    right: 10px;
     float: right;
     /* right: 0px; */
     border: 1.5px solid #11a0a0;

@@ -126,7 +126,7 @@ export function postStaffRemark(data, cb) {
       .then(data => {
         if (!data.error) {
           cb(data, true)
-        } else cb(false)
+        } else cb(data, false)
       })
   }
 }

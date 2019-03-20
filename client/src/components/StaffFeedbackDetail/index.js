@@ -1,22 +1,37 @@
 import React, { Component } from 'react';
+import StarRatings from "react-star-ratings";
+import '../StudentFeedbacks/StudentFeedbacks.scss';
 import './FeedbackDetail.css'
 
-export default class FeedbackDetail extends Component {
+class FeedbackDetail extends Component {
   render() {
-    console.log(this.props.location.state);
     const { feedbackData } = this.props.location.state;
-    console.log(feedbackData, 'in detail');
     return (
-      <div className='feedback-detail'>
-        <p>Item: {feedbackData.meal}</p>
-        <p>{feedbackData.date}</p>
-        <p>Mealtype: {feedbackData.mealType}</p>
-        <p>Feedback by  {feedbackData.name}</p>
-        <p>Rated: {feedbackData.rating}</p>
-        <div className="review">
-          <span>Review: </span><p>{feedbackData.review}</p>
+      <>
+        <div className="back-btn-box">
+          <div onClick={this.props.history.goBack} className="back-btn">
+            <i className="fas fa-angle-left fa-lg"></i>
+            <span>Back</span>
+          </div>
         </div>
-      </div>
-    )
+        <div className="feedback-card center">
+          <p className="feedback-date"><span>Date:</span> {feedbackData.date}</p>
+          <p className="feedback-mealType" className="feedback-mealtype"> {feedbackData.mealType}</p>
+          <p><span>Meal Item:</span> {feedbackData.meal}</p>
+          <div><span>Rated:  </span>
+            <StarRatings
+              starDimension="30px"
+              starSpacing="10px"
+              starRatedColor="yellow"
+              numberOfStars={feedbackData.rating}
+              name="rating"
+            />
+          </div>
+          <div><span>Review:</span><p>{feedbackData.review}</p></div>
+        </div>
+      </>
+    );
   }
 }
+
+export default FeedbackDetail;

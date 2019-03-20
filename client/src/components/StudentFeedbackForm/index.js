@@ -139,16 +139,16 @@ class StudentFeedbackForm extends Component {
                 placeholder="write review here..."
                 cols="30"
                 rows="10"
-              >
-              </textarea>
+                className='textarea-format'
+              />              
             </div>            
             <div className="submit-wrapper">
               <button name="submit" value="submit" className='form-btn send-btn'>
                 Submit                
               </button>
             </div>
+            {isLoading ? <Loader /> : this.state.message}
           </form>
-          {isLoading ? <Loader /> : this.state.message}
         </div>
       </>
     );

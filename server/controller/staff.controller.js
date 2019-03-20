@@ -57,10 +57,10 @@ module.exports = {
       { $set: { [mealType]: [remarks] }},{new: true}  ,
       (err, doc) => {
         if (err) return res.json({
-          error: 'could not update'
+          error: 'Remark not sent, please retry.'
         })
         return res.json({
-          message: 'updated sucessfully'
+          message: 'Remark has been sent successfully.'
         })
       }
     );

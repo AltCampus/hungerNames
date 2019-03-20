@@ -20,6 +20,7 @@
 .calender-wrapper {
   p {
     text-align: left;
+    font-weight: 600;
   }
   input {
     height: 40px;
@@ -29,8 +30,7 @@
     color: aliceblue;
     width: 10rem;
     border-radius: 5px;
-    border: 1px solid transparent;
-    color: var(--black);
+    border: 1px solid transparent;    
   }  
 }
 
@@ -102,10 +102,15 @@
   cursor: pointer;
 }
 
+
+.textarea-format {
+  padding: 0.5em;
+  border-radius: 5px;
+}
 // review
 .review-wrapper {
   margin-top: 0.5em;
-  input, textarea {
+  input {
     padding: 5px;
     margin-top: 10px;
     height: 40px;
@@ -132,7 +137,7 @@
     font-size: 0.80rem;
     background-color: #11a0a0;
     border: none;
-    padding: 0.6em 0.8em;
+    padding: 0.9em 1.1em;
     margin: 0.5em;
     border-radius: 5px;
     text-transform: uppercase;

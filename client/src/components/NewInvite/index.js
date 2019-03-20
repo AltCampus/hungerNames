@@ -7,8 +7,8 @@ class NewInvite extends Component {
   constructor(props){
     super(props);
     this.state ={
-      invitemail : "",
-      message:"",
+      invitemail : '',
+      message: '',
       isAdmin: false,
       isStaff: false,
       isStudent: false,
@@ -18,7 +18,10 @@ class NewInvite extends Component {
   }
 
   handleChange = (e) => {
-    this.setState({[e.target.name]:e.target.value})
+    this.setState({
+      [e.target.name]:e.target.value,
+      message: '',
+    })
   }
 
   handleRadioBtn = (e) => {
@@ -51,11 +54,11 @@ class NewInvite extends Component {
       if(!data.error) {
         this.setState({
           message: data.message,
-          isLoading: false
+          isLoading: false,          
         })
       } else this.setState({ 
         message: data.error,
-        isLoading: false,
+        isLoading: false,        
       })
     })
   }
