@@ -16,12 +16,16 @@ class DaysCheckList extends Component {
     }
   }
   componentDidMount = () => {
-    const { attendance } = this.props;
-    let disabled = (util.convDateToDateStr(new Date()) >= attendance.date)
-    this.setState({
-      date: date,
-      isDisabled: disabled
-    })
+    if (this.props.attendance) {
+
+
+      const { attendance } = this.props;
+      let disabled = (util.convDateToDateStr(new Date()) >= attendance.date)
+      this.setState({
+        date: date,
+        isDisabled: disabled
+      })
+    }
   }
 
   setCheck = () => {
