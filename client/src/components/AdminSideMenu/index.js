@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'; 
 import { getStudentFeedback } from '../../store/actions';
 import '../StudentSideMenu/StudentSideMenu.scss';
 import AdminToggleOpen from './AdminToggleOpen';
@@ -42,12 +41,5 @@ class AdminSideMenu extends Component {
     )
   }
 }
-
-// const mapStateToProps = (state) => {
-//   return {
-//     userFeedback: state.userFeedback,
-//     currentUser: state.currentUser 
-//   }
-// }
 
 export default AdminSideMenu;

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Menu = require("../model/Menu");
 const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
@@ -7,6 +8,55 @@ const Student = require("../model/Student");
 const Invite = require("../model/Invite");
 const serverUtils = require('../serverUtils/index')
 const AttendanceBuffer = require('../model/attendanceBuffer');
+const socket = require('socket.io');
+
+const io = require('./../../app').io;
+
+const onlineUsers = [];
+
+let isPosted = false
+
+// Pushing online Users
+io.on('connection', (socket) => {
+  console.log(`${socket.id} is connected`)
+  socket.on('login', (userData) => {
+    onlineUsers.push({
+      ...userData,
+      socketId: socket.id
+    })
+    console.log(onlineUsers);
+  })
+
+  socket.on('feedbackPosted', () => {
+    const kitchenStaff = onlineUsers.filter(v => v.role === 'kitchenStaff');
+    console.log(kitchenStaff);
+    
+    if (kitchenStaff.length) {
+      const id = socket.id;
+      const regexp = new RegExp(id, 'i')
+  
+      const student = onlineUsers.filter(v => regexp.test(v.socketId));
+      socket.to(kitchenStaff[0].socketId).emit('notification', `${student[0].name} added a feedback.`)
+    }
+  })
+
+  socket.on('disconnect', () => {
+    let id = 0;
+
+    onlineUsers.forEach((v,i) => {
+      if (v.socketId == socket.id) {
+        id = i
+      }
+    })
+
+    onlineUsers.splice(id, 1)
+  })
+})
+
+
+// io.on('connection', (socket) => {
+
+// })
 
 
 module.exports = {
@@ -17,16 +67,20 @@ module.exports = {
   },
 
   registerStudent: (req, res, next) => {
-    const { email, password, name, refCode } = req.body;
+    const { email, password, name, refCode } = req.body;    
     Invite.findOne({ refCode: refCode }, (err, user) => {
+      const { isAdmin, isStaff, isStudent } = user;
       if (err) res.json({ message: "not verified" });
-      if (user.isVerified) {
+      if (user.isVerified) {      
         const newStudent = new Student({
           name,
           email,
-          password
+          password,
+          isAdmin,
+          isStaff,
+          isStudent
         });
-        newStudent.save((err, user) => {
+        newStudent.save((err, user) => {          
           if (err || !user) {
             return res.status(401).json({
               error: "user is not found"
@@ -46,7 +100,6 @@ module.exports = {
     if (!oldToken) return res.json({ message: 'unAuthorized Student' });
     const headerToken = oldToken.split(' ')[1];
     const user = await serverUtils.getUserFromToken(headerToken)
-    console.log(user, oldToken, headerToken)
     if (!user) return res.json({ error: 'not verified' })
     const token = jwt.sign({
       user
@@ -62,8 +115,9 @@ module.exports = {
     passport.authenticate('local', {
       session: false
     }, (err, data, info) => {
+      if (!data) return res.json({ message: 'incorrect password/user not found' })
+      if (err) return res.json({ error: 'user not found' })
       const user = serverUtils.cleanUser(data);
-      if (err) return res.json({ error: 'not verified' })
       const token = jwt.sign({
         user
       }, 'secret');
@@ -84,6 +138,7 @@ module.exports = {
   profileStudent: (req, res, next) => {
     const studentId = req.params.id;
     Student.findById({ _id: studentId }, (err, user) => {
+      if (!user) return res.json({ message: 'user not present' })
       if (err) res.status(401).json({
         message: 'user not found'
       })
@@ -100,6 +155,7 @@ module.exports = {
       })
     })
   },
+
   attendanceStudent: (req, res, next) => {
     const { day } = req.params;
     res.json({
@@ -107,39 +163,45 @@ module.exports = {
     });
   },
 
-  postFeedbackStudent: (req, res, next) => {
-    const studentId = req.params.id;
-    const feedbackBody = req.body;
-    const feedBack = new FeedBack({
-      student: studentId,
-      ...feedbackBody
-    });
-    feedBack.save((err, feedback) => {
-      if (err) return res.json({ error: 'internal error' })
-      Student.findOneAndUpdate({ _id: studentId }, { $push: { feedback: feedback._id } }, { upsert: true }, (err, student) => {
-        if (err) return res.json({
-          error: 'sorry mate youre not found'
-        })
-        const { name, email, _id } = student
-        res.json({
-          student: {
-            _id,
-            name,
-            email
-          }
-        })
-      })
-    })
-  },
+  // postFeedbackStudent: (req, res, next) => {
+  //   const studentId = req.params.id;
+  //   const feedbackBody = req.body;
+  //   const feedBack = new FeedBack({
+  //     student: studentId,
+  //     ...feedbackBody
+  //   });
+  //   Student.findById((studentId), (err, user) => {
+  //     if (err) return res.json({ error: 'db error' })
+  //     if (!user) return res.json({ message: 'user not present' })
+  //     feedBack.save((err, feedback) => {
+  //       if (err) return res.json({ error: 'internal error' })
+  //       Student.findByIdAndUpdate(studentId, { $push: { feedback: feedback._id } }, { upsert: true }, (err, student) => {
+  //         if (err) return res.json({
+  //           error: 'sorry mate youre not found'
+  //         })
+  //         const { name, email } = student
+  //         res.json({
+  //           name,
+  //           email
+  //         })
+  //       })
+  //     })
+  //   })
+  // },
 
   getFeedback: (req, res, next) => {
     const studentId = req.params.id;
-    Student.findOne({ _id: studentId })
+    Student.findById({ _id: studentId }, (err, user) => {
+      if (err) return res.json({ error: 'db tandoor' })
+      if (!user) return res.json({ message: 'user not found' })
+    })
       .populate("feedback")
       .exec((err, student) => {
+        console.log(student, 'in user controller');
+        if (!(student.feedback)) return;
         const { feedback, _id, name, email } = student
         if (err) return res.json({ error: "server busy" })
-        if (feedback.length === 0) return res, json({
+        if (feedback.length === 0) return res.json({
           message: 'not feedback to display'
         })
         res.json({
@@ -153,13 +215,62 @@ module.exports = {
       });
   },
 
+  postFeedbackStudent: (req, res, next) => {
+    const studentId = req.params.id;
+    const feedbackBody = req.body;
+    console.log(feedbackBody,'body')
+    const feedBack = new FeedBack({
+      student: studentId,
+      ...feedbackBody
+    });
+    Student.findById(studentId,(err,user) => {
+      if(err) return res.json({error:'db error'})
+      if(!user) return res.json({message:'user not present'})
+      feedBack.save((err, feedback) => {
+        if (err) return res.json({ error: 'internal error' })
+        Student.findByIdAndUpdate(studentId, { $push: { feedback: feedback._id } }, { upsert: true }, (err, student) => {
+          console.log(student,'stu')
+          if (err) return res.json({
+            error: 'sorry mate youre not found'
+          })
+
+          console.log('ghhjjjguyf');
+
+          // Sending Notification to Kitchen Staff
+          const kitchenStaff = onlineUsers.filter(v => v.role === 'kitchenStaff')
+          console.log(kitchenStaff, 'kitchenStaff');
+
+          isPosted = true
+
+
+          // io.on('connection', (socket) => {
+          //   console.log(`${socket.id} is connected`)
+          //   socket.to(kitchenStaff[0].socketId).emit('notification', `User added a feedback.`)
+          // })
+
+          // io.on('connection', (socket) => {
+          //   console.log(socket.id);
+          //   // socket.emit('notification', `User added a feedback.`)
+          // })
+
+          const { name, email } = student
+          res.json({
+            name,
+            email
+          })
+        })
+      })
+    })
+  },
+
   verifyStudent: (req, res, next) => {
     const ref = req.query.ref
     Invite.findOneAndUpdate(
       { refCode: ref },
       { $set: { isVerified: true } },
       (err, code) => {
-        if (err) res.json({ msg: `you're link is expired` });
+        console.log('called', code);
+        if (err) return res.json({ msg: `you're link is expired` });
         res.json({
           emailId: code.emailId,
           refCode: code.refCode
@@ -168,16 +279,17 @@ module.exports = {
     );
   },
 
-  getUserAttendence: (req, res) => {
+  getUserAttendence: async (req, res) => {
     const token = req.headers['authorization'];
     if (!token) return res.json({ message: 'unAuthorized Student' });
     const headerToken = token.split(' ')[1];
-    const user = serverUtils.getUserFromToken(headerToken);
+    const user = await serverUtils.getUserFromToken(headerToken);
+    // console.log(user);
     if (!user) return res.json({ error: `user not found` })
     let today = new Date();
     let todayDay = today.getDay();
-    let weekStart = serverUtils.dateManupulater(-todayDay);
-    let weekEnd = serverUtils.dateManupulater((6 - todayDay));
+    let weekStart = serverUtils.convDateToDateStr(serverUtils.dateManupulater(-todayDay));
+    let weekEnd = serverUtils.convDateToDateStr(serverUtils.dateManupulater((6 - todayDay)));
     AttendanceBuffer.find({ date: { $gte: weekStart, $lte: weekEnd } }, (err, Att) => {
       if (err) return res.json({ err: `DB error ` })
       let userAttendence = [];
@@ -201,23 +313,25 @@ module.exports = {
 
   },
 
-  updateUserAttendence: (req, res) => {
+  updateUserAttendence: async (req, res) => {
     attendanceArr = req.body.attendance;
     date = req.body.date;
+    
     const token = req.headers['authorization'];
     if (!token) return res.json({ message: 'unAuthorized Student' });
     const headerToken = token.split(' ')[1];
-    const user = serverUtils.getUserFromToken(headerToken);
+    const user = await serverUtils.getUserFromToken(headerToken);
     if (!user) {
       return res.json({
         error: `user not Authorise`,
       })
     }
     AttendanceBuffer.findOne({ date: date }, (err, prevAtt) => {
+      // console.log(currentAtt, "currentAtttttttttttt")
       let currentAtt = prevAtt;
       let flag = false; //to check if doc chenged or not
       attendanceArr.forEach(attendence => {
-        const mealType = attendanceArr.title.split('-')[1];
+        const mealType = attendence.mealType;
         const value = attendence.value;
         let index = -1;
         //c;heck if student present
@@ -255,5 +369,32 @@ module.exports = {
         });
       }
     })
+  },
+
+  getAttendees: (req, res) => {
+    const today = serverUtils.convDateToDateStr(new Date());
+    console.log(today, "hello")
+
+    //find todays attendence
+    AttendanceBuffer.findOne({ date: today })
+      .populate([
+        { path: 'brunch.attendance.student' }, { path: 'lunch.attendance.student' }, { path: 'dinner.attendance.student' }, { path: 'breakfast.attendance.student' }])
+      .exec((err, data) => {
+        if (err) return res.json({ error: "DB ERROR" })
+        console.log(data, err, "inside");
+        const breakfastAtt = data.breakfast.attendance.map(obj => (obj.student) ? obj.student.name : null);
+        const brunchAtt = data.brunch.attendance.map(obj => (obj.student) ? obj.student.name : null);
+        const lunchAtt = data.lunch.attendance.map(obj => (obj.student) ? obj.student.name : null);
+        const dinnerAtt = data.dinner.attendance.map(obj => (obj.student) ? obj.student.name : null);
+        const object = {
+          date: today,
+          breakfast: breakfastAtt,
+          brunch: brunchAtt,
+          lunch: lunchAtt,
+          dinner: dinnerAtt,
+        }
+        res.json(object);
+      })
   }
+
 };

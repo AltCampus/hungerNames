@@ -4,8 +4,6 @@ import { util } from '../../util'
 import { loginUserAction } from '../../store/actions'
 import './Login.css';
 
-
-
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -19,31 +17,26 @@ class Login extends Component {
     this.setState({ [e.target.name]: e.target.value })
   }
   handleSubmit = (e) => {
-    const { dispatch, user } = this.props;
+    e.preventDefault();
+    const { dispatch } = this.props;
     let { email, password } = this.state;
     email = email.trim();
     if (!util.ValidateEmail(email)) return;
     const data = {
       email, password
     }
-    dispatch(loginUserAction(data, (isLoggedIn) => {      
-      if(isLoggedIn) {
-        if(user.isAdmin !== 'undefined' && user.isAdmin) {
-          this.props.history.push('/admin');
-        } else if (user.isKitchenStaff !== 'undefined' && user.isKitchenStaff) {
-          this.props.history.push('/staff');
-        } else {
-          this.props.history.push('/student');
-        }
+    dispatch(loginUserAction(data, (isLoggedIn) => {
+      if (isLoggedIn) {
+        this.props.history.push('/');
       } else {
-          this.props.history.push('/login');
+        this.props.history.push('/login');
       }
-    } ));
+    }));
   }
 
   render() {
     return (
-      <div className='form-page'>
+      <form onSubmit={this.handleSubmit} className='form-page'>
         <h2 className='h2-title'>Sign in</h2>
         <label className='label-box' htmlFor="email">
           <span className='label-text'>Email:</span>
@@ -53,16 +46,12 @@ class Login extends Component {
           <span className="label-text">Password:</span>
           <input onChange={this.handleChange} className="input-field" type="password" placeholder="Enter Password" id="password" name="password" value={this.state.password} />
         </label>
-        <input onClick={this.handleSubmit} type="submit" className="send-btn form-btn" value="LOGIN" />
-      </div>
+        <input type="submit" className="send-btn form-btn" value="LOGIN" />
+      </form>
     );
   }
 }
 
-const mapStateToProps = (state) => {  
-  return {
-    user: state.currentUser
-  };
-}
 
-export default connect(mapStateToProps)(Login);
+
+export default connect()(Login);

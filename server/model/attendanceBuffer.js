@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const AttendanceBufferSchema = new Schema({
-  date: { type: Date },
+  date: { type: String, unique: true },
   breakfast: {
     title: String,
     remarks: String,
     attendance: [{
-      student: { type: Schema.Types.ObjectId, ref: 'Students' },
+      student: { type: Schema.Types.ObjectId, ref: 'Student' },
       feedback: { type: Schema.Types.ObjectId, ref: 'Feedback' }
     }]
   },
@@ -15,7 +15,7 @@ const AttendanceBufferSchema = new Schema({
     title: String,
     remarks: String,
     attendance: [{
-      student: { type: Schema.Types.ObjectId, ref: 'Students' },
+      student: { type: Schema.Types.ObjectId, ref: 'Student' },
       feedback: { type: Schema.Types.ObjectId, ref: 'Feedback' }
     }]
   },
@@ -23,7 +23,7 @@ const AttendanceBufferSchema = new Schema({
     title: String,
     remarks: String,
     attendance: [{
-      student: { type: Schema.Types.ObjectId, ref: 'Students' },
+      student: { type: Schema.Types.ObjectId, ref: 'Student' },
       feedback: { type: Schema.Types.ObjectId, ref: 'Feedback' }
     }]
   },
@@ -31,7 +31,7 @@ const AttendanceBufferSchema = new Schema({
     title: String,
     remarks: String,
     attendance: [{
-      student: { type: Schema.Types.ObjectId, ref: 'Students' },
+      student: { type: Schema.Types.ObjectId, ref: 'Student' },
       feedback: { type: Schema.Types.ObjectId, ref: 'Feedback' }
     }]
   },

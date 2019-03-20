@@ -34,6 +34,10 @@ router.get('/student/:id/feedback', (req, res) => {
   res.render('index');
 })
 
+router.get('/student/:id/myfeedback/', (req, res) => {
+  res.render('index');
+})
+
 router.get('/staff/feedbacks', (req, res) => {
   res.render('index');
 })
@@ -57,6 +61,11 @@ router.get('/admin/sidemenu', (req, res) => {
 })
 
 router.get('/staff/sidemenu', (req, res) => {
+  res.render('index');
+})
+
+// getting all lists of students
+router.get('/admin/getallstudentslist', (req, res) => {
   res.render('index');
 })
 

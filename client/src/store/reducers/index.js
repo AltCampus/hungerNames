@@ -1,11 +1,15 @@
+
 const INIT_STATE = {
-  currentUser: null,
+  currentUser: JSON.parse(localStorage.getItem('hungerUser')) || null,
   currentToken: localStorage.getItem('hungerNamesJWT') || null,
-  isAuthenticated: false,
+  isAuthenticated: (localStorage.getItem('hungerNamesJWT')) ? true : false,
   menu: {},
   userFeedback: [],
   userAttendance: [],
-  allUserFeedback: []
+  allUserFeedback: [],
+  listAllStudents: [],
+  singleUserFeedback: [],
+  attendees: {}
 };
 
 // async function verifyTokenAction(token) {
@@ -43,6 +47,7 @@ export default function rootReducer(state = INIT_STATE, action) {
         ...state,
         currentUser: null,
         currentToken: null,
+        isAuthenticated: false,
       }
     // break;
     case 'GET_MENU_DATA':
@@ -59,7 +64,7 @@ export default function rootReducer(state = INIT_STATE, action) {
     case 'GET_USER_ATTENDANCE':
       return {
         ...state,
-        userAttendance: action.attendance
+        userAttendance: action.attendance.attendance
       }
 
     case 'GET_ALL_FEEDBACK':
@@ -68,6 +73,30 @@ export default function rootReducer(state = INIT_STATE, action) {
         allUserFeedback: action.feedback
       }
 
+    case 'GET_ALL_STUDENTS_LIST': {
+      return {
+        ...state,
+        listAllStudents: action.students
+      }
+    }
+    case 'REMAINING_STUDENTS': {
+      return {
+        ...state,
+        listAllStudents: action.users
+      }
+    }
+    case 'GET_SINGLE_STUDENT_FEEDBACK': {
+      return {
+        ...state,
+        singleUserFeedback: action.feedback
+      }
+    }
+    case 'GET_ATTENDEES': {
+      return {
+        ...state,
+        attendees: action.data
+      }
+    }
     default:
       return state;
   }

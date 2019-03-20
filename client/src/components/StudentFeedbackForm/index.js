@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import "./StudentFeedback.scss";
 import StarRatings from "react-star-ratings";
-import "../DayList/DayList.css";
 import { postStudentFeedback } from "../../store/actions";
-import Loaders from "../Loader/index";
+import Loader from "../Loader";
 import StudentSideMenu from "../StudentSideMenu";
+import "../DayList/DayList.css";
+import "./StudentFeedbackForm.scss";
 
-class StudentFeedback extends Component {
+class StudentFeedbackForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,7 +17,8 @@ class StudentFeedback extends Component {
       newDate: new Date(),
       review: "",
       meal: "",
-      isLoading: false
+      isLoading: false,
+      message: ''
     };
   }
 
@@ -29,38 +30,59 @@ class StudentFeedback extends Component {
 
   handleChange = event => {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
+      message: '',
     });
   };
 
   handleSubmit = event => {
     event.preventDefault();
+    this.setState({
+      isLoading: true,
+    });
     const { meal, mealType, review, rating, date } = this.state;
     // if (!meal && mealType && review && rating && date) {
     //   alert('please fill all content before submiting')
     //   return;
     // }
+    const id = this.props.match.params.id;
     const data = { meal, mealType, review, rating, date };
+    
     this.props.dispatch(
-      postStudentFeedback(data, cb => {
-        if (!cb) {
+      postStudentFeedback(data,id, (cb) => {
+        if (cb) {
           this.setState({
-            isLoading: true
+            isLoading: false,
+            rating: 1,
+            mealType: "",
+            date: "",
+            newDate: new Date(),
+            review: "",
+            meal: "",
+            message: 'Thank you for your Feedback!',
           });
         }
       })
     );
+    
+    // this.props.history.push('/student');
   };
 
   render() {
     const { isLoading } = this.state;
     return (
-      <>
-        {isLoading ? <Loaders /> : ""}
+      <>        
         <StudentSideMenu />
+        <div className="back-btn-box">
+          <div onClick={this.props.history.goBack} className="back-btn">
+            <i className="fas fa-angle-left fa-lg"></i>
+            <span>Back</span>
+          </div>
+        </div>
         <div className="studentFeedback-wrapper">
           <form className="mealtype-wrapper" onSubmit={this.handleSubmit}>
             <div className="calender-wrapper">
+              <p>Meal Date:</p>
               <input
                 value={this.state.date}
                 type="date"
@@ -73,7 +95,7 @@ class StudentFeedback extends Component {
             </div>
             <select name="mealType" id="" onChange={this.handleChange}>
               <option name="select" value={this.state.mealType}>
-                select
+                Select Meal Type
               </option>
               <option name="brunch" value="brunch">
                 Brunch
@@ -95,7 +117,7 @@ class StudentFeedback extends Component {
                 id=""
                 value={this.state.meal}
                 onChange={this.handleChange}
-                placeholder=" Meal "
+                placeholder="Menu Item.."
               />
             </div>
             <StarRatings
@@ -108,21 +130,24 @@ class StudentFeedback extends Component {
               name="rating"
             />
             <div className="review-wrapper">
-              <input
+              <textarea
                 type="text"
                 name="review"
                 id=""
                 value={this.state.review}
                 onChange={this.handleChange}
                 placeholder="write review here..."
-              />
-            </div>
+                cols="30"
+                rows="10"
+                className='textarea-format'
+              />              
+            </div>            
             <div className="submit-wrapper">
-              <button name="submit" value="submit">
-                Submit
-                {/* <i /> */}
+              <button name="submit" value="submit" className='form-btn send-btn'>
+                Submit                
               </button>
             </div>
+            {isLoading ? <Loader /> : this.state.message}
           </form>
         </div>
       </>
@@ -149,4 +174,4 @@ function preTwoDate(preDate) {
   return preDate;
 }
 
-export default connect()(StudentFeedback);
+export default connect(null)(StudentFeedbackForm);

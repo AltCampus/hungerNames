@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import AdminDaysCheckList from '../AdminDaysCheckList';
+import AdminSideMenu from '../AdminSideMenu';
+import Loader from '../Loader';
 import { getMenu } from '../../store/actions/';
 import '../StudentHome/StudentHome.css';
-import AdminSideMenu from '../AdminSideMenu';
 
 const mapStateToProps = (state) => {
   return {
@@ -16,12 +17,24 @@ const mapStateToProps = (state) => {
 class AdminMenu extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isLoading: false,
+    };
     this.days = ["day1", "day2", "day3", "day4", "day5", "day6", "day0"];
   }
 
   componentDidMount() {
-    this.props.dispatch(getMenu());
+    this.setState({
+      isLoading: true
+    });
+
+    this.props.dispatch(getMenu((menuRecieved) => {
+      if(menuRecieved) {
+        this.setState({
+          isLoading: false,
+        });
+      }
+    }));
   }
 
   render() {
@@ -30,8 +43,12 @@ class AdminMenu extends Component {
     return (
       <>
         <AdminSideMenu />
-        <div className="wrapper">
-          {/* <SideMenu /> */}
+        {(this.state.isLoading) ? (
+        <div className='center'>
+          <Loader /> 
+        </div>
+        ) : (
+        <div className="wrapper">          
           <div className="home">
             {(menu && menu.day1) ? (
               this.days.map((val, index) => {
@@ -39,7 +56,7 @@ class AdminMenu extends Component {
               })
             ) : ''}
           </div>
-        </div>
+        </div> )}
       </>
     );
   }

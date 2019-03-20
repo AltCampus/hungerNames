@@ -1,10 +1,20 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 class StaffToggleOpen extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  handleLogout = () => {    
+    this.props.dispatch(logoutUserAction((logOutStatus) => {
+      if (logOutStatus) this.props.history.push('/login');
+    }));
+  }
 
   render() {
-    const { handleToggleClose } = this.props;
+    const { handleToggleClose, currentUser } = this.props;
     return (
       <div className="sidebar-open">
         <div className="toggle-close" onClick={ handleToggleClose } >
@@ -13,16 +23,18 @@ class StaffToggleOpen extends Component {
         </div>
         <div className="sidebar-content">
           <div className="user-info">
-            <img src="https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2F1.bp.blogspot.com%2F-oPxmzDQdtF4%2FUSqzMDokh3I%2FAAAAAAAAD7k%2FSNzkXsnJg18%2Fs1600%2Fcute-cat.jpg&f=1" alt="user"/>
-            <h3>Amit</h3>
-            <p>Amit@gmail.com</p>
+            <img src='https://static.productionready.io/images/smiley-cyrus.jpg' alt="user"/>
+            <div className="user-detail">
+              <h3>{currentUser.name}</h3>
+              <p>{currentUser.email}</p>
+            </div>
           </div>
           <div className="link_wrapper">
             <div className="menu-link-wrapper">
               <Link className="links" to={`/staff/remark`}>Send Remark</Link>
             </div>
             <div className="logout-link-wrapper">
-              <Link className="links" to={`/admin/logout`}>Log out</Link>
+              <Link className="links" onClick={this.handleLogout} to={`/login`}>Log out</Link>              
             </div>
           </div>
         </div>
@@ -31,4 +43,10 @@ class StaffToggleOpen extends Component {
   }
 }
 
-export default StaffToggleOpen;
+const mapStateToProps = (state) => {
+  return {
+    currentUser: state.currentUser || {},
+  }
+}
+
+export default connect(mapStateToProps)(StaffToggleOpen);

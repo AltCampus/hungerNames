@@ -37,7 +37,7 @@ class Register extends Component {
       alert("both password & confirm Password should be same")
       return;
     }
-    const data = { email, password, name, refCode };    
+    const data = { email, password, name, refCode };
     this.props.dispatch(registerUserAction(data, (isRegistered) => {
       if (isRegistered) this.props.history.push('/login');
     }))

@@ -125,13 +125,15 @@ function createBuffer(n) {
         return acc;
       }, []);
       console.log(studentArr, "studentArr in create buffer")
-
+      let today = new Date();
+      let todayDay = today.getDay();
+    
       //now do date loop and bootstrap attBuffer
-      for (i = 0; i <= n; i++) {
+      for (i = -todayDay; i <= n; i++) {
         console.log("inside loop")
 
         const newAttendanceBuffer = new AttendanceBuffer({
-          date: serverUtil.dateManupulater(i),
+          date: serverUtil.convDateToDateStr(serverUtil.dateManupulater(i)),
           breakfast: {
             //still have to make it automatic according to menu 
             title: "poha",
