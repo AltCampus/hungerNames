@@ -7,17 +7,21 @@ class NewInvite extends Component {
   constructor(props){
     super(props);
     this.state ={
-      invitemail : "",
-      message:"",
+      invitemail : '',
+      message: '',
       isAdmin: false,
       isStaff: false,
       isStudent: false,
-      group1: false
+      group1: false,
+      isLoading: false,
     }
   }
 
   handleChange = (e) => {
-    this.setState({[e.target.name]:e.target.value})
+    this.setState({
+      [e.target.name]:e.target.value,
+      message: '',
+    })
   }
 
   handleRadioBtn = (e) => {
@@ -32,6 +36,9 @@ class NewInvite extends Component {
 
   handleClick = (e) => {
     const { isAdmin, isStaff, isStudent } = this.state;
+    this.setState({
+      isLoading: true,
+    })
     let email = this.state.invitemail.trim();
     if(!util.ValidateEmail(email)) return;
     fetch(`${util.baseURL}/student/invite`, {
@@ -47,11 +54,11 @@ class NewInvite extends Component {
       if(!data.error) {
         this.setState({
           message: data.message,
-          loading: false
+          isLoading: false,          
         })
       } else this.setState({ 
         message: data.error,
-        loading: false,
+        isLoading: false,        
       })
     })
   }
@@ -70,7 +77,6 @@ class NewInvite extends Component {
           <div className="label-box column">
             <span className="label-text">Send a new invite</span>          
             <input onChange={this.handleChange} className="input-field" type="text" id="invite" name="invitemail" placeholder="Enter an email"/>
-            <div>{this.state.message}</div>
             <div className="radio-btn">
               <fieldset id="group2">
                 <input type="radio" name="group1" value="isAdmin" required onChange={this.handleRadioBtn} />
@@ -82,6 +88,9 @@ class NewInvite extends Component {
               </fieldset>
             </div>
             <button className='send-btn form-btn' onClick={this.handleClick}>INVITE</button>
+            {(this.state.isLoading)? <Loader /> : '' }
+            <div>{this.state.message}</div>
+
           </div>
         </div>
 

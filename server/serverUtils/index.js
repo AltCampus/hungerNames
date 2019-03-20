@@ -20,13 +20,14 @@ const convDateStrToDate = (dateStr) => {
 }
 
 const cleanUser = (user) => {
-  const { _id, name, email, isAdmin, isKitchenStaff } = user
+  const { _id, name, email, isAdmin, isKitchenStaff, isStudent } = user
   return {
     _id,
     name,
     email,
     isAdmin,
-    isKitchenStaff
+    isKitchenStaff,
+    isStudent
   }
 }
 //dont use this

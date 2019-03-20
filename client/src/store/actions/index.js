@@ -34,9 +34,10 @@ export function loginUserAction(data, cb) {
     })
       .then(res => res.json())
       .then(data => {
-        console.log(data);
+        console.log(data, 'login_data');
         if (!data.error) {
           let token = `Hungry ${data.token}`;
+          localStorage.setItem('hungryUser',JSON.stringify(data.user))
           localStorage.setItem('hungerNamesJWT', token) //will modify acc to server
           dispatch({
             type: "LOGIN_USER",
@@ -44,21 +45,21 @@ export function loginUserAction(data, cb) {
             token: token,
             authenticated: true
           });
-          
+
           // handling work for socket.io
           const { name, isAdmin, isStudent, isKitchenStaff } = getState().currentUser;
           console.log(name);
-          
+
           let role;
-          
-          if ( isAdmin ) {
+
+          if (isAdmin) {
             role = 'admin';
           } else if (isKitchenStaff) {
             role = 'kitchenStaff'
           } else {
             role = 'student'
           }
-          
+
           socket.emit('login', {
             name: name,
             role
@@ -74,6 +75,7 @@ export function loginUserAction(data, cb) {
 
 export function logoutUserAction(cb) {
   return (dispatch) => {
+    localStorage.removeItem('hungryUser');
     localStorage.removeItem('hungerNamesJWT');
     dispatch({
       type: "LOGOUT_USER",
@@ -102,7 +104,7 @@ export function registerUserAction(data, cb) {
 };
 
 
-export function getMenu(menu = {}, cb) {
+export function getMenu(cb) {
   return async (dispatch) => {
     const menuData = await fetch(`${util.baseURL}/admin/menu`).then(res => res.json());
     dispatch({
@@ -126,7 +128,7 @@ export function postStaffRemark(data, cb) {
       .then(data => {
         if (!data.error) {
           cb(data, true)
-        } else cb(false)
+        } else cb(data, false)
       })
   }
 }
@@ -342,18 +344,47 @@ export function removeStudent(id, cb) {
         'Content-Type': 'application/json'
       }
     })
-    .then(res => res.json())
-    .then(users => {
-      if (users.message) return;
-      if (!users.error) {
+      .then(res => res.json())
+      .then(users => {
+        if (users.message) return;
+        if (!users.error) {
+          dispatch({
+            type: "REMAINING_STUDENTS",
+            users: users.user
+          })
+          cb(true)
+        } else {
+          cb(false)
+        }
+      })
+  }
+}
+
+// getting feedback of a particular student from db
+export function getSingleStudentFeedback(id) {
+  return async (dispatch) => {
+    await fetch(`${util.baseURL}/student/${id}/feedback`)
+      .then(res => res.json())
+      .then(feedback => {
+        console.log(feedback, 'getting feedback')
+        if (feedback.message) return;
         dispatch({
-          type: "REMAINING_STUDENTS",
-          users: users.user
+          type: "GET_SINGLE_STUDENT_FEEDBACK",
+          feedback: feedback.student.feedback
         })
-        cb(true)
-      } else {
-        cb(false)
-      }
-    })
+      })
+  }
+}
+//get attendees
+export function getAttendeesAction(id) {
+  return (dispatch) => {
+    fetch(`${util.baseURL}/student/attendees`)
+      .then(res => res.json())
+      .then(data => {
+        dispatch({
+          type: "GET_ATTENDEES",
+          data
+        })
+      })
   }
 }

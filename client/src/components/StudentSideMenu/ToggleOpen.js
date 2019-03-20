@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { withRouter } from "react-router";
 import { connect } from 'react-redux';
 import { logoutUserAction } from "../../store/actions";
 
@@ -8,23 +9,24 @@ class ToggleOpen extends Component {
     super(props);
   }
 
-  handleLogout = () => {    
+  handleLogout = () => {
     this.props.dispatch(logoutUserAction((logOutStatus) => {
+      console.log('logout completed');
       if (logOutStatus) this.props.history.push('/login');
     }));
-  } 
+  }
 
   render() {
-    const { handleToggleClose, currentUser } = this.props;  
+    const { handleToggleClose, currentUser } = this.props;
     return (
       <div className="sidebar-open">
-        <div className="toggle-close" onClick={ handleToggleClose } >
+        <div className="toggle-close" onClick={handleToggleClose} >
           <div className="right-toggle"></div>
           <div className="left-toggle"></div>
         </div>
         <div className="sidebar-content">
           <div className="user-info">
-            <img src='https://static.productionready.io/images/smiley-cyrus.jpg' alt="user"/>
+            <img src='https://static.productionready.io/images/smiley-cyrus.jpg' alt="user" />
             <div className="user-detail">
               <h3>{currentUser.name}</h3>
               <p>{currentUser.email}</p>
@@ -38,10 +40,10 @@ class ToggleOpen extends Component {
               <Link className="links" to={`/student/${currentUser._id}/feedback`}>Send Feedback</Link>
             </div>
             <div className="feedback-link-wrapper">
-              <Link className="links" to={`/student/feedbacks/`}>My Feedbacks</Link>
+              <Link className="links" to={`/student/${currentUser._id}/myfeedback/`}>My Feedbacks</Link>
             </div>
             <div className="logout-link-wrapper">
-              <Link className="links" onClick={this.handleLogout} to={`/login`}>Log out</Link>
+              <div className="links" onClick={this.handleLogout}>Log out</div>
             </div>
           </div>
         </div>
@@ -56,4 +58,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(ToggleOpen)
+export default connect(mapStateToProps)(withRouter(ToggleOpen));

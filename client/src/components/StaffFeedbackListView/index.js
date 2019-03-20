@@ -3,6 +3,7 @@ import FeedbackList from '../StaffFeedbackList';
 import './FeedbackListView.css';
 import { connect } from 'react-redux';
 import {getAllFeedback} from '../../store/actions';
+import '../StudentFeedbacks/StudentFeedbacks.scss';
 
 class FeedbackListView extends Component {
   constructor(props) {
@@ -16,17 +17,19 @@ class FeedbackListView extends Component {
     console.log(dateFeedbacks,'props')
      return (
       <>
-        <div>
-          <span className="current_date">Date: <strong>{ date }</strong></span>
-        </div>
-        <div>   
-          {
-            dateFeedbacks && dateFeedbacks.map(data => {
-              return (
-                <FeedbackList data={data} /> 
-              )
-            })
-          }
+        <div className="feedback-wrapper">
+          <div className="feedback-card">          
+            <span className="feedback-date"><span>Date:</span> <strong>{ date }</strong></span>
+          </div>
+          <div>   
+            {
+              dateFeedbacks && dateFeedbacks.map(data => {
+                return (
+                  <FeedbackList data={data} /> 
+                )
+              })
+            }
+          </div>
         </div>
       </>
      );

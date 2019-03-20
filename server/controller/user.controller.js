@@ -197,6 +197,8 @@ module.exports = {
     })
       .populate("feedback")
       .exec((err, student) => {
+        console.log(student, 'in user controller');
+        if (!(student.feedback)) return;
         const { feedback, _id, name, email } = student
         if (err) return res.json({ error: "server busy" })
         if (feedback.length === 0) return res.json({

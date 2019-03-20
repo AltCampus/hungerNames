@@ -9,7 +9,7 @@ import NewInvite from '../NewInvite';
 import ListStudentsAdmin from '../ListStudentsAdmin';
 import PrivateRoute from '../PrivateRoute';
 
-function mapStateToProps(state) {  
+function mapStateToProps(state) {
   return {
     isAuthenticated: state.isAuthenticated
   }
@@ -22,19 +22,18 @@ class Admin extends Component {
   render() {
     return (
       <>
-        <BrowserRouter>
-          <Switch>
-            <Route exact path='/admin' component={ AdminHome } />
-            <Route exact path='/admin/sidemenu' component={ AdminSideMenu } />
-            <Route exact path='/admin/invite' component={ NewInvite } />
-            <Route exact path='/admin/menu' component={ AdminMenu } />
-            <Route exact path='/admin/menu/:day' component={ AdminDayList } />
-            <Route exact path='/admin/getallstudentslist' component={ ListStudentsAdmin } />
-          </Switch>
-        </BrowserRouter>
+        <Switch>
+          <Route exact path='/admin' component={AdminHome} />
+          <Route exact path='/admin/sidemenu' component={AdminSideMenu} />
+          <Route exact path='/admin/invite' component={NewInvite} />
+          <Route exact path='/admin/menu' component={AdminMenu} />
+          <Route exact path='/admin/menu/:day' component={AdminDayList} />
+          <Route exact path='/admin/getallstudentslist' component={ListStudentsAdmin} />
+        </Switch>
+
       </>
     )
-  }  
+  }
 }
 
 export default connect(mapStateToProps)(Admin);

@@ -22,16 +22,14 @@ class Staff extends Component {
   render() {
     return (
       <>
-        <BrowserRouter>
-          <Switch>
-            <Route exact path='/staff' component={ StaffHome } />
-            <Route exact path='/staff/sidemenu' component={ StaffSideMenu } />
-            <Route exact path='/staff/feedbacks' component={ StaffFeedbacks } />
-            <Route exact path='/staff/remark' component={ StaffRemarkForm } />
-            <Route exact path='/staff/list/:meal' component={ StudentList } />
-            <Route exact path='/staff/feedbacks/feedbacklist/feedbackdetail' component={ FeedbackDetail } />            
-          </Switch>
-        </BrowserRouter>
+        <Switch>
+          <Route exact path='/staff' component={StaffHome} />
+          <Route exact path='/staff/sidemenu' component={StaffSideMenu} />
+          <Route exact path='/staff/feedbacks' component={StaffFeedbacks} />
+          <Route exact path='/staff/remark' component={StaffRemarkForm} />
+          <Route exact path='/staff/list/:meal' component={StudentList} />
+          <Route exact path='/staff/feedbacks/feedbacklist/feedbackdetail' component={FeedbackDetail} />
+        </Switch>
       </>
     )
   }
