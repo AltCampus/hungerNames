@@ -34,7 +34,7 @@ class ToggleOpen extends Component {
           </div>
           <div className="link_wrapper">
             <div className="menu-link-wrapper">
-              <Link className="links" to={`/notification`}>Meal Attendees</Link>
+              <Link className="links" to={`/student/list`}>Meal Attendees</Link>
             </div>
             <div className="feedback-link-wrapper">
               <Link className="links" to={`/student/${currentUser._id}/feedback`}>Send Feedback</Link>
@@ -43,7 +43,7 @@ class ToggleOpen extends Component {
               <Link className="links" to={`/student/${currentUser._id}/myfeedback/`}>My Feedbacks</Link>
             </div>
             <div className="logout-link-wrapper">
-              <div className="links" onClick={this.handleLogout}>Log out</div>
+              <div className="logout links" onClick={this.handleLogout}>Log out</div>
             </div>
           </div>
         </div>

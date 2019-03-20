@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { logoutUserAction } from '../../store/actions';
 
 class StaffToggleOpen extends Component {
   constructor(props) {
@@ -34,7 +35,7 @@ class StaffToggleOpen extends Component {
               <Link className="links" to={`/staff/remark`}>Send Remark</Link>
             </div>
             <div className="logout-link-wrapper">
-              <Link className="links" onClick={this.handleLogout} to={`/login`}>Log out</Link>              
+              <div className="logout links" onClick={this.handleLogout}>Log out</div>
             </div>
           </div>
         </div>

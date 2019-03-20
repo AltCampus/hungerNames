@@ -280,7 +280,7 @@ export function getallstudentslist() {
           students: students.user,
           type: "GET_ALL_STUDENTS_LIST"
         })
-      })
+      });
   }
 }
 

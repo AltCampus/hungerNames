@@ -8,8 +8,7 @@ import './StaffHome.css'
 
 class StaffHome extends Component {
   constructor(props) {
-    super(props);
-    this.meals = ['Breakfast', 'Lunch', 'Dinner'];
+    super(props);    
   }
   componentDidMount = () => {
     this.props.dispatch(getAllFeedback())
@@ -19,12 +18,8 @@ class StaffHome extends Component {
     return(
       <>
         <StaffSideMenu />
-        <div className="home">
-          <section className="staff-hero">
-            <p className="headline">Todays Turn Up</p>
-            <span className="current_date">Date: <strong>18th March, 2018</strong></span>           
-            <AttendeesList meals={this.meals}/>              
-          </section>        
+        <div className="home">          
+          <AttendeesList profile={'staff'}/>
           <section className="feedback-container">
             <Link to='/staff/feedbacks' className="feedback-btn">
               <span>Feedbacks</span>
