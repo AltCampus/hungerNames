@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 class AdminToggleOpen extends Component {
-  handleLogout = () => {    
+  handleLogout = () => {
     this.props.dispatch(logoutUserAction((logOutStatus) => {
       if (logOutStatus) this.props.history.push('/login');
     }));
@@ -14,13 +14,13 @@ class AdminToggleOpen extends Component {
     const { handleToggleClose, currentUser } = this.props;
     return (
       <div className="sidebar-open">
-        <div className="toggle-close" onClick={ handleToggleClose } >
+        <div className="toggle-close" onClick={handleToggleClose} >
           <div className="right-toggle"></div>
           <div className="left-toggle"></div>
         </div>
         <div className="sidebar-content">
           <div className="user-info">
-            <img src='https://static.productionready.io/images/smiley-cyrus.jpg' alt="user"/>
+            <img src='https://static.productionready.io/images/smiley-cyrus.jpg' alt="user" />
             <div className='user-detail'>
               <h3>{currentUser.name}</h3>
               <p>{currentUser.email}</p>
@@ -29,7 +29,7 @@ class AdminToggleOpen extends Component {
           <div className="link_wrapper">
             <div className="menu-link-wrapper">
               <Link className="links" to={`/admin/invite`}>Invite Student</Link>
-            </div>            
+            </div>
             <div className="menu-link-wrapper">
               <Link className="links" to={`/admin/menu`}>Edit Menu</Link>
             </div>

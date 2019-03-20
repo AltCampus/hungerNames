@@ -4,14 +4,6 @@ import { util } from '../../util'
 import { loginUserAction } from '../../store/actions'
 import './Login.css';
 
-
-// TODO:
-// Kitchen Stff Creds
-// email - catchabid@gmail.com
-// passowrd: 
-
-
-
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -26,26 +18,20 @@ class Login extends Component {
   }
   handleSubmit = (e) => {
     e.preventDefault();
-    const { dispatch, user } = this.props;
+    const { dispatch } = this.props;
     let { email, password } = this.state;
     email = email.trim();
     if (!util.ValidateEmail(email)) return;
     const data = {
       email, password
     }
-    dispatch(loginUserAction(data, (isLoggedIn) => {      
-      if(isLoggedIn && user) {
-        if(user.isAdmin !== 'undefined' && user.isAdmin) {
-          this.props.history.push('/admin');
-        } else if (user.isKitchenStaff !== 'undefined' && user.isKitchenStaff) {
-          this.props.history.push('/staff');
-        } else if(user.isStudent !== 'undefined' && user.isStudent) {
-          this.props.history.push('/student');
-        }
+    dispatch(loginUserAction(data, (isLoggedIn) => {
+      if (isLoggedIn) {
+        this.props.history.push('/');
       } else {
-          this.props.history.push('/login');
+        this.props.history.push('/login');
       }
-    } ));
+    }));
   }
 
   render() {
@@ -66,10 +52,6 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = (state) => {  
-  return {
-    user: state.currentUser
-  };
-}
 
-export default connect(mapStateToProps)(Login);
+
+export default connect()(Login);

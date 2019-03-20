@@ -14,7 +14,7 @@ class App extends Component {
     const { token, user } = this.props;
     if (!user && token) {
       this.props.dispatch(verifyTokenAction(token))
-      this.props.dispatch(getMenu(() => {}));
+      this.props.dispatch(getMenu(null, () => { }));
       this.props.dispatch(getAttendenceAction())
     }
   }
