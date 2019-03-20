@@ -1,6 +1,6 @@
-// .listStudent-wrapper {
-//   // text-align: center;
-// }
+.listStudent-wrapper {
+  margin-top: 1rem;
+}
 
 .empty {
   text-align: center;
@@ -9,14 +9,17 @@
 }
 
 .list-students {
-  max-width: 500px;
+  max-width: 370px;
   width: 100%;
   margin: 10px auto;
-  padding: 0 30px;
+  padding: 10px 30px;
   position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   h3 {
     color: #333;
     font-size: 1.2rem;
+    padding: 0.3rem 0;
   }
   p {
     margin-top: 5px;
@@ -25,8 +28,8 @@
 
 .deleteBtn-wrapper {
   position: absolute;
-  top: 0;
-  right: 20px;
+  top: 5px;
+  right: 0px;
   button {
     background: transparent;
     color: #11a0a0;
