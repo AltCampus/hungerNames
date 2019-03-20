@@ -6,25 +6,27 @@ import Admin from './Admin';
 import Student from './Student';
 import Staff from './Staff';
 import './Main.css';
+import Dashboard from './Dashboard';
 
 class Main extends Component {
   constructor(props) {
     super(props);
   }
 
-  render() { 
-  return (    
+  render() {
+    return (
       <BrowserRouter>
         <>
           <div className="logo-box">
             <Link to="/" className="logo wrapper">Hogger<span className="sub-logo"></span></Link>
-          </div>          
+          </div>
           <Switch>
-            <Route path='/register' component={ Register } />
-            <Route path='/login' component={ Login } />
-            <Route path='/admin' component={ Admin } />
-            <Route path='/student' component={ Student } />
-            <Route path='/staff' component={ Staff } />
+            <Route exact path='/' component={Dashboard} />
+            <Route path='/register' component={Register} />
+            <Route path='/login' component={Login} />
+            <Route path='/admin' component={Admin} />
+            <Route path='/student' component={Student} />
+            <Route path='/staff' component={Staff} />
             {/* checking staff and admin side menu for tesing purpose */}
           </Switch>
         </>
