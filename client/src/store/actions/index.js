@@ -44,21 +44,21 @@ export function loginUserAction(data, cb) {
             token: token,
             authenticated: true
           });
-          
+
           // handling work for socket.io
           const { name, isAdmin, isStudent, isKitchenStaff } = getState().currentUser;
           console.log(name);
-          
+
           let role;
-          
-          if ( isAdmin ) {
+
+          if (isAdmin) {
             role = 'admin';
           } else if (isKitchenStaff) {
             role = 'kitchenStaff'
           } else {
             role = 'student'
           }
-          
+
           socket.emit('login', {
             name: name,
             role
@@ -342,19 +342,19 @@ export function removeStudent(id, cb) {
         'Content-Type': 'application/json'
       }
     })
-    .then(res => res.json())
-    .then(users => {
-      if (users.message) return;
-      if (!users.error) {
-        dispatch({
-          type: "REMAINING_STUDENTS",
-          users: users.user
-        })
-        cb(true)
-      } else {
-        cb(false)
-      }
-    })
+      .then(res => res.json())
+      .then(users => {
+        if (users.message) return;
+        if (!users.error) {
+          dispatch({
+            type: "REMAINING_STUDENTS",
+            users: users.user
+          })
+          cb(true)
+        } else {
+          cb(false)
+        }
+      })
   }
 }
 
@@ -362,14 +362,27 @@ export function removeStudent(id, cb) {
 export function getSingleStudentFeedback(id) {
   return async (dispatch) => {
     await fetch(`${util.baseURL}/student/${id}/feedback`)
-    .then(res => res.json())
-    .then(feedback => {
-      console.log(feedback, 'getting feedback')
-      if (feedback.message) return;
-      dispatch({
-        type: "GET_SINGLE_STUDENT_FEEDBACK",
-        feedback: feedback.student.feedback
+      .then(res => res.json())
+      .then(feedback => {
+        console.log(feedback, 'getting feedback')
+        if (feedback.message) return;
+        dispatch({
+          type: "GET_SINGLE_STUDENT_FEEDBACK",
+          feedback: feedback.student.feedback
+        })
       })
-    })
+  }
+}
+//get attendees
+export function getAttendeesAction(id) {
+  return (dispatch) => {
+    fetch(`${util.baseURL}/student/attendees`)
+      .then(res => res.json())
+      .then(data => {
+        dispatch({
+          type: "GET_ATTENDEES",
+          data
+        })
+      })
   }
 }
