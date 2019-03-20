@@ -43,7 +43,7 @@ class ToggleOpen extends Component {
               <Link className="links" to={`/student/${currentUser._id}/myfeedback/`}>My Feedbacks</Link>
             </div>
             <div className="logout-link-wrapper">
-              <div className="links" onClick={this.handleLogout}>Log out</div>
+              <div className="links logout-btn" onClick={this.handleLogout}>Log out</div>
             </div>
           </div>
         </div>

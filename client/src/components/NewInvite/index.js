@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { util } from "../../util";
 import './NewInvite.css';
 import Loader from '../Loader'
+import AdminSideMenu from '../AdminSideMenu';
 
 class NewInvite extends Component {
   constructor(props){
@@ -67,6 +68,7 @@ class NewInvite extends Component {
     const { isAdmin, isStaff, isStudent } = this.state;
     return (
       <>
+        <AdminSideMenu />
         <div className="back-btn-box">
           <div onClick={this.props.history.goBack} className="back-btn">
             <i className="fas fa-angle-left fa-lg"></i>
