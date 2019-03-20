@@ -11,6 +11,7 @@ class ToggleOpen extends Component {
 
   handleLogout = () => {
     this.props.dispatch(logoutUserAction((logOutStatus) => {
+      console.log('logout completed');
       if (logOutStatus) this.props.history.push('/login');
     }));
   }
@@ -42,7 +43,7 @@ class ToggleOpen extends Component {
               <Link className="links" to={`/student/${currentUser._id}/myfeedback/`}>My Feedbacks</Link>
             </div>
             <div className="logout-link-wrapper">
-              <Link className="links" onClick={this.handleLogout} to={`/login`}>Log out</Link>
+              <div className="links" onClick={this.handleLogout}>Log out</div>
             </div>
           </div>
         </div>
@@ -57,4 +58,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(ToggleOpen));
+export default connect(mapStateToProps)(withRouter(ToggleOpen));

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import PrivateRoute from '../PrivateRoute';
+import {  Switch, Route } from 'react-router-dom';
 import StudentHome from '../StudentHome';
 import DayList from '../DayList';
 import StudentFeedbackForm from '../StudentFeedbackForm';
@@ -21,17 +19,15 @@ class Student extends Component {
   render() {
     return (
       <>
-        <BrowserRouter>
-          <Switch>
-            <PrivateRoute exact path='/student' component={StudentHome} auth={this.props.user.isStudent} />
-            <PrivateRoute exact path='/student/:day' component={DayList} auth={this.props.user.isStudent} />
-            <PrivateRoute exact path='/student/:id/feedback' component={StudentFeedbackForm} auth={this.props.user.isStudent} />
-            <PrivateRoute exact path='/student/:id/myfeedback' component={StudentFeedbacks} auth={this.props.user.isStudent} />
-          </Switch>
-        </BrowserRouter>
+        <Switch>
+          <Route exact path='/student' component={StudentHome}  />
+          <Route exact path='/student/:day' component={DayList}  />
+          <Route exact path='/student/:id/feedback' component={StudentFeedbackForm}  />
+          <Route exact path='/student/:id/myfeedback' component={StudentFeedbacks}  />
+        </Switch>
       </>
     )
   }
 }
 
-export default connect(mapStateToProps)(Student);
+export default Student;
