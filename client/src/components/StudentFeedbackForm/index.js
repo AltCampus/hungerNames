@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Redirect } from 'react-router-dom';
 import StarRatings from "react-star-ratings";
 import { postStudentFeedback } from "../../store/actions";
 import Loader from "../Loader";
@@ -62,10 +63,10 @@ class StudentFeedbackForm extends Component {
             message: 'Thank you for your Feedback!',
           });
         }
+        // this.props.history.push('/student');
       })
     );
     
-    // this.props.history.push('/student');
   };
 
   render() {
@@ -147,7 +148,9 @@ class StudentFeedbackForm extends Component {
                 Submit                
               </button>
             </div>
-            {isLoading ? <Loader /> : this.state.message}
+            {
+              isLoading ? <Loader /> : this.state.message 
+           }
           </form>
         </div>
       </>
