@@ -75,8 +75,8 @@ module.exports = {
         }
       }
     }], (err, user) => {
-      if (user.length === 0) return res.json({ message: 'no student found in database' })
-      if (err) return res.json({ error: "couldn't fetch" });
+      if (user.length === 0) return res.json({ message: 'No student found in the database' })
+      if (err) return res.json({ error: "Error while fetching" });
       res.json({
         user: user[0].students
       })

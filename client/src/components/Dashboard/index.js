@@ -13,16 +13,17 @@ class Dashboard extends Component {
         this.props.history.push('/admin');
       } else if (user.isKitchenStaff !== 'undefined' && user.isKitchenStaff) {
         this.props.history.push('/staff');
-      } else {
+      } else if (user.isStudent !== 'undefined' && user.isStudent) {
         this.props.history.push('/student');
       }
+    } else {
+      this.props.history.push('/login');
     }
   }
   render() {
     this.handleRoute()
     return (
-      <>
-        <Login />
+      <>        
       </>
     );
   }

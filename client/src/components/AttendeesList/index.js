@@ -8,9 +8,14 @@ import { getAttendeesAction } from '../../store/actions';
 class AttendeesList extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      newDate: new Date,
+      meals: []
+    }
   }
   componentDidMount = () => {
     this.props.dispatch(getAttendeesAction());
+    const day = newDate.getDay();
   }
 
   AttendeesLength = (val) => {
@@ -27,8 +32,6 @@ class AttendeesList extends Component {
       default:
         break;
     }
-
-
   }
 
   render() {

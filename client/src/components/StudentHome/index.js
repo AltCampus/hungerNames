@@ -24,7 +24,7 @@ class StudentHome extends Component {
 
   componentDidMount() {
     this.props.dispatch(getAttendenceAction());
-    this.props.dispatch(getMenu(null, () => { }));
+    this.props.dispatch(getMenu(() => { }));
 
   }
 

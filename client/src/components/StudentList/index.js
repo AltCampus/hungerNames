@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-
 import './StudentList.css';
+import '../StudentFeedbackForm/StudentFeedbackForm.scss';
+
 
 class StudentList extends Component {
   constructor(props) {
@@ -27,10 +28,14 @@ class StudentList extends Component {
     const list = this.Attendees();
 
     return (
-      <>
-        {list && list.map(names => {
+      <>      
+        {list && list.map((names, index) => {
           return (
-            <div className=''>{names}</div>
+            <div>
+              <div className='feedback-date'>
+                <span>{index + 1}</span><span>{names}</span>
+              </div>
+            </div>
           )
         })}
 
