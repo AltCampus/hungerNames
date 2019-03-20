@@ -201,7 +201,7 @@ export function postStudentFeedback(data, id, cb) {
   }
 }
 
-export function getAttendenceAction() {
+export function getAttendenceAction(cb) {
   return async (dispatch, getState) => {
     const AttendanceData = await fetch(`${util.baseURL}/student/attendance`, {
       method: 'GET',
@@ -210,10 +210,14 @@ export function getAttendenceAction() {
         "Content-Type": "application/json"
       },
     }).then(res => res.json());
+    if (AttendanceData.error) {
+      cb(false);
+    }
     dispatch({
       type: 'GET_USER_ATTENDANCE',
       attendance: AttendanceData,
     });
+    cb(true);
   }
 }
 
@@ -247,7 +251,7 @@ export function updateAttendenceAction(data, cb) {
   }
 }
 
-export function getAllFeedback() {
+export function getAllFeedback(cb) {
   return async (dispatch) => {
     const feedbackFetch = await fetch(`http://localhost:8000/api/v1/student/feedback`, {
       method: 'GET',
@@ -261,26 +265,33 @@ export function getAllFeedback() {
       acc[curr.date] = feedbackFetch.feedback.filter((val) => val.date === curr.date);
       return acc;
     }, {});
-
+    if (feedbackFetch.message) {
+      cb(false)
+    }
     dispatch({
       type: 'GET_ALL_FEEDBACK',
       feedback
     })
+    cb(true)
   }
 }
 
 // fetching all student list from db
-export function getallstudentslist() {
+export function getallstudentslist(cb) {
   return dispatch => {
     fetch(`${util.baseURL}/student`)
-      .then(res => res.json())
-      .then(students => {
-        if (students.message) return;
+    .then(res => res.json())
+    .then(students => {
+      if (students.message) return;
+      if (!students.error) {
         dispatch({
           students: students.user,
           type: "GET_ALL_STUDENTS_LIST"
         })
-      });
+        cb(true);
+      }
+      cb(false);
+    })
   }
 }
 
@@ -361,17 +372,21 @@ export function removeStudent(id, cb) {
 }
 
 // getting feedback of a particular student from db
-export function getSingleStudentFeedback(id) {
+export function getSingleStudentFeedback(id, cb) {
   return async (dispatch) => {
     await fetch(`${util.baseURL}/student/${id}/feedback`)
       .then(res => res.json())
       .then(feedback => {
         console.log(feedback, 'getting feedback')
         if (feedback.message) return;
+        if (feedback.error) {
+          cb(false);
+        }
         dispatch({
           type: "GET_SINGLE_STUDENT_FEEDBACK",
           feedback: feedback.student.feedback
         })
+        cb(true);
       })
   }
 }

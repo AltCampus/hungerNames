@@ -14,6 +14,7 @@ class AttendeesList extends Component {
     }
   }
   componentDidMount = () => {
+    const { newDate } = this.state;
     this.props.dispatch(getAttendeesAction());
     const day = this.state.newDate.getDay();
     if (day === 0) {
