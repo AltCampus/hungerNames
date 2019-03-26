@@ -1,7 +1,7 @@
 import { createStore, compose, applyMiddleware } from "redux";
 import rootReducer from "./reducers";
 import thunk from "redux-thunk";
-// import 'babel-polyfill';
+import 'babel-polyfill';
 
 const INIT_STATE = {
   currentUser: JSON.parse(localStorage.getItem('hungryUser')) || null,

@@ -15,6 +15,7 @@
     "@babel/core": "^7.4.0",
     "@babel/preset-env": "^7.4.2",
     "babel-loader": "^8.0.5",
+    "babel-polyfill": "^6.26.0",
     "bcrypt": "^3.0.4",
     "connect-mongo": "^2.0.3",
     "cors": "^2.8.5",
