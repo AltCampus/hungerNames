@@ -67,11 +67,11 @@ module.exports = {
   },
 
   registerStudent: (req, res, next) => {
-    const { email, password, name, refCode } = req.body;    
+    const { email, password, name, refCode } = req.body;
     Invite.findOne({ refCode: refCode }, (err, user) => {
       const { isAdmin, isStaff, isStudent } = user;
       if (err) res.json({ message: "not verified" });
-      if (user.isVerified) {      
+      if (user.isVerified) {
         const newStudent = new Student({
           name,
           email,
@@ -80,7 +80,8 @@ module.exports = {
           isStaff,
           isStudent
         });
-        newStudent.save((err, user) => {          
+        newStudent.save((err, user) => {
+          console.log(user, 'inside register student');
           if (err || !user) {
             return res.status(401).json({
               error: "user is not found"
@@ -197,8 +198,6 @@ module.exports = {
     })
       .populate("feedback")
       .exec((err, student) => {
-        console.log(student, 'in user controller');
-        if (!(student.feedback)) return;
         const { feedback, _id, name, email } = student
         if (err) return res.json({ error: "server busy" })
         if (feedback.length === 0) return res.json({
