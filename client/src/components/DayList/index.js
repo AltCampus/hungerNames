@@ -4,7 +4,7 @@ import { util } from '../../util/index'
 import './DayList.css';
 import StudentSideMenu from '../StudentSideMenu';
 import { object } from 'twilio/lib/base/serialize';
-import { updateAttendenceAction  } from '../../store/actions';
+import { updateAttendenceAction } from '../../store/actions';
 
 const mapStateToProps = (state) => {
   return {
@@ -52,10 +52,8 @@ class DayList extends Component {
 
 
     let currentDate = util.convDateToDateStr(this.state.newDate);
-    console.log(currentDate, attendance[dayIndex].date, 'day list');
     if (currentDate == attendance[dayIndex].date) {
-    console.log(currentDate, attendance[dayIndex].date, 'inside equal');
-      
+
       let currentTime = this.state.newDate.toLocaleTimeString();
       if (day === 'Sunday') {
         switch (true) {
@@ -73,9 +71,11 @@ class DayList extends Component {
         }
       } else {
         switch (true) {
-          case (currentTime > (menu[dayVal].meal.breakfast.time)):
+          case (currentTime > (menu[dayVal].meal.dinner.time)):
             this.setState({
               breakfastTime: true,
+              lunchTime: true,
+              dinnerTime: true,
             });
             break;
           case (currentTime > (menu[dayVal].meal.lunch.time)):
@@ -84,17 +84,14 @@ class DayList extends Component {
               lunchTime: true,
             });
             break;
-
-          case (currentTime > (menu[dayVal].meal.dinner.time)):
+          case (currentTime > (menu[dayVal].meal.breakfast.time)):
             this.setState({
               breakfastTime: true,
-              lunchTime: true,
-              dinnerTime: true,
             });
         }
       }
     } else if (currentDate > attendance[dayIndex].date) {
-    console.log(currentDate, attendance[dayIndex].date, 'inside greater than');
+      console.log(currentDate, attendance[dayIndex].date, 'inside greater than');
 
       if (day === 'Sunday') {
         this.setState({

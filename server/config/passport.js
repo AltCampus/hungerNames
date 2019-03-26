@@ -11,6 +11,7 @@ module.exports = function (passport) {
     new LocalStrategy(
       {
         usernameField: "email",
+        passwordField: "password"
       },
       function(email, password, done) {
         Student.findOne({ email:email }, (err, user) => {
@@ -18,12 +19,12 @@ module.exports = function (passport) {
             return done(err);
           }
           if (!user) {
-            return done(null, false),{message:'incorrect email'};
+            return done(null, false);
           }
           bcrypt.compare(password, user.password, (err, isMatch) => {
-            if (err) return done(null,false,{message:'error'})
+            if (err) return done(null,false)
             if (!isMatch) {
-              return done(null, false, { message: "password is incorrect" });
+              return done(null, false);
             } else {
               return done(null, user);
             }

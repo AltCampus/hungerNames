@@ -1,5 +1,4 @@
 import { util } from "../../util";
-import socket from "../../modules/socketIO";
 
 // export function loginUserAction(data) {
 //   return dispatch => {
@@ -34,21 +33,21 @@ export function loginUserAction(data, cb) {
     })
       .then(res => res.json())
       .then(data => {
-        console.log(data, 'login_data');
         if (!data.error) {
           let token = `Hungry ${data.token}`;
           localStorage.setItem('hungryUser',JSON.stringify(data.user))
           localStorage.setItem('hungerNamesJWT', token) //will modify acc to server
+          console.log(data, 'after login')
           dispatch({
             type: "LOGIN_USER",
             user: data.user,
             token: token,
-            authenticated: true
+            authenticated: true,
+            message: data.message
           });
 
           // handling work for socket.io
           const { name, isAdmin, isStudent, isKitchenStaff } = getState().currentUser;
-          console.log(name);
 
           let role;
 
@@ -66,7 +65,11 @@ export function loginUserAction(data, cb) {
           })
 
           cb(true);
-        } else if (data.error) {
+        } else {
+          dispatch({
+            type: "LOGIN_FAILED",
+            data
+          })
           cb(false);
         }
       });
@@ -377,7 +380,6 @@ export function getSingleStudentFeedback(id, cb) {
     await fetch(`${util.baseURL}/student/${id}/feedback`)
       .then(res => res.json())
       .then(feedback => {
-        console.log(feedback, 'getting feedback')
         if (feedback.message) return;
         if (feedback.error) {
           cb(false);

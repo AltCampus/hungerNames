@@ -16,20 +16,29 @@ class AttendeesList extends Component {
   componentDidMount = () => {
     const { newDate } = this.state;
     this.props.dispatch(getAttendeesAction());
-    const day = newDate.getDay();
+    const day = this.state.newDate.getDay();
+    if (day === 0) {
+      this.setState({
+        meals: ['Brunch', 'Dinner'],
+      });
+    } else {
+      this.setState({
+        meals: ['Breakfast', 'Lunch', 'Dinner'],
+      });
+    }
   }
 
   AttendeesLength = (val) => {
     const { AttendeesList } = this.props;
     switch (val) {
       case 'Breakfast':
-        return (AttendeesList.breakfast) ? AttendeesList.breakfast : 0;
+        return (AttendeesList.breakfast) ? AttendeesList.breakfast : [];
       case 'Lunch':
-        return (AttendeesList.lunch) ? AttendeesList.lunch : 0;
+        return (AttendeesList.lunch) ? AttendeesList.lunch : [];
       case 'Dinner':
-        return (AttendeesList.dinner) ? AttendeesList.dinner : 0;
+        return (AttendeesList.dinner) ? AttendeesList.dinner : [];
       case 'Brunch':
-        return (AttendeesList.brunch) ? AttendeesList.brunch : 0;
+        return (AttendeesList.brunch) ? AttendeesList.brunch : [];
       default:
         break;
     }
@@ -37,23 +46,30 @@ class AttendeesList extends Component {
 
   render() {
     return (
-      <div className="attendance-container">
-        {this.props.meals.map((val) => {
-          let len = this.AttendeesLength(val).length;
-          return (
-            <Link to={{
-              pathname: `/staff/list/${val}`,
-              state: {
-                meal: val,
-                count: len
-              }
-            }} className="unlink">
-              <MealCount meal={val} count={len} currentStatus={'final'} />
-            </Link>
-          )
-        }
-        )}
-      </div>
+      <section className="staff-hero">
+        <p className="headline">Todays Turn Up</p>
+        <span className="current_date">Date: <strong>{(new Date).toDateString()}</strong></span>
+        <div className='staff-hero'>
+          <div className="attendance-container">
+            {this.state.meals.map((val) => {
+              let arr = this.AttendeesLength(val);
+              return (
+                <Link to={{
+                  pathname: `${this.props.profile}/list/${val}`,
+                  state: {
+                    meal: val,
+                    count: arr.length,
+                    array: arr
+                  }
+                }} className="unlink">
+                  <MealCount meal={val} count={arr.length} currentStatus={'final'} key={val}/>
+                </Link>
+              );
+            }
+            )}
+          </div>
+        </div>
+      </section>
     )
   }
 }
@@ -63,8 +79,5 @@ const mapStateToProps = (state) => {
     AttendeesList: state.attendees || {},
   }
 }
-
-
-
 
 export default connect(mapStateToProps)(AttendeesList)
