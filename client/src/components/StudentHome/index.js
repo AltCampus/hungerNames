@@ -63,11 +63,11 @@ class StudentHome extends Component {
               <div className="home">
                 {(menu && menu.day1) ? (
                   <>
+                  < DaysCheckList key={0} index={0} onDay={menu["day0"]} attendance={attendance[0]} />
                     {this.days.map((val, index) => {
                       if (val != 'day0')
-                        return <DaysCheckList key={index} onDay={menu[val]} attendance={attendance[index]} />
+                        return <DaysCheckList key={index} index={index} onDay={menu[val]} attendance={attendance[index]} />
                     })}
-                    < DaysCheckList key={0} onDay={menu["day0"]} attendance={attendance[0]} />
                   </>
                 ) : ''}
               </div>

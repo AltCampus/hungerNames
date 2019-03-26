@@ -57,12 +57,7 @@ export function loginUserAction(data, cb) {
             role = 'kitchenStaff'
           } else {
             role = 'student'
-          }
-
-          socket.emit('login', {
-            name: name,
-            role
-          })
+          }         
 
           cb(true);
         } else {

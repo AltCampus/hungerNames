@@ -46,7 +46,10 @@
 .meal {
   margin-right: 0.7em;
   font-weight: 600;
+  color: rgb(4, 131, 131)
 }
+
+
 
 .fa-check-circle {
   color: rgb(17, 160, 160);
@@ -57,4 +60,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.date {
+  font-family: 'Roboto', sans-serif;
+  margin: 1em auto;
+  font-size: 0.9rem;  
+  border-radius: 6px;
+  padding: 5px;
+  background-color: var(--light-grey);
+  color: white;
 }

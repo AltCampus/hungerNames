@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { util } from '../../util';
 import './DaysCheckList.css';
 
 class DaysCheckList extends Component {
@@ -15,10 +16,10 @@ class DaysCheckList extends Component {
 
   render() {
     const { attendance, onDay } = this.props;
-    const { day, meal } = onDay;
+    const { day, meal } = onDay;    
 
     return (
-      <>
+      <>        
         <div className="check-list">
           <div className="content__check-list">
             <span>
@@ -31,7 +32,7 @@ class DaysCheckList extends Component {
 
             <Link to={`/student/${day}`} className="day-mark unlink content-justify">
               <div >
-                <p className='day-name'>{day}</p>
+                <p className='day-name'>{day} <span className='date'>{util.arrangeDate(attendance.date)}</span></p>
                 <div className="meal-types">
                   {(day === 'Sunday') ?
                     (

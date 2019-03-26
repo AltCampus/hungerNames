@@ -48,30 +48,6 @@
   margin-right: 7px;
 }
 
-/* CheckBox Styling */
-
-
-input[type=checkbox]:after {
-  content: " ";
-  background-color: #fff;
-  display: inline-block;
-  margin-left: 10px;
-  padding-bottom: 5px;
-  color: var(--teal);
-  width: 22px;
-  height: 25px;
-  visibility: visible;
-  border: 1px solid var(--teal);
-  padding-left: 3px;
-  border-radius: 5px;
-}
-
-input[type=checkbox]:checked:after {
-  content: "\2714";
-  padding: -5px;
-  font-weight: bold;
-}
-
 /* CheckBox styling */
 
 input[type=checkbox] {
@@ -93,11 +69,11 @@ input[type=checkbox]:after {
   display: inline-block;
   margin-left: 2px;
   padding-bottom: 5px;
-  color: #00c0f075;
+  color: var(--light-blue);
   width: 22px;
   height: 25px;
   visibility: visible;
-  border: 1px solid #00c0f075;
+  border: 1px solid var(--light-blue);
   padding-left: 3px;
   border-radius: 5px;
 }
@@ -110,8 +86,18 @@ input[type=checkbox]:checked:after {
   border: 1px solid var(--teal);
 }
 
-input[type=checkbox]:disabled {
-  color: var(--light-grey);
+input[type="checkbox"]:disabled + label:before {
+  color: var(--light-blue);
+  border: 1px solid var(--light-blue);
 }
 
+.disabled {
+  color: var(--light-blue);
+  text-decoration: line-through;
+}
+
+.meal_type {
+  color: var(--light-grey);
+  text-decoration: underline;
+}
 
