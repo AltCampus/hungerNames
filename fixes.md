@@ -7,6 +7,7 @@ CSS CHANGES
 
 REACT & BACKEND CHANGES
 =====================
+- Lazy loading on meal and numbers
 - After clicking on any button I should be able to see some response (spinner/data/route change)
 - Staff remarks doesnt reflect in UI for student
 - Each Day should have date next to it
