@@ -9,7 +9,6 @@ const Invite = require('../model/Invite');
 
 module.exports = {
   inviteStudent: (req, res, next) => {
-    console.log(req.body, 'in invite student');
     const smtpTransport = nodemailer.createTransport({
       service: "Gmail",
       auth: {
@@ -33,36 +32,57 @@ module.exports = {
     host = req.get("host");
     let refCode;
     // while(!flag){
-    refCode = randomN(6);
-    link = `http://${host}/register?ref=${refCode}`;
-    const {email} = req.body
-    mailOptions = {
-      to: email,
-      subject: "Verify your email",
-      html: `Hello, <br>Please click on <a href='${link}'>click here</a> to verify your email.`
-    };
-    // send mail with defined transport object(mailOptions)
-    smtpTransport.sendMail(mailOptions, (err, info) => {
-      if (err) return res.status(406).json({ error: "Message could not send" });
-      else {
-        const newInvite = new Invite({
-          emailId: email,
-          refCode: refCode,
-          isStudent: req.body.isStudent,
-          isAdmin: req.body.isAdmin,
-          isKitchenStaff: req.body.isStaff
-        });
+      refCode = randomN(6);
+      link = `http://${host}/register?ref=${refCode}`;
+      const {email} = req.body
+      mailOptions = {
+        to: email,
+        subject: "Verify your email",
+        html: `Hello, <br>Please click on <a href='${link}'>click here</a> to verify your email.`
+      };
 
-        // TODO : Check if email already exists 'Student' collections
-
-        newInvite.save(err => {
-          if (!err) return res.json({ message: `Message sent to ${mailOptions.to}` })
-          return res.json({
-            message: 'succesfully sent '
+    // checking if user already exist in db or not
+    Student.findOne({email: email}, ((err, student) => {
+      if (student) return res.json({
+        error: 'user already exist'
+      }) 
+        else {
+        // send mail with defined transport object(mailOptions)
+        smtpTransport.sendMail(mailOptions, (err, info) => {
+          if (err) return res.status(406).json({ error: "Message could not send" });
+          Invite.findOne({ emailId: email }, (err, invite) => {
+            if (invite) {
+              Invite.findOneAndUpdate({ emailId: email }, {
+                emailId: email,
+                refCode: refCode,
+                isStudent: req.body.isStudent,
+                isAdmin: req.body.isAdmin,
+                isKitchenStaff: req.body.isStaff
+              }, { new: true }, (err, invite) => {
+                if (err) return res.json({ error: `Message not sent ${err}` })
+                return res.json({
+                  message: `Message sent to ${mailOptions.to}`
+                })
+              })
+            } else {
+              const newInvite = new Invite({
+                emailId: email,
+                refCode: refCode,
+                isStudent: req.body.isStudent,
+                isAdmin: req.body.isAdmin,
+                isKitchenStaff: req.body.isStaff
+              });
+              newInvite.save(err => {
+                if (err) return res.json({ error: `Message not sent ${err}` })
+                  return res.json({
+                    message: `Message sent to ${mailOptions.to}`
+                  })
+              });
+            }
           })
         });
       }
-    });
+    })) 
   },
 
   getStudent: (req, res, next) => {
@@ -79,7 +99,7 @@ module.exports = {
       }
     }], (err, user) => {
       if (user.length === 0) return res.json({ message: 'No student found in the database' })
-      if (err) return res.json({ error: "Error while fetching" });
+        if (err) return res.json({ error: "Error while fetching" });
       res.json({
         user: user[0].students
       })
@@ -101,7 +121,7 @@ module.exports = {
   getMenuList: (req, res, next) => {
     Menu.find({}, (err, menu) => {
       if (err) return res.status(500).json({ error: 'Could not get menu' })
-      res.json(menu)
+        res.json(menu)
     })
   },
 
@@ -128,7 +148,7 @@ module.exports = {
       if (err) return res.json({ error: 'Could not delete student' });
       User.find({ isStudent: true }, (err, user) => {
         if (user.length === 0) return res.json({ message: 'no student found in database' })
-        if (err) return res.json({ error: "couldn't fetch" });
+          if (err) return res.json({ error: "couldn't fetch" });
         res.json({
           user: user
         })

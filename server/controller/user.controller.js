@@ -42,6 +42,11 @@ module.exports = {
             message: "registered",
             name: user.name
           });
+
+          // removing previous data when user clicks on new invite link
+          Invite.findOneAndDelete({emailId: email}, (err) => {
+            if (err) throw err;
+          })
         });
       } else return res.json({ message: "Please, verify your email" });
     });
@@ -221,8 +226,7 @@ module.exports = {
       { refCode: ref },
       { $set: { isVerified: true } },
       (err, code) => {
-        console.log('called', code);
-        if (err) return res.json({ msg: `you're link is expired` });
+        if (err || !code) return res.json({ error: `you're link is expired` });
         res.json({
           emailId: code.emailId,
           refCode: code.refCode
