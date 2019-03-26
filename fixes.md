@@ -5,15 +5,22 @@ CSS CHANGES
 - SideMenu css (Make the user info bckground white)
 
 
-REACT & BACKEND CHANGES
+REACT CHANGES
 =====================
-- Lazy loading on meal and numbers
+- Lazy loading on meal and numbers (staff UI)
+- Make the checkbox next to a Day functional
+- show past day/ meal fadded out (For past days apply strikethrough/change bg color)
+
 - After clicking on any button I should be able to see some response (spinner/data/route change)
 - Staff remarks doesnt reflect in UI for student
 - Each Day should have date next to it
-- For past days apply strikethrough/change bg color
+- student delete in Admin (Confirmation Box)
+
 - http://localhost:8000/student/Tuesday breaks on hard landing. Fix this. Change it to
 http://localhost:8000/student/23-03-2019
-- Make the checkbox next to a Day functional
-- Make sure navigation is available on all pages  e.g.  http://localhost:8000/student/list
+- Make sure Sidemenu & Back Button is available on all pages  e.g.  http://localhost:8000/student/list
+
+BACKEND CHANGES
+=====================
 - Forgot Password
+- Handle incorrect passwords during login
