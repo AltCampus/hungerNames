@@ -3,9 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import  store  from "./store/index";
+import store from "./store/index";
 import { Provider } from 'react-redux';
+import { verifyTokenAction } from "./store/actions";
 
+
+// const token = localStorage.getItem('hungerNamesJWT')
+// if (token) store.dispatch(verifyTokenAction(token));
 
 ReactDOM.render(
   <Provider store={store}>

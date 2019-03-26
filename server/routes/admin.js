@@ -1,14 +1,17 @@
 const express = require("express");
 const router = express.Router();
 const adminController = require('../controller/admin.controller');
+const isUser = require('../config/auth');
 
-router.get('/', adminController.getAdmiin);
-router.post('/login',adminController.loginAdmin);
-router.get('/verify',adminController.verifyAdmin);
+// router.get('/', adminController.getAdmin);
+// router.post('/login',adminController.loginAdmin);
+
 router.post('login/forget',adminController.forgetPassword);
-router.get('/student',adminController.getAllStudents);
 
 // Adding menu
-router.post('/menu', adminController.addMenu);
+router.get('/menu', adminController.getMenuList);
+
+// Updating menu
+router.put('/menu', adminController.updateMenu);
 
 module.exports = router;

@@ -1,0 +1,167 @@
+@mixin fade-transition($element) {
+	transition: $element 0.15s ease-in-out;
+}
+
+.studentFeedback-wrapper {
+  max-width: 450px;
+  margin-top: 30px;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  padding: 10px;
+  // border: 1px solid rgba(0, 0, 0, 0.2);
+  // box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  input {
+    margin-bottom: 1.5rem;
+  }
+}
+
+// calender
+.calender-wrapper {
+  p {
+    text-align: left;
+    font-weight: 600;
+  }
+  input {
+    height: 40px;
+    padding: 10px;
+    outline: none;
+    background: var(--light-grey);
+    color: aliceblue;
+    width: 10rem;
+    border-radius: 5px;
+    border: 1px solid transparent;    
+  }  
+}
+
+// meal type
+.mealtype-wrapper {
+  display: grid;
+  justify-content: center;
+  justify-items: start;
+  select {
+    height: 40px;
+    outline: none;
+    background: var(--light-grey);
+    color: aliceblue;
+    width: 10rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    border: 1px solid transparent;
+    margin-bottom: 0.4em;
+    option {
+     font-size: 1rem;
+    }
+  }
+}
+
+
+// rating slider
+.rating-wrapper {
+  input {
+    background: darkgray;
+  }
+}
+
+.slidecontainer {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 50%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+
+.textarea-format {
+  padding: 0.5em;
+  border-radius: 5px;
+}
+// review
+.review-wrapper {
+  margin-top: 0.5em;
+  input {
+    padding: 5px;
+    margin-top: 10px;
+    height: 40px;
+    border: 1px solid var(--grey);
+    border-radius: 3px;
+  }
+
+
+}
+.submit-mealType {
+  margin-left: 5px;
+  padding: 10px;
+  color: #e4e4e4;
+  text-align: center;
+  border-radius: 2px;
+  background: rgba(0, 0, 0, 0.5);
+}
+// submit button
+.submit-wrapper {
+  margin: 0.5em 0;
+  button {
+    color: white;
+    font-weight: 600;
+    font-size: 0.80rem;
+    background-color: #11a0a0;
+    border: none;
+    padding: 0.9em 1.1em;
+    margin: 0.5em;
+    border-radius: 5px;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+  }
+  @include fade-transition(background);
+  i {
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    background: linear-gradient(to right,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.03) 1%,rgba(255,255,255,0.6) 30%,rgba(255,255,255,0.85) 50%,rgba(255,255,255,0.85) 70%,rgba(255,255,255,0.85) 71%,rgba(255,255,255,0) 100%);
+    width: 15%;
+    height: 100%;
+    transform: skew(-10deg,0deg);
+    animation: move 2s;
+    animation-iteration-count: infinite;
+    animation-delay: 1s;
+  }
+  @keyframes move {
+    0%  { left: 0; opacity: 0; }
+    5% {opacity: 0.0}
+    48% {opacity: 0.2}
+    80% {opacity: 0.0}
+    100% { left: 82%}
+  } 
+}

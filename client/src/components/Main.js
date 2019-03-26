@@ -1,37 +1,45 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import Register from './Register';
 import Login from './Login';
-import StudentHome from './StudentHome';
-import AdminHome from './AdminHome';
-import DayList from './DayList';
+import Admin from './Admin';
+import Student from './Student';
+import PrivateRoute from './PrivateRoute';
+import Staff from './Staff';
 import './Main.css';
+import Dashboard from './Dashboard';
 
+class Main extends Component {
+  constructor(props) {
+    super(props);
+  }
 
-const Main = (props) => {
-  return (
-    
+  render() {
+    return (
       <BrowserRouter>
         <>
           <div className="logo-box">
-            <Link to="/" className="logo wrapper">Hunger<span className="sub-logo">names</span></Link>
+            <Link to="/" className="logo wrapper">Hogger<span className="sub-logo"></span></Link>
           </div>
-
-          <div className="side-menu">
-              
-          </div>          
           <Switch>
-            <Route path='/register' component={ Register } />
-            <Route path='/login' component={ Login } />
-            <Route exact path='/' component={ StudentHome } />
-            <Route path='/admin' component={ AdminHome } />
-            <Route exact path='/:day' component={ DayList } />
+            <Route exact path='/' component={Dashboard} />
+            <Route path='/register' component={Register} />
+            <Route path='/login' component={Login} />
+            <PrivateRoute path='/admin' auth={this.props.user.isAdmin} component={Admin} />
+            <PrivateRoute path='/student' auth={this.props.user.isStudent} component={Student} />
+            <PrivateRoute path='/staff' auth={this.props.user.isKitchenStaff} component={Staff} />            
           </Switch>
         </>
       </BrowserRouter>
-        
-    
-  );
+    );
+  }
 }
 
-export default Main;
+function mapStateToProps(state) {
+  return {    
+    user: state.currentUser || {},
+  }
+}
+
+export default connect(mapStateToProps)(Main);

@@ -8,9 +8,9 @@
   margin: 1.5em auto 0;
 }
 
-.label-text {
-  font-weight: 500;
-  font-size: 1.1em;
-  margin-bottom: 0.4em;
-  letter-spacing: -0.5px;
+.center {
+  text-align: center;  
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

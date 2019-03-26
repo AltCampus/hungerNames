@@ -1,31 +1,15 @@
 const mongoose = require("mongoose");
+const Menu = require("../model/Menu");
 const nodemailer = require("nodemailer");
-const jwt = require('jsonwebtoken');
-const passport = require('passport');
+const jwt = require("jsonwebtoken");
+const passport = require("passport");
 const FeedBack = require("../model/Feedback");
-const User = require("../model/User");
+const Student = require("../model/Student");
 const Invite = require("../model/Invite");
+const serverUtils = require('../serverUtils/index')
+const AttendanceBuffer = require('../model/attendanceBuffer');
 
-// Generate test SMTP service account from ethereal.email
-// Only needed if you don't have a real mail account for testing
-// async let account = await nodemailer.createTestAccount();
 
-/*
-  Here we are configuring our SMTP Server details.
-  STMP is mail server which is responsible for sending and recieving email.
-*/
-
-var smtpTransport = nodemailer.createTransport({
-  service: "Gmail",
-  auth: {
-    user: "food.altcampus@gmail.com",
-    pass: "Altcampus@2018"
-  }
-});
-
-// SMTP TRANSPORT ENDS HERE
-
-var rand, mailOptions, host, link;    //Figure out a way to remove global variables 
 
 module.exports = {
   getStudent: (req, res, next) => {
@@ -33,165 +17,342 @@ module.exports = {
       message: "welcome student"
     });
   },
+
   registerStudent: (req, res, next) => {
-    const { email, password, name, refCode } = req.body;
-    Invite.findOne({ refCode }, (err, user) => {
+    const { email, password, name, refCode } = req.body;    
+    Invite.findOne({ refCode: refCode }, (err, user) => {
+      const { isAdmin, isStaff, isStudent } = user;
       if (err) res.json({ message: "not verified" });
-      if (user.isVerified && user.email == email) { //email cross checked from DB
-        const newStudent = new User({
+      if (user.isVerified) {      
+        const newStudent = new Student({
           name,
           email,
-          password
+          password,
+          isAdmin,
+          isStaff,
+          isStudent
         });
-        newStudent.save((err, user) => {
-          if (err)
-            res.status(401).json({
+        newStudent.save((err, user) => {          
+          if (err || !user) {
+            return res.status(401).json({
               error: "user is not found"
             });
+          }
           res.json({
             message: "registered",
-            email: user.email,
             name: user.name
           });
+
+          // removing previous data when user clicks on new invite link
+          Invite.findOneAndDelete({emailId: email}, (err) => {
+            if (err) throw err;
+          })
         });
-      } else return res.json({ message: 'Please, verify your email' })
+      } else return res.json({ message: "Please, verify your email" });
     });
   },
-  loginStudent: (req, res, next) => {
-    console.log(req.body, 'inside login student');
-    const { email, password } = req.body;
-    if (!email && !password) res.json({ message: 'Email or Password is required' })
-    passport.authenticate('local', { failureRedirect: '/login' }, { session: false }, (err, user) => {
-      if (err) return res.status(500).json({ message: 'Internal server error' })
-      const token = jwt.sign({ user: req.user }, 'secret');
-      console.log(token);
-      res.json({
-        message: "successfully logged in",
-        token: token
-      });
-    })
+
+  verifyUser: async (req, res, next) => {
+    const oldToken = req.headers['authorization'];
+    if (!oldToken) return res.json({ message: 'unAuthorized Student' });
+    const headerToken = oldToken.split(' ')[1];
+    const user = await serverUtils.getUserFromToken(headerToken)
+    if (!user) return res.json({ error: 'not verified' })
+    const token = jwt.sign({
+      user
+    }, 'secret');
+    res.json({
+      message: "successfully logged in",
+      token,
+      user
+    });
   },
+
+  loginUser: (req, res, next) => {
+    passport.authenticate('local', {
+      session: false
+    }, (err, data, info) => {
+      if (!data) return res.json({ error: 'Incorrect Password' })
+      if (err) return res.json({ error: 'user not found' })
+      else {
+        const user = serverUtils.cleanUser(data);
+        const token = jwt.sign({
+          user
+        }, 'secret');
+        res.json({
+          message: "successfully logged in",
+          token,
+          user
+        });
+      }
+    })(req, res, next);
+  },
+
   logoutStudent: (req, res, next) => {
     res.json({
       message: "logged out"
     });
   },
+
   profileStudent: (req, res, next) => {
-    // const {id} = req.params
-    // Student.findOne({_id: id})
-    // console.log(id);
-    res.json({
-      message: "profile"
-    });
+    const studentId = req.params.id;
+    Student.findById({ _id: studentId }, (err, user) => {
+      if (!user) return res.json({ message: 'user not present' })
+      if (err) res.status(401).json({
+        message: 'user not found'
+      })
+      Menu.findOne({}, (err, menu) => {
+        const { name, email, _id } = user;
+
+        if (err) res.status(500).json({
+          message: 'internal error'
+        });
+        res.status(200).json({
+          menu: menu.menu,
+          user: { name, email, _id }
+        })
+      })
+    })
   },
+
   attendanceStudent: (req, res, next) => {
     const { day } = req.params;
-    console.log(day);
     res.json({
-      message: "attendace"
+      message: "attendance"
     });
   },
-  feedbackStudent: (req, res, next) => {
+
+  // postFeedbackStudent: (req, res, next) => {
+  //   const studentId = req.params.id;
+  //   const feedbackBody = req.body;
+  //   const feedBack = new FeedBack({
+  //     student: studentId,
+  //     ...feedbackBody
+  //   });
+  //   Student.findById((studentId), (err, user) => {
+  //     if (err) return res.json({ error: 'db error' })
+  //     if (!user) return res.json({ message: 'user not present' })
+  //     feedBack.save((err, feedback) => {
+  //       if (err) return res.json({ error: 'internal error' })
+  //       Student.findByIdAndUpdate(studentId, { $push: { feedback: feedback._id } }, { upsert: true }, (err, student) => {
+  //         if (err) return res.json({
+  //           error: 'sorry mate youre not found'
+  //         })
+  //         const { name, email } = student
+  //         res.json({
+  //           name,
+  //           email
+  //         })
+  //       })
+  //     })
+  //   })
+  // },
+
+  getFeedback: (req, res, next) => {
     const studentId = req.params.id;
-    const { feedbackTitle } = req.body;
-    console.log(req.body);
-
-    // Save the feedback first then get the _id of that feedback
-    const feedBack = new FeedBack({
-      ...req.body
-    });
-
-    //  feedBack.save((err, feedBack) => {
-    //    const feedbacId =  feedBack._id;
-    //    Student.findByIdAndUpdate(studentId, {$push: {feeback: feedbacId}, {upsert: true}})
-    //  })
-
-    // Getting all the feedback related to particular student
-    User.findOne({ _id: studentId })
-      .populate("feedback")
-      .exec((err, student) => {});
-
-    //  console.log(studentFeedback)
-    //  console.log(studentId)
-
-    res.json({
-      message: "feedback"
-    });
-  },
-
-  inviteStudent: (req, res, next) => {
-    // generating random number for refCode
-    function randomN(v) {
-      let rand = "";
-      let alphaNum = 'abcdefghijklmnopqrstuvwxyz0123456789';
-      for(let i = 0 ;i < v;i++){
-        let random = Math.floor(Math.random() * 36);
-        rand.concat(alphaNum[random])
-      }
-      return rand;
-    }
-
-    function checkFefCode(refCode) {
-      Invite.find({ refCode }, (err, data) => {
-        if(!err){
-          if (data.length) return false;
-          else return true 
-        } return false
+    Student.findById({ _id: studentId }, (err, user) => {
+      if (err) return res.json({ error: 'db tandoor' })
+      if (!user) return res.json({ message: 'user not found' })
     })
-    }
+      .populate("feedback")
+      .exec((err, student) => {
+        console.log(student, 'in user controller');
+        if (!(student.feedback)) return;
+        const { feedback, _id, name, email } = student
+        if (err) return res.json({ error: "server busy" })
+        if (feedback.length === 0) return res.json({
+          message: 'not feedback to display'
+        })
+        res.json({
+          student: {
+            feedback,
+            _id,
+            name,
+            email
+          }
+        })
+      });
+  },
 
-    // it'll provide your localhost or network address
-    host = req.get("host");
-    let flag = false;
-    let refCode = null;
-    
-    while(!flag){
-      refCode = randomN(10);
-      flag = checkFefCode(refCode)
-    }
+  postFeedbackStudent: (req, res, next) => {
+    const studentId = req.params.id;
+    const feedbackBody = req.body;
+    console.log(feedbackBody,'body')
+    const feedBack = new FeedBack({
+      student: studentId,
+      ...feedbackBody
+    });
+    Student.findById(studentId,(err,user) => {
+      if(err) return res.json({error:'db error'})
+      if(!user) return res.json({message:'user not present'})
+      feedBack.save((err, feedback) => {
+        if (err) return res.json({ error: 'internal error' })
+        Student.findByIdAndUpdate(studentId, { $push: { feedback: feedback._id } }, { upsert: true }, (err, student) => {
+          console.log(student,'stu')
+          if (err) return res.json({
+            error: 'sorry mate youre not found'
+          })
 
-    link = `http://${host}/register?ref=${refCode}`;
-    const email = req.body.email;
+          console.log('ghhjjjguyf');
 
-    mailOptions = {
-      to: email,
-      subject: "Verify your email",
-      html: `Hello, <br>Please click on <a href='${link}'>click here</a> to verify your email.`
-    };
+          // Sending Notification to Kitchen Staff
+          const kitchenStaff = onlineUsers.filter(v => v.role === 'kitchenStaff')
+          console.log(kitchenStaff, 'kitchenStaff');
 
-    // send mail with defined transport object(mailOptions)
-    smtpTransport.sendMail(mailOptions, (err, info) => {
-      if (err) return res.json({ msg: "Message could not send" });
-      else {
-        const newInvite = new Invite({
-          emailId: email,
-          refCode
-        });
-        newInvite.save(err => {
-          if (!err) res.json({ msg: `Message sent to ${mailOptions.to}` });
+          isPosted = true
+
+
+          // io.on('connection', (socket) => {
+          //   console.log(`${socket.id} is connected`)
+          //   socket.to(kitchenStaff[0].socketId).emit('notification', `User added a feedback.`)
+          // })
+
+          // io.on('connection', (socket) => {
+          //   console.log(socket.id);
+          //   // socket.emit('notification', `User added a feedback.`)
+          // })
+
+          const { name, email } = student
+          res.json({
+            name,
+            email
+          })
+        })
+      })
+    })
+  },
+
+  verifyStudent: (req, res, next) => {
+    const ref = req.query.ref
+    Invite.findOneAndUpdate(
+      { refCode: ref },
+      { $set: { isVerified: true } },
+      (err, code) => {
+        if (err || !code) return res.json({ error: `you're link is expired` });
+        res.json({
+          emailId: code.emailId,
+          refCode: code.refCode
         });
       }
-    });
+    );
   },
-  verifyStudent: (req, res, next) => {
-    console.log(req.body,"verify");
-    const refId = req.query.ref;
-    console.log('ref verify',refId)
-    console.log(`${req.protocol}://${req.get("host")}` , `http://${host}`);
-    // if (`${req.protocol}://${req.get("host")}` == `http://${host}`) {
-      console.log("Domain is matched. Information is from Authenticate email");
-      Invite.findOneAndUpdate(
-        { refCode: refId },
-        { $set: { isVerified: true } },
-        (err, code) => {
-          if (err) res.json({ msg: `you're link is expired` });
-          res.json({
-            emailId: code.emailId,
-            refCode: code.refCode,
-            // msg: `Email ${mailOptions.to} is successfully verified.`
-          });
+
+  getUserAttendence: async (req, res) => {
+    const token = req.headers['authorization'];
+    if (!token) return res.json({ message: 'unAuthorized Student' });
+    const headerToken = token.split(' ')[1];
+    const user = await serverUtils.getUserFromToken(headerToken);
+    // console.log(user);
+    if (!user) return res.json({ error: `user not found` })
+    let today = new Date();
+    let todayDay = today.getDay();
+    let weekStart = serverUtils.convDateToDateStr(serverUtils.dateManupulater(-todayDay));
+    let weekEnd = serverUtils.convDateToDateStr(serverUtils.dateManupulater((6 - todayDay)));
+    AttendanceBuffer.find({ date: { $gte: weekStart, $lte: weekEnd } }, (err, Att) => {
+      if (err) return res.json({ err: `DB error ` })
+      let userAttendence = [];
+      Att.forEach(atte => {
+        let obj = {
+          date: atte.date,
+          brunch: atte.brunch.attendance.some(objVal => (objVal.student == user._id)),
+          breakfast: atte.breakfast.attendance.some(objVal => (objVal.student == user._id)),
+          lunch: atte.lunch.attendance.some(objVal => (objVal.student == user._id)),
+          dinner: atte.dinner.attendance.some(objVal => (objVal.student == user._id)),
         }
-      );
+        userAttendence.push(obj);
+      })
+      if (userAttendence.length) {
+        return res.json({
+          attendance: userAttendence,
+        })
+      }
+      res.json({ error: `DB ERROR` })
+    });
+
+  },
+
+  updateUserAttendence: async (req, res) => {
+    attendanceArr = req.body.attendance;
+    date = req.body.date;
+    
+    const token = req.headers['authorization'];
+    if (!token) return res.json({ message: 'unAuthorized Student' });
+    const headerToken = token.split(' ')[1];
+    const user = await serverUtils.getUserFromToken(headerToken);
+    if (!user) {
+      return res.json({
+        error: `user not Authorise`,
+      })
     }
-  // }
+    AttendanceBuffer.findOne({ date: date }, (err, prevAtt) => {
+      // console.log(currentAtt, "currentAtttttttttttt")
+      let currentAtt = prevAtt;
+      let flag = false; //to check if doc chenged or not
+      attendanceArr.forEach(attendence => {
+        const mealType = attendence.mealType;
+        const value = attendence.value;
+        let index = -1;
+        //c;heck if student present
+        let currStudPresent = currentAtt[mealType].attendance.some((objVal, i) => {
+          if (objVal.student == user._id) {
+            index = i;
+            return true
+          };
+          return false;
+        })
+        //pull if value = false and user already present
+        if (currStudPresent) {
+          if (!value) {
+            currentAtt[mealType].attendance.splice(index, 1);
+            flag = true;
+          }
+        } else {
+          //push if value true and not already present
+          if (value) {
+            currentAtt[mealType].attendance.push({ student: user._id });
+            flag = true;
+          }
+        }
+      })
+      if (flag) {
+        currentAtt.save(function (err, saved) {
+          if (!err) return res.json({
+            message: `resource updated`
+          })
+          else {
+            res.json({
+              error: `error saving to db`
+            })
+          }
+        });
+      }
+    })
+  },
+
+  getAttendees: (req, res) => {
+    const today = serverUtils.convDateToDateStr(new Date());
+    console.log(today, "hello")
+
+    //find todays attendence
+    AttendanceBuffer.findOne({ date: today })
+      .populate([
+        { path: 'brunch.attendance.student' }, { path: 'lunch.attendance.student' }, { path: 'dinner.attendance.student' }, { path: 'breakfast.attendance.student' }])
+      .exec((err, data) => {
+        if (err) return res.json({ error: "DB ERROR" })
+        console.log(data, err, "inside");
+        const breakfastAtt = data.breakfast.attendance.map(obj => (obj.student) ? obj.student.name : null);
+        const brunchAtt = data.brunch.attendance.map(obj => (obj.student) ? obj.student.name : null);
+        const lunchAtt = data.lunch.attendance.map(obj => (obj.student) ? obj.student.name : null);
+        const dinnerAtt = data.dinner.attendance.map(obj => (obj.student) ? obj.student.name : null);
+        const object = {
+          date: today,
+          breakfast: breakfastAtt,
+          brunch: brunchAtt,
+          lunch: lunchAtt,
+          dinner: dinnerAtt,
+        }
+        res.json(object);
+      })
+  }
+
 };
