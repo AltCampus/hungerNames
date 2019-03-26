@@ -8,55 +8,7 @@ const Student = require("../model/Student");
 const Invite = require("../model/Invite");
 const serverUtils = require('../serverUtils/index')
 const AttendanceBuffer = require('../model/attendanceBuffer');
-const socket = require('socket.io');
 
-const io = require('./../../app').io;
-
-const onlineUsers = [];
-
-let isPosted = false
-
-// Pushing online Users
-io.on('connection', (socket) => {
-  console.log(`${socket.id} is connected`)
-  socket.on('login', (userData) => {
-    onlineUsers.push({
-      ...userData,
-      socketId: socket.id
-    })
-    console.log(onlineUsers);
-  })
-
-  socket.on('feedbackPosted', () => {
-    const kitchenStaff = onlineUsers.filter(v => v.role === 'kitchenStaff');
-    console.log(kitchenStaff);
-    
-    if (kitchenStaff.length) {
-      const id = socket.id;
-      const regexp = new RegExp(id, 'i')
-  
-      const student = onlineUsers.filter(v => regexp.test(v.socketId));
-      socket.to(kitchenStaff[0].socketId).emit('notification', `${student[0].name} added a feedback.`)
-    }
-  })
-
-  socket.on('disconnect', () => {
-    let id = 0;
-
-    onlineUsers.forEach((v,i) => {
-      if (v.socketId == socket.id) {
-        id = i
-      }
-    })
-
-    onlineUsers.splice(id, 1)
-  })
-})
-
-
-// io.on('connection', (socket) => {
-
-// })
 
 
 module.exports = {

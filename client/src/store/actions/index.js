@@ -1,5 +1,4 @@
 import { util } from "../../util";
-import socket from "../../modules/socketIO";
 
 // export function loginUserAction(data) {
 //   return dispatch => {
@@ -45,25 +44,6 @@ export function loginUserAction(data, cb) {
             token: token,
             authenticated: true
           });
-
-          // handling work for socket.io
-          const { name, isAdmin, isStudent, isKitchenStaff } = getState().currentUser;
-          console.log(name);
-
-          let role;
-
-          if (isAdmin) {
-            role = 'admin';
-          } else if (isKitchenStaff) {
-            role = 'kitchenStaff'
-          } else {
-            role = 'student'
-          }
-
-          socket.emit('login', {
-            name: name,
-            role
-          })
 
           cb(true);
         } else if (data.error) {

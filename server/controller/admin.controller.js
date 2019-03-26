@@ -52,6 +52,9 @@ module.exports = {
           isAdmin: req.body.isAdmin,
           isKitchenStaff: req.body.isStaff
         });
+
+        // TODO : Check if email already exists 'Student' collections
+
         newInvite.save(err => {
           if (!err) return res.json({ message: `Message sent to ${mailOptions.to}` })
           return res.json({
