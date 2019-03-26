@@ -21,7 +21,7 @@ class StaffRemarkForm extends Component {
   handleChange = event => {
     this.setState({
       [event.target.name]: event.target.value,
-      message: '',
+      message: '',      
     });
   };
 

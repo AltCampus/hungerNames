@@ -5,36 +5,53 @@ import { connect } from 'react-redux';
 import AttendeesList from '../AttendeesList';
 import StaffSideMenu from '../StaffSideMenu';
 import './StaffHome.css'
+import Loader from '../Loader';
 
 class StaffHome extends Component {
   constructor(props) {
     super(props);
-    this.meals = ['Breakfast', 'Lunch', 'Dinner'];
+    this.state = {
+      isLoading: false
+    }
   }
-  componentDidMount = () => {
-    this.props.dispatch(getAllFeedback())
-  }
-  render() {
-    const { feedbacks } = this.props;
-    return(
-      <>
-        <StaffSideMenu />
-        <div className="home">
-          <section className="staff-hero">
-            <p className="headline">Todays Turn Up</p>
-            <span className="current_date">Date: <strong>18th March, 2018</strong></span>           
-            <AttendeesList meals={this.meals}/>              
-          </section>        
-          <section className="feedback-container">
-            <Link to='/staff/feedbacks' className="feedback-btn">
-              <span>Feedbacks</span>
-              <span className="feedback-notification">5</span>
-            </Link>
-          </section>
-        </div>
-      </>
-    );
-  }
-}
 
-export default connect()(StaffHome);
+  componentDidMount = () => {
+    this.setState({
+      isLoading: true
+    })
+    this.props.dispatch(getAllFeedback(getFeedback => {
+      if (getFeedback) {
+        this.setState({
+          isLoading: false
+        })
+      }
+    }))
+  }
+
+    render() {      
+      const { isLoading } = this.state;
+      return (
+        <>
+          <StaffSideMenu />
+          {isLoading ? (
+            <div className="center">
+              <Loader />
+            </div>
+          ) : (
+              <div className="home">
+                <AttendeesList profile={'staff'} />
+                <section className="feedback-container">
+                  <Link to='/staff/feedbacks' className="feedback-btn">
+                    <span>Feedbacks</span>
+                    <span className="feedback-notification">5</span>
+                  </Link>
+                </section>
+              </div>
+            )
+          }
+        </>
+      );
+    }
+  }
+
+  export default connect()(StaffHome);
