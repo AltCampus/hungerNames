@@ -6,7 +6,7 @@ const isUser = require('../config/auth');
 // router.get('/', adminController.getAdmin);
 // router.post('/login',adminController.loginAdmin);
 
-router.post('login/forget',adminController.forgetPassword);
+// router.post('login/forget',adminController.forgetPassword);
 
 // Adding menu
 router.get('/menu', adminController.getMenuList);

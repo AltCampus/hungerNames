@@ -12,6 +12,17 @@ router.get('/register', (err, res) => {
 router.get('/login', (err, res) => {
   res.render('index');
 });
+
+// getting forgot password component
+router.get('/forgotpassword', (req, res) => {
+  res.render('index');
+}) 
+
+// getting reset password component
+router.get('/resetpassword', (req, res) => {
+  res.render('index');
+}) 
+
 router.get('/student/:day', (err, res) => {
   res.render('index');
 })
