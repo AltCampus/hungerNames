@@ -190,32 +190,7 @@ module.exports = {
           console.log(student, 'stu')
           if (err) return res.json({
             error: 'sorry mate youre not found'
-          })
-
-          console.log('ghhjjjguyf');
-
-          // Sending Notification to Kitchen Staff
-          const kitchenStaff = onlineUsers.filter(v => v.role === 'kitchenStaff')
-          console.log(kitchenStaff, 'kitchenStaff');
-
-          isPosted = true
-
-
-          // io.on('connection', (socket) => {
-          //   console.log(`${socket.id} is connected`)
-          //   socket.to(kitchenStaff[0].socketId).emit('notification', `User added a feedback.`)
-          // })
-
-          // io.on('connection', (socket) => {
-          //   console.log(socket.id);
-          //   // socket.emit('notification', `User added a feedback.`)
-          // })
-
-          const { name, email } = student
-          res.json({
-            name,
-            email
-          })
+          })                   
         })
       })
     })

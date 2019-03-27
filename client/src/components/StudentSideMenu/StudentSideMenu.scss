@@ -59,9 +59,7 @@
 
 // sidebar
 .sidebar-open {
-  position: fixed;
-  max-width: 600px;
-  width: 23rem;
+  position: fixed;  
   background: #1B1A1F;
   height: 100vh;
   top: 0;
@@ -86,9 +84,13 @@
       letter-spacing: 1px;
       font-size: 1.2rem;
       font-weight: 600;
+      margin-bottom: 0.3em;
     }
     h3, p {
-      margin-left: 0.3em 0;
+      margin-left: 0.3em;
+    }
+    p {
+      font-size: 0.8rem;
     }
     margin-left: 0.8em;
   }

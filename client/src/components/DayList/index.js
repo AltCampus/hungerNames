@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { util } from '../../util/index'
 import './DayList.css';
 import StudentSideMenu from '../StudentSideMenu';
+import MealRemark from '../MealRemark';
 import { object } from 'twilio/lib/base/serialize';
 import { updateAttendenceAction } from '../../store/actions';
 
@@ -142,7 +143,7 @@ class DayList extends Component {
   }
 
   render() {
-    const { breakfastTime, brunchTime, lunchTime, dinnerTime } = this.state;
+    const { breakfastTime, brunchTime, lunchTime, dinnerTime } = this.state;    
     const { day } = this.props.match.params;
     const { menu } = this.props;
     const { dayVal } = this.state;
@@ -194,11 +195,10 @@ class DayList extends Component {
             </form>) : ''
           }
           <div>
-            <p>{(this.state.breakfastRemark) ? `breakfastRemark: ${this.state.breakfastRemark}` : ''}</p>
-            <p>{(this.state.lunchRemark) ? `lunchRemark: ${this.state.lunchRemark}` : ''}</p>
-            <p>{(this.state.dinnerRemark) ? `dinnerRemark: ${this.state.dinnerRemark}` : ''}</p>
-            <p>{(this.state.brunchRemark) ? `brunchRemark: ${this.state.brunchRemark}` : ''}</p>
-
+            {(this.state.breakfastRemark) ? <MealRemark remark={this.state.breakfastRemark} mealType='Breakfast' /> : ''}
+            {(this.state.lunchRemark) ? <MealRemark remark={this.state.lunchRemark} mealType='Lunch'/> : ''}
+            {(this.state.dinnerRemark) ? <MealRemark remark={this.state.dinnerRemark} mealType='Dinner'/> : ''}
+            {(this.state.brunchRemark) ? <MealRemark remark={this.state.brunchRemark} mealType='Brunch'/> : ''}
           </div>
         </div>
       </>
