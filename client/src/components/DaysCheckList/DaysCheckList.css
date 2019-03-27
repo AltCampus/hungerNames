@@ -24,9 +24,12 @@
 }
 
 .day-name {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;     
   font-weight: 700;
   font-size: 1.8em;
-  margin-bottom: 0.7em;
+  margin-bottom: 0.4em;
 }
 
 .content__check-list {
@@ -52,7 +55,7 @@
 
 
 .fa-check-circle {
-  color: rgb(17, 160, 160);
+  color: var(--teal);
 }
 
 .content-justify {
@@ -64,10 +67,13 @@
 
 .date {
   font-family: 'Roboto', sans-serif;
-  margin: 1em auto;
+  margin: 0.2em 0 0.6em 0;
   font-size: 0.9rem;  
   border-radius: 6px;
   padding: 5px;
   background-color: var(--light-grey);
   color: white;
+}
+.red{
+  color: #ff6b6b;
 }

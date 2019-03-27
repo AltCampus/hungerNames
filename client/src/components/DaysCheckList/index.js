@@ -16,7 +16,8 @@ class DaysCheckList extends Component {
 
   render() {
     const { attendance, onDay } = this.props;
-    const { day, meal } = onDay;    
+    const { day, meal } = onDay;
+    const date = util.arrangeDate(attendance.date);
 
     return (
       <>        
@@ -29,10 +30,12 @@ class DaysCheckList extends Component {
                 {/* <i className="fas fa-circle"></i> */}
               </div>
             </span>
-
-            <Link to={`/student/${day}`} className="day-mark unlink content-justify">
+            <Link to={{
+                pathname: `/student/${day}`,
+                state: { date: date }
+              }} className="day-mark unlink content-justify">
               <div >
-                <p className='day-name'>{day} <span className='date'>{util.arrangeDate(attendance.date)}</span></p>
+                <p className='day-name'>{day} <span className='date'>{date}</span></p>
                 <div className="meal-types">
                   {(day === 'Sunday') ?
                     (
