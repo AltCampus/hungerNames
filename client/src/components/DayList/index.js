@@ -4,7 +4,7 @@ import { util } from '../../util/index'
 import './DayList.css';
 import StudentSideMenu from '../StudentSideMenu';
 import { object } from 'twilio/lib/base/serialize';
-import { updateAttendenceAction  } from '../../store/actions';
+import { updateAttendenceAction } from '../../store/actions';
 
 const mapStateToProps = (state) => {
   return {
@@ -27,6 +27,10 @@ class DayList extends Component {
       brunchTime: false,
       breakfastTime: false,
       dinnerTime: false,
+      breakfastRemark: '',
+      lunchRemark: '',
+      dinnerRemark: '',
+      brunchRemark: '',
     }
   }
 
@@ -43,39 +47,46 @@ class DayList extends Component {
       this.setState({
         date: attendance[dayIndex].date,
         dayVal: dayVal,
-        breakfast: attendance[dayIndex].breakfast,
-        lunch: attendance[dayIndex].lunch,
-        dinner: attendance[dayIndex].dinner,
-        brunch: attendance[dayIndex].brunch,
+        breakfast: attendance[dayIndex].breakfast[0],
+        lunch: attendance[dayIndex].lunch[0],
+        dinner: attendance[dayIndex].dinner[0],
+        brunch: attendance[dayIndex].brunch[0],
+        breakfastRemark: attendance[dayIndex].breakfast[1],
+        lunchRemark: attendance[dayIndex].lunch[1],
+        dinnerRemark: attendance[dayIndex].dinner[1],
+        brunchRemark: attendance[dayIndex].brunch[1],
       })
     }
 
 
-    let currentDate = util.convDateToDateStr(this.state.newDate);    
-    if (currentDate == attendance[dayIndex].date) {  
-      
+    let currentDate = util.convDateToDateStr(this.state.newDate);
+    if (currentDate == attendance[dayIndex].date) {
+
       let currentTime = this.state.newDate.toLocaleTimeString();
       if (day === 'Sunday') {
         switch (true) {
-          case (currentTime > (menu[dayVal].meal.brunch.time)):
-            this.setState({
-              brunchTime: true,
-            });
-            break;
-
           case (currentTime > (menu[dayVal].meal.dinner.time)):
             this.setState({
               brunchTime: true,
               dinnerTime: true,
             });
+            break;
+          case (currentTime > (menu[dayVal].meal.brunch.time)):
+            this.setState({
+              brunchTime: true,
+            });
+            break;
         }
       } else {
         switch (true) {
-          case (currentTime > (menu[dayVal].meal.breakfast.time)):
+          case (currentTime > (menu[dayVal].meal.dinner.time)):
             this.setState({
               breakfastTime: true,
+              lunchTime: true,
+              dinnerTime: true,
             });
             break;
+
           case (currentTime > (menu[dayVal].meal.lunch.time)):
             this.setState({
               breakfastTime: true,
@@ -83,16 +94,17 @@ class DayList extends Component {
             });
             break;
 
-          case (currentTime > (menu[dayVal].meal.dinner.time)):
+          case (currentTime > (menu[dayVal].meal.breakfast.time)):
             this.setState({
               breakfastTime: true,
-              lunchTime: true,
-              dinnerTime: true,
             });
+            break;
+
+
         }
       }
     } else if (currentDate > attendance[dayIndex].date) {
-    console.log(currentDate, attendance[dayIndex].date, 'inside greater than');
+      console.log(currentDate, attendance[dayIndex].date, 'inside greater than');
 
       if (day === 'Sunday') {
         this.setState({
@@ -182,6 +194,13 @@ class DayList extends Component {
               <button type="submit" className="form-btn send-btn">Save →</button>
             </form>) : ''
           }
+          <div>
+            <p>{(this.state.breakfastRemark) ? `breakfastRemark: ${this.state.breakfastRemark}` : ''}</p>
+            <p>{(this.state.lunchRemark) ? `lunchRemark: ${this.state.lunchRemark}` : ''}</p>
+            <p>{(this.state.dinnerRemark) ? `dinnerRemark: ${this.state.dinnerRemark}` : ''}</p>
+            <p>{(this.state.brunchRemark) ? `brunchRemark: ${this.state.brunchRemark}` : ''}</p>
+
+          </div>
         </div>
       </>
     );

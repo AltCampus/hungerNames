@@ -1,31 +1,94 @@
 import React, { Component } from 'react';
+import { util } from "../../util";
+import { connect } from "react-redux";
 import { Link } from 'react-router-dom';
 import './DaysCheckList.css';
+import { updateAttendenceAction } from '../../store/actions';
 
 class DaysCheckList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      check: false,
+      check: true,
+      date: '',
+      isDisabled: false,
+
     }
   }
+  // componentDidMount = () => {
+  //   if (this.props.attendance.date) {
+
+
+  //     const { attendance } = this.props;
+  //     let disabled = (util.convDateToDateStr(new Date()) >= attendance.date)
+  //     this.setState({
+  //       date: date,
+  //       isDisabled: disabled
+  //     })
+  //   }
+  // }
+
   setCheck = () => {
-    this.setState({ check: !this.state.check });
+    if (!this.state.check) {
+      let data = {
+        date: this.state.date,
+        attendance: [
+          { mealType: "breakfast", value: true },
+          { mealType: "brunch", value: true },
+          { mealType: "lunch", value: true },
+          { mealType: "dinner", value: true },
+        ]
+      }
+      this.props.dispatch(updateAttendenceAction(data, () => { }))
+    }
+    else {
+      let data = {
+        date: this.state.date,
+        attendance: [
+          { mealType: "breakfast", value: false },
+          { mealType: "brunch", value: false },
+          { mealType: "lunch", value: false },
+          { mealType: "dinner", value: false },
+        ]
+      }
+      this.props.dispatch(updateAttendenceAction(data, () => { }))
+    }
   }
 
-  render() {
+  checkThree = () => {
     const { attendance, onDay } = this.props;
-    const { day, meal } = onDay;
+    if (onDay.day === 'Sunday') {
+      if (attendance) {
+        if (attendance.dinner[0] && attendance.brunch[0]) {
+          if (!this.state.check) this.setState({ check: true });
+        } else {
+          if (this.state.check) this.setState({ check: false });
+        }
+      }
+    } else if (onDay.day !== 'Sunday') {
+      if (attendance) {
+        if (attendance.dinner[0] && attendance.lunch[0] && attendance.dinner[0]) {
+          if (!this.state.check) this.setState({ check: true });
+        }
+        else {
+          if (this.state.check) this.setState({ check: false });
+          console.log("not all true");
+        }
+      }
+    }
+  }
 
+
+  render() {
+    this.checkThree();
+    const { day, meal } = this.props.onDay;
     return (
       <>
         <div className="check-list">
           <div className="content__check-list">
             <span>
-              <div className="check-mark" onClick={() => this.setCheck()}>
-                <i className={`fas checklist-icon fa-3x ${this.state.check ? 'fa-check-circle' : 'fa-circle'}`}></i>
-                {/* <i className={`fas fa-check-circle `}></i> */}
-                {/* <i className="fas fa-circle"></i> */}
+              <div className="check-mark" onClick={() => { (this.state.isDisabled) ? null : this.setCheck() }}>
+                <i className={`fas ${this.state.isDisabled ? 'red' : ''} checklist-icon fa-3x ${this.state.check ? 'fa-check-circle' : 'fa-circle'}`}></i>
               </div>
             </span>
 
@@ -68,4 +131,4 @@ class DaysCheckList extends Component {
   }
 }
 
-export default DaysCheckList;
+export default connect()(DaysCheckList);

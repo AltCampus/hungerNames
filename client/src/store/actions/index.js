@@ -36,7 +36,7 @@ export function loginUserAction(data, cb) {
       .then(data => {
         if (!data.error) {
           let token = `Hungry ${data.token}`;
-          localStorage.setItem('hungryUser',JSON.stringify(data.user))
+          localStorage.setItem('hungryUser', JSON.stringify(data.user))
           localStorage.setItem('hungerNamesJWT', token) //will modify acc to server
           console.log(data, 'after login')
           dispatch({
@@ -81,6 +81,9 @@ export function logoutUserAction(cb) {
   return (dispatch) => {
     localStorage.removeItem('hungryUser');
     localStorage.removeItem('hungerNamesJWT');
+    localStorage.removeItem('hungerNamesAttendance');
+
+
     dispatch({
       type: "LOGOUT_USER",
     });

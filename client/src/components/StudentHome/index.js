@@ -42,7 +42,7 @@ class StudentHome extends Component {
           isLoading: false
         })
       }
-     }));
+    }));
 
   }
 
@@ -58,21 +58,22 @@ class StudentHome extends Component {
               <Loader />
             </div>
           ) : (
-            <div className="wrapper">
-              {/* <SideMenu /> */}
-              <div className="home">
-                {(menu && menu.day1) ? (
-                  <>
-                    {this.days.map((val, index) => {
-                      if (val != 'day0')
-                        return <DaysCheckList key={index} onDay={menu[val]} attendance={attendance[index]} />
-                    })}
-                    < DaysCheckList key={0} onDay={menu["day0"]} attendance={attendance[0]} />
-                  </>
-                ) : ''}
+              <div className="wrapper">
+                {/* <SideMenu /> */}
+                <div className="home">
+                  {(menu && menu.day1) ? (
+                    <>
+                      {this.days.map((val, index) => {
+                        if (val != 'day0' && attendance[index])
+                          return <DaysCheckList key={index} onDay={menu[val]} attendance={attendance[index]} />
+                      })}
+
+                      (attendance[0]) ?  < DaysCheckList key={0} onDay={menu["day0"]} attendance={attendance[0]} /> : '';
+                    </>
+                  ) : ''}
+                </div>
               </div>
-            </div>
-          )
+            )
         }
       </>
     );
