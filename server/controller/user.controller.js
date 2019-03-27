@@ -31,10 +31,6 @@ module.exports = {
           isStudent
         });
         newStudent.save((err, user) => {
-<<<<<<< HEAD
-          console.log(user, 'inside register student');
-=======
->>>>>>> 829056551abf814bea6388ad776cf487225b3477
           if (err || !user) {
             return res.status(401).json({
               error: "user is not found"
@@ -178,7 +174,7 @@ module.exports = {
   postFeedbackStudent: (req, res, next) => {
     const studentId = req.params.id;
     const feedbackBody = req.body;
-    console.log(feedbackBody, 'body')
+    console.log(feedbackBody,'feed')
     const feedBack = new FeedBack({
       student: studentId,
       ...feedbackBody
@@ -186,22 +182,16 @@ module.exports = {
     Student.findById(studentId, (err, user) => {
       if (err) return res.json({ error: 'db error' })
       if (!user) return res.json({ message: 'user not present' })
+      console.log(user,'feed user')
       feedBack.save((err, feedback) => {
         if (err) return res.json({ error: 'internal error' })
         Student.findByIdAndUpdate(studentId, { $push: { feedback: feedback._id } }, { upsert: true }, (err, student) => {
-          console.log(student, 'stu')
           if (err) return res.json({
             error: 'sorry mate youre not found'
           })
-
-          console.log('ghhjjjguyf');
-
           // Sending Notification to Kitchen Staff
-          const kitchenStaff = onlineUsers.filter(v => v.role === 'kitchenStaff')
-          console.log(kitchenStaff, 'kitchenStaff');
-
-          isPosted = true
-
+          // const kitchenStaff = onlineUsers.filter(v => v.role === 'kitchenStaff') //
+          // isPosted = true //
 
           // io.on('connection', (socket) => {
           //   console.log(`${socket.id} is connected`)

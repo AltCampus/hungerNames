@@ -34,7 +34,7 @@ class ListStudentsAdmin extends Component {
       buttons: [
         {
           label: 'Yes',
-          onClick: () => {  
+          onClick: (id) => { 
             this.props.dispatch(removeStudent(id, succeed => {
             if (succeed) {
               this.props.history.push(`/admin/getallstudentslist`)
@@ -43,15 +43,11 @@ class ListStudentsAdmin extends Component {
         },
         {
           label: 'No',
-          onClick: () => alert('Click No')
+          onClick: () => { return this.props.history.push(`/admin/getallstudentslist`) }
         }
       ]
     });
   };
-
-  // handleDelete = (id) => {
-  
-  // }
 
   render() {
     const { listAllStudents } = this.props;
