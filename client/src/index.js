@@ -12,6 +12,7 @@ import { verifyTokenAction } from "./store/actions";
 // if (token) store.dispatch(verifyTokenAction(token));
 
 ReactDOM.render(
+  
   <Provider store={store}>
     <App />
   </Provider>, document.getElementById('root')

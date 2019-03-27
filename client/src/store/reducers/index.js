@@ -5,7 +5,7 @@ const INIT_STATE = {
   isAuthenticated: (localStorage.getItem('hungerNamesJWT')) ? true : false,
   menu: {},
   userFeedback: [],
-  userAttendance: [],
+  userAttendance: JSON.parse(localStorage.getItem('hungerNamesAttendance')) || [],
   allUserFeedback: [],
   listAllStudents: [],
   singleUserFeedback: [],
@@ -96,6 +96,7 @@ export default function rootReducer(state = INIT_STATE, action) {
       }
 
     case 'GET_USER_ATTENDANCE':
+      (localStorage.setItem('hungerNamesAttendance', JSON.stringify(action.attendance.attendance)))
       return {
         ...state,
         userAttendance: action.attendance.attendance
