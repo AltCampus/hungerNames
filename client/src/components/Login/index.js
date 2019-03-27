@@ -10,6 +10,7 @@ class Login extends Component {
     this.state = {
       email: '',
       password: '',
+      message:''
     }
   }
 
@@ -43,7 +44,7 @@ class Login extends Component {
           <input onChange={this.handleChange} className="input-field" type="text" placeholder="Enter Email" id="email" name="email" value={this.state.email} />
         </label>
         <label className="label-box" htmlFor="password">
-          <span className="label-text">Password:</span>
+          <span className="label-text">Password:</span> 
           <input onChange={this.handleChange} className="input-field" type="password" placeholder="Enter Password" id="password" name="password" value={this.state.password} />
         </label>
         <input type="submit" className="send-btn form-btn" value="LOGIN" />

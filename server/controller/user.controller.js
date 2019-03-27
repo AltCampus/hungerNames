@@ -115,8 +115,8 @@ module.exports = {
     passport.authenticate('local', {
       session: false
     }, (err, data, info) => {
-      if (!data) return res.json({ message: 'incorrect password/user not found' })
-      if (err) return res.json({ error: 'user not found' })
+      if (!data) return res.json({ error: 'incorrect password/user not found' })
+      if (err) return res.json({ error: `DB ERROR ${err}` })
       const user = serverUtils.cleanUser(data);
       const token = jwt.sign({
         user

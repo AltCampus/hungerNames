@@ -1,9 +1,8 @@
 .staff-hero {
   width: 85vw;
   display: grid;
-  justify-items: center;
-  margin: 0.7em;
-  border-bottom: 2px solid #ccc;
+  place-items: center;
+  margin: 0.7em;  
 }
 
 .headline {
@@ -28,7 +27,12 @@
 }
 
 .feedback-container {
+  width: 92vw;
+  display: grid;
+  place-items: center;
+  padding-top: 1.4em;
   margin: 1em 0;
+  border-top: 2px solid #ccc;
 }
 
 strong {
