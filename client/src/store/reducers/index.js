@@ -9,7 +9,9 @@ const INIT_STATE = {
   allUserFeedback: [],
   listAllStudents: [],
   singleUserFeedback: [],
-  attendees: {}
+  attendees: {},
+  error: {},
+  message: ''
 };
 
 // async function verifyTokenAction(token) {
@@ -40,8 +42,16 @@ export default function rootReducer(state = INIT_STATE, action) {
         ...state,
         currentUser: action.user,
         currentToken: action.token,
-        isAuthenticated: action.authenticated
+        isAuthenticated: action.authenticated,
+        message: action.message
       }
+    case 'LOGIN_FAILED': {
+      console.log(action.data, 'in reducer');
+      return {
+        ...state,
+        error: action.data
+      }
+    }
     case 'LOGOUT_USER':
       return {
         ...state,

@@ -90,6 +90,11 @@ module.exports = {
             message: "registered",
             name: user.name
           });
+
+          // removing previous data when user clicks on new invite link
+          Invite.findOneAndDelete({emailId: email}, (err) => {
+            if (err) throw err;
+          })
         });
       } else return res.json({ message: "Please, verify your email" });
     });
@@ -115,17 +120,20 @@ module.exports = {
     passport.authenticate('local', {
       session: false
     }, (err, data, info) => {
-      if (!data) return res.json({ error: 'incorrect password/user not found' })
-      if (err) return res.json({ error: `DB ERROR ${err}` })
-      const user = serverUtils.cleanUser(data);
-      const token = jwt.sign({
-        user
-      }, 'secret');
-      res.json({
-        message: "successfully logged in",
-        token,
-        user
-      });
+
+      if (!data) return res.json({ error: 'Incorrect Password' })
+      if (err) return res.json({ error: 'user not found' })
+      else {
+        const user = serverUtils.cleanUser(data);
+        const token = jwt.sign({
+          user
+        }, 'secret');
+        res.json({
+          message: "successfully logged in",
+          token,
+          user
+        });
+      }
     })(req, res, next);
   },
 
@@ -269,8 +277,7 @@ module.exports = {
       { refCode: ref },
       { $set: { isVerified: true } },
       (err, code) => {
-        console.log('called', code);
-        if (err) return res.json({ msg: `you're link is expired` });
+        if (err || !code) return res.json({ error: `you're link is expired` });
         res.json({
           emailId: code.emailId,
           refCode: code.refCode
