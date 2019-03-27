@@ -5,7 +5,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   mode: 'development',
-  devtool: 'inline-source-map',
+  target: 'web',
   entry: [
     './client/src/index.js',
   ],
@@ -39,18 +39,11 @@ module.exports = {
   },
   output: {
     filename: 'bundle.js',
-    path: __dirname + '/dist/bundle/',
-    publicPath: '/static/'
+    path: path.resolve(__dirname, 'dist'),
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': JSON.stringify('development')
-      }
-    }),
     new MiniCssExtractPlugin({
       filename: "bundle.css",
-    })
+    }),
   ]
 }

@@ -29,7 +29,7 @@ class StudentHome extends Component {
     this.setState({
       isLoading: true
     })
-    this.props.dispatch(getAttendenceAction(getAttendance => {
+    this.props.dispatch(getAttendenceAction((getAttendance) => {
       if (getAttendance) {
         this.setState({
           isLoading: false
@@ -63,12 +63,11 @@ class StudentHome extends Component {
                 <div className="home">
                   {(menu && menu.day1) ? (
                     <>
+                      {(attendance[0]) ?  < DaysCheckList key={0} onDay={menu["day0"]} attendance={attendance[0]} /> : ''}
                       {this.days.map((val, index) => {
                         if (val != 'day0' && attendance[index])
                           return <DaysCheckList key={index} onDay={menu[val]} attendance={attendance[index]} />
                       })}
-
-                      (attendance[0]) ?  < DaysCheckList key={0} onDay={menu["day0"]} attendance={attendance[0]} /> : '';
                     </>
                   ) : ''}
                 </div>

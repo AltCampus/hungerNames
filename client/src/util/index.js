@@ -25,6 +25,11 @@ const convDateStrToDate = (dateStr) => {
   return new Date(newDateStr);
 }
 
+const arrangeDate = (date) => {
+  let newDate = date.split('-').reverse().join('/ ');
+  return newDate;
+}
+
 
 export const util = {
   baseURL: "http://localhost:8000/api/v1",
@@ -40,5 +45,6 @@ export const util = {
   isValidDate,
   removeTimeFromDate,
   convDateStrToDate,
-  convDateToDateStr
+  convDateToDateStr,
+  arrangeDate
 }
