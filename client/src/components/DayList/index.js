@@ -27,6 +27,10 @@ class DayList extends Component {
       brunchTime: false,
       breakfastTime: false,
       dinnerTime: false,
+      breakfastRemark: '',
+      lunchRemark: '',
+      dinnerRemark: '',
+      brunchRemark: '',
     }
   }
 
@@ -43,10 +47,14 @@ class DayList extends Component {
       this.setState({
         date: attendance[dayIndex].date,
         dayVal: dayVal,
-        breakfast: attendance[dayIndex].breakfast,
-        lunch: attendance[dayIndex].lunch,
-        dinner: attendance[dayIndex].dinner,
-        brunch: attendance[dayIndex].brunch,
+        breakfast: attendance[dayIndex].breakfast[0],
+        lunch: attendance[dayIndex].lunch[0],
+        dinner: attendance[dayIndex].dinner[0],
+        brunch: attendance[dayIndex].brunch[0],
+        breakfastRemark: attendance[dayIndex].breakfast[1],
+        lunchRemark: attendance[dayIndex].lunch[1],
+        dinnerRemark: attendance[dayIndex].dinner[1],
+        brunchRemark: attendance[dayIndex].brunch[1],
       })
     }
 
@@ -57,17 +65,17 @@ class DayList extends Component {
       let currentTime = this.state.newDate.toLocaleTimeString();
       if (day === 'Sunday') {
         switch (true) {
+          case (currentTime > (menu[dayVal].meal.dinner.time)):
+            this.setState({
+              brunchTime: true,
+              dinnerTime: true,
+            });
+            break;
           case (currentTime > (menu[dayVal].meal.brunch.time)):
             this.setState({
               brunchTime: true,
             });
             break;
-
-          case (currentTime > (menu[dayVal].meal.dinner.time)):
-            this.setState({
-              brunchTime: true,
-              dinnerTime: true, 
-            });
         }
       } else {
         switch (true) {
@@ -88,6 +96,9 @@ class DayList extends Component {
             this.setState({
               breakfastTime: true,
             });
+            break;
+
+
         }
       }
     } else if (currentDate > attendance[dayIndex].date) {
@@ -148,7 +159,7 @@ class DayList extends Component {
         <div className="check-list-page">
           {(menu && menu.day1 && dayVal) ? (
             <form onSubmit={this.handleSubmit} key={day} >
-              <h2 className="day-name">{day} [{}]</h2>
+              <h2 className='day-name'>{day} <span className='date'>{this.props.location.state.date}</span></h2>              
               {(menu[dayVal].day !== 'Sunday') ? (
                 <>
                   <label className="check-box" htmlFor="breakfast">
@@ -182,6 +193,13 @@ class DayList extends Component {
               <button type="submit" className="form-btn send-btn">Save →</button>
             </form>) : ''
           }
+          <div>
+            <p>{(this.state.breakfastRemark) ? `breakfastRemark: ${this.state.breakfastRemark}` : ''}</p>
+            <p>{(this.state.lunchRemark) ? `lunchRemark: ${this.state.lunchRemark}` : ''}</p>
+            <p>{(this.state.dinnerRemark) ? `dinnerRemark: ${this.state.dinnerRemark}` : ''}</p>
+            <p>{(this.state.brunchRemark) ? `brunchRemark: ${this.state.brunchRemark}` : ''}</p>
+
+          </div>
         </div>
       </>
     );

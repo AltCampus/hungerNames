@@ -26,7 +26,7 @@ const convDateStrToDate = (dateStr) => {
 }
 
 const arrangeDate = (date) => {
-  let newDate = date.split('-').reverse().join('-');
+  let newDate = date.split('-').reverse().join('/ ');
   return newDate;
 }
 
