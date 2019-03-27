@@ -12,11 +12,12 @@
 }
 
 .current_date {
+  font-family: 'Roboto', sans-serif;
   margin: 1em 0;
   font-size: 0.9rem;  
   border-radius: 6px;
   padding: 5px;
-  background-color: rgb(59, 59, 59);
+  background-color: var(--light-grey);
   color: white;
   white-space: pre;
   justify-self: start;

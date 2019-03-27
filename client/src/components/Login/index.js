@@ -48,6 +48,7 @@ class Login extends Component {
     const { error } = this.state.message;
     const { message } = this.state;
     return (
+
       <>
         <form onSubmit={this.handleSubmit} className='form-page'>
           <h2 className='h2-title'>Sign in</h2>

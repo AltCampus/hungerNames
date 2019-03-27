@@ -9,8 +9,6 @@ const Invite = require("../model/Invite");
 const serverUtils = require('../serverUtils/index')
 const AttendanceBuffer = require('../model/attendanceBuffer');
 
-
-
 module.exports = {
   getStudent: (req, res, next) => {
     res.json({
@@ -33,7 +31,10 @@ module.exports = {
           isStudent
         });
         newStudent.save((err, user) => {
+<<<<<<< HEAD
           console.log(user, 'inside register student');
+=======
+>>>>>>> 829056551abf814bea6388ad776cf487225b3477
           if (err || !user) {
             return res.status(401).json({
               error: "user is not found"
@@ -73,6 +74,7 @@ module.exports = {
     passport.authenticate('local', {
       session: false
     }, (err, data, info) => {
+
       if (!data) return res.json({ error: 'Incorrect Password' })
       if (err) return res.json({ error: 'user not found' })
       else {
@@ -176,18 +178,18 @@ module.exports = {
   postFeedbackStudent: (req, res, next) => {
     const studentId = req.params.id;
     const feedbackBody = req.body;
-    console.log(feedbackBody,'body')
+    console.log(feedbackBody, 'body')
     const feedBack = new FeedBack({
       student: studentId,
       ...feedbackBody
     });
-    Student.findById(studentId,(err,user) => {
-      if(err) return res.json({error:'db error'})
-      if(!user) return res.json({message:'user not present'})
+    Student.findById(studentId, (err, user) => {
+      if (err) return res.json({ error: 'db error' })
+      if (!user) return res.json({ message: 'user not present' })
       feedBack.save((err, feedback) => {
         if (err) return res.json({ error: 'internal error' })
         Student.findByIdAndUpdate(studentId, { $push: { feedback: feedback._id } }, { upsert: true }, (err, student) => {
-          console.log(student,'stu')
+          console.log(student, 'stu')
           if (err) return res.json({
             error: 'sorry mate youre not found'
           })
@@ -253,10 +255,10 @@ module.exports = {
       Att.forEach(atte => {
         let obj = {
           date: atte.date,
-          brunch: atte.brunch.attendance.some(objVal => (objVal.student == user._id)),
-          breakfast: atte.breakfast.attendance.some(objVal => (objVal.student == user._id)),
-          lunch: atte.lunch.attendance.some(objVal => (objVal.student == user._id)),
-          dinner: atte.dinner.attendance.some(objVal => (objVal.student == user._id)),
+          brunch: [atte.brunch.attendance.some(objVal => (objVal.student == user._id)), atte.brunch.remarks],
+          breakfast: [atte.breakfast.attendance.some(objVal => (objVal.student == user._id)), atte.breakfast.remarks],
+          lunch: [atte.lunch.attendance.some(objVal => (objVal.student == user._id)), atte.lunch.remarks],
+          dinner: [atte.dinner.attendance.some(objVal => (objVal.student == user._id)), atte.dinner.remarks],
         }
         userAttendence.push(obj);
       })
@@ -273,7 +275,7 @@ module.exports = {
   updateUserAttendence: async (req, res) => {
     attendanceArr = req.body.attendance;
     date = req.body.date;
-    
+
     const token = req.headers['authorization'];
     if (!token) return res.json({ message: 'unAuthorized Student' });
     const headerToken = token.split(' ')[1];
