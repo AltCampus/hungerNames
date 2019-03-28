@@ -66,11 +66,12 @@
   height: 100vh;
   top: 0;
   z-index: 999;
+  overflow: auto;
 }
 
 .sidebar-content {
   display: inline-block;
-  margin: 10px;
+  margin: 10px 0;
   padding-top: 25px;
 }
 
@@ -95,6 +96,11 @@
   display: flex;
   margin-right: 0.5em;
   align-items: center;
+  background: white;
+  width: 122.4%;
+  padding: 10px;
+  border: 1px solid transparent;
+  margin: 0;
 }
 
 .link_wrapper {
@@ -154,7 +160,7 @@
   }
   // sidebar content
   .sidebar-content {
-    margin: 5px;
+    margin: 5px 0;
     max-width: 250px;
   }
   // user info 

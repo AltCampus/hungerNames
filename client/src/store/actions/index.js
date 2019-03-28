@@ -37,7 +37,6 @@ export function loginUserAction(data, cb) {
           let token = `Hungry ${data.token}`;
           localStorage.setItem('hungryUser', JSON.stringify(data.user))
           localStorage.setItem('hungerNamesJWT', token) //will modify acc to server
-          console.log(data, 'after login')
           dispatch({
             type: "LOGIN_USER",
             user: data.user,
@@ -445,7 +444,6 @@ export function resetPassword(data, cb) {
     })
     .then(res => res.json())
     .then(user => {
-      console.log(user, 'getting user from db')
       if (!user.error) {
         dispatch({
           type: "RESET_PASSWORD_SUCCESS",
