@@ -403,3 +403,62 @@ export function getAttendeesAction(id) {
       })
   }
 }
+
+// getting forgot password 
+export function forgotPassword(data, cb) {
+  return (dispatch) => {
+    fetch(`${util.baseURL}/forgotpassword`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(user => {
+      if (!user.error) {
+        dispatch({
+          type: "FORGOT_PASSWORD_SUCCESS",
+          user
+        })
+        cb(true);
+      } else {
+        dispatch({
+          type: "FORGOT_PASSWORD_FAIL",
+          user
+        })
+        cb(false)
+      }
+    })
+  }
+}
+
+// forget password
+export function resetPassword(data, cb) {
+  return dispatch => {
+    fetch(`${util.baseURL}/resetpassword`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(user => {
+      console.log(user, 'getting user from db')
+      if (!user.error) {
+        dispatch({
+          type: "RESET_PASSWORD_SUCCESS",
+          user
+        })
+        cb(true);
+      } else {
+        dispatch({
+          type: "RESET_PASSWORD_FAIL",
+          user
+        })
+        cb(false);
+      }
+    })
+  }
+}

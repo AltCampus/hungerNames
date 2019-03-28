@@ -31,8 +31,10 @@
 
 .input-field {
   border-radius: 4px;
-  padding: 0.6em;
+  padding: 5px;
   margin: 0.2em;
+  border: 0.5px solid #888;
+  height: 35px;
 }
 
 .input-field:focus {
@@ -41,4 +43,19 @@
 
 .form-btn {
   margin: 0.3em 0;
+}
+
+.forgot-password {
+  color: #555;
+  letter-spacing: 1px;
+  font-size: 1.1rem;
+}
+
+/* media query */
+/* Smartphones (landscape) ----------- */
+
+@media screen and (max-width: 320px) {
+  .label-box {
+    max-width: 300px;
+  }
 }

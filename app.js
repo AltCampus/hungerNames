@@ -52,6 +52,7 @@ app.use(cors());
 
 // importing user model
 require('./server/model/Student');
+require('./server/model/ResetPassword');
 
 // importing passport config
 require('./server/config/passport')(passport);
