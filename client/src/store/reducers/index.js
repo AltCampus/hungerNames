@@ -46,7 +46,6 @@ export default function rootReducer(state = INIT_STATE, action) {
         message: action.message
       }
     case 'LOGIN_FAILED': {
-      console.log(action.data, 'in reducer');
       return {
         ...state,
         error: action.data

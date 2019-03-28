@@ -60,10 +60,10 @@ class AttendeesList extends Component {
           <span className="current_date">Date: <strong>{(new Date).toDateString()}</strong></span>
           <div className='staff-hero'>
             <div className="attendance-container">
-              {this.state.meals.map((val) => {
+              {this.state.meals.map((val, i) => {
                 let arr = this.AttendeesLength(val);
                 return (
-                  <Link to={{
+                  <Link key={i} to={{
                     pathname: `${this.props.profile}/list/${val}`,
                     state: {
                       meal: val,

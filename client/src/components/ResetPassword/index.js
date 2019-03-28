@@ -17,7 +17,6 @@ class ResetPassword extends Component {
     fetch(`${util.baseURL}/resetpassword${query}`)
     .then(res => res.json())
     .then(data => {
-      console.log(data, 'checking data in reset password');
       this.setState({
         email: data.emailId,
         refCode: data.refCode
@@ -40,8 +39,6 @@ class ResetPassword extends Component {
     const data = { email, newPassword, refCode }
     this.props.dispatch(resetPassword(data, (success) => {
       const { error, message } = this.props;
-      console.log(error, 'checking error');
-      console.log(message, 'checking message');
       if (success) {
         this.setState({
           message: message

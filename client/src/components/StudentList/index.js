@@ -22,7 +22,7 @@ class StudentList extends Component {
           </div>
         </div>
         <div className='feedback-card margin'>
-          <p p className='feedback-date'>{this.state.newDate.toDateString()}</p>
+          <p className='feedback-date'>{this.state.newDate.toDateString()}</p>
           <table className='table-data'>
             <thead>
               <tr className='thead-data'>
