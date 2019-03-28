@@ -48,12 +48,12 @@ class AttendeesList extends Component {
   render() {
     return (
       <>
-        <StudentSideMenu />
+        {/* <StudentSideMenu /> */}
         <div className="back-btn-box">
-          <div onClick={this.props.history.goBack} className="back-btn">
+          {/* <div onClick={this.props.history.goBack} className="back-btn">
             <i className="fas fa-angle-left fa-lg"></i>
             <span>Back</span>
-          </div>
+          </div> */}
         </div>
         <section className="staff-hero">
           <p className="headline">Todays Turn Up</p>

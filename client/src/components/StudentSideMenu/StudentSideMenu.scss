@@ -88,7 +88,7 @@
       font-weight: 600;
     }
     h3, p {
-      margin-left: 0.3em 0;
+      margin-left: 0.3em;
     }
     margin-left: 0.8em;
   }
@@ -139,9 +139,48 @@
     }
   }
   .logout, .logout-btn {
-      padding: 0;
-      margin: 0;
-      cursor: pointer;      
-    }
+    padding: 0;
+    margin: 0;
+    cursor: pointer;      
   }
+}
 
+// media query
+/* Smartphones (landscape) ----------- */
+@media screen and (max-width: 320px) {
+  // sidebar
+  .sidebar-open {
+    max-width: 290px;
+  }
+  // sidebar content
+  .sidebar-content {
+    margin: 5px;
+    max-width: 250px;
+  }
+  // user info 
+  .user-info {
+    img {
+      border: 1px solid rgba(255,255,255,0.03);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+    .user-detail {
+      margin-left: 5px;
+      h3 {
+        letter-spacing: 1px;
+        font-size: 1rem;
+        font-weight: 600;
+      }
+      p {
+        font-size: 12px;
+        letter-spacing: 0.5px;
+        margin-top: 2px;
+      }
+      h3, p {
+        margin-left: 0;
+      }
+    }
+    margin-right: 0;
+  }
+}
