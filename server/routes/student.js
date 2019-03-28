@@ -9,9 +9,9 @@ const isUser = require('../config/auth');
 router.get('/verify', userController.verifyStudent)
 router.post('/register', userController.registerStudent);
 router.get('/logout', userController.logoutStudent);
-router.get('/profile/:id', userController.profileStudent);
-router.put('/:id/:day', isUser.isLoggedIn, userController.attendanceStudent);
-router.post('/:id/feedback', userController.postFeedbackStudent);
+router.get('/profile/:id',userController.profileStudent);
+router.put('/:id/:day', userController.attendanceStudent);
+router.post('/:id/feedback',userController.postFeedbackStudent);
 router.get('/:id/feedback', userController.getFeedback);
 router.get('/attendance', userController.getUserAttendence);
 router.put('/attendance', userController.updateUserAttendence);
