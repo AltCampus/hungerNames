@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'; 
+import { connect } from 'react-redux';
+import { CSSTransitionGroup } from 'react-transition-group';
 import { getStudentFeedback } from '../../store/actions';
 import './StudentSideMenu.scss';
 import ToggleOpen from './ToggleOpen';
@@ -8,6 +9,7 @@ class StudentSideMenu extends Component {
   state = {
     isToggle: false
   }
+
   // componentDidMount = () => {
   //   const { currentUser } = this.props;
   //   const currentUserId = currentUser._id;
@@ -37,13 +39,14 @@ class StudentSideMenu extends Component {
       <div className="feedback-wrapper">
         <div className="toggle-controller">
           {
-            isToggle ? <ToggleOpen handleToggleClose={ this.handleToggleClose } />
-            :
-            <div className="toggle-wrapper" onClick={ this.handleToggleOpen }>
-              <div></div>
-              <div></div>
-              <div></div>
-            </div>
+            isToggle ?
+              <ToggleOpen handleToggleClose={this.handleToggleClose} />
+              :
+              <div className="toggle-wrapper" onClick={this.handleToggleOpen}>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
           }
         </div>
       </div>
@@ -54,7 +57,7 @@ class StudentSideMenu extends Component {
 const mapStateToProps = (state) => {
   return {
     userFeedback: state.userFeedback,
-    currentUser: state.currentUser 
+    currentUser: state.currentUser
   }
 }
 

@@ -2,13 +2,13 @@
   display: grid;
   justify-content: center;
   width: 90vw;
-  margin-top: 1.6em;
-  margin-left: -0.6em;
+  margin: 1.2em auto;
 }
 
 .back-btn-box {
   display: flex;
   justify-content: flex-end;
+  margin-bottom: 1em;
 }
 .back-btn {
   display: flex;
@@ -38,16 +38,14 @@
   border-radius: 5px;
   text-transform: uppercase;
   letter-spacing: -0.5px;
+  outline: none;
   cursor: pointer;
 }
 
 .check-box {
   display: flex;
   align-items: center;
-}
-
-.check-box {
-  margin-right: 7px;
+  margin: 0.7em 7px
 }
 
 /* CheckBox styling */
@@ -58,7 +56,7 @@ input[type=checkbox] {
 
 input[type=checkbox] {
   width: 30px;
-  height: 30px;
+  height: 27px;
   margin-right: 8px;
   cursor: pointer;
   font-size: 18px;
@@ -100,11 +98,18 @@ input[type="checkbox"]:disabled + label:before {
 
 .meal_type {
   color: var(--light-grey);
-  text-decoration: underline;
+  width: 75px;
 }
 
-/* media query */
-/* Smartphones (landscape) ----------- */
+.meal-input {
+  padding: 5px;
+  border-radius: 2px;
+  border: 1px solid var(--light-grey);
+}
+
+.loading {
+  background-color: var(--light-blue);
+}
 
 @media screen and (max-width: 320px) {
   .check-list-page {

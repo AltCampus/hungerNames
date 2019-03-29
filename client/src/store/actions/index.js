@@ -193,8 +193,6 @@ export function postStudentFeedback(data, id, cb) {
       .then(res => res.json())
       .then(data => {
         if (!data.error) {
-          socket.emit('feedbackPosted', {});
-
           cb(true)
         } else cb(false)
       })
@@ -265,14 +263,15 @@ export function getAllFeedback(cb) {
       acc[curr.date] = feedbackFetch.feedback.filter((val) => val.date === curr.date);
       return acc;
     }, {});
-    if (feedbackFetch.message) {
+    if (feedbackFetch.error) {
       cb(false)
+    } else {
+      dispatch({
+        type: 'GET_ALL_FEEDBACK',
+        feedback
+      })
+      cb(true)
     }
-    dispatch({
-      type: 'GET_ALL_FEEDBACK',
-      feedback
-    })
-    cb(true)
   }
 }
 

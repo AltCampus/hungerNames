@@ -21,7 +21,7 @@ class App extends Component {
 
     if (!user && token) this.runVerify();
     return (
-      <div className="App">
+      <div className="App wrapper">
         <Main />
       </div>
     );

@@ -30,15 +30,20 @@
 }
 
 .input-field {
+  -webkit-transition: all 0.20s ease-in-out;
+  -moz-transition: all 0.20s ease-in-out;
+  -ms-transition: all 0.20s ease-in-out;
+  -o-transition: all 0.20s ease-in-out;
   border-radius: 4px;
   padding: 5px;
   margin: 0.2em;
-  border: 0.5px solid #888;
-  height: 35px;
+  border: 1px solid var(--teal);
+  outline: none;
 }
 
 .input-field:focus {
-  border: var(--teal);
+  box-shadow: 0 0 5px rgba(81, 203, 238, 1);  
+  border: 1px solid rgba(81, 203, 238, 1);
 }
 
 .form-btn {
@@ -46,7 +51,7 @@
 }
 
 .forgot-password {
-  color: #555;
+  color: inherit;
   letter-spacing: 1px;
   font-size: 1.1rem;
 }

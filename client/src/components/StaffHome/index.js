@@ -43,7 +43,7 @@ class StaffHome extends Component {
                 <section className="feedback-container">
                   <Link to='/staff/feedbacks' className="feedback-btn">
                     <span>Feedbacks</span>
-                    <span className="feedback-notification">5</span>
+                    {/* <span className="feedback-notification">5</span> */}
                   </Link>
                 </section>
               </div>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 import StudentSideMenu from '../StudentSideMenu';
@@ -47,39 +47,30 @@ class AttendeesList extends Component {
 
   render() {
     return (
-      <>
-        {/* <StudentSideMenu /> */}
-        <div className="back-btn-box">
-          {/* <div onClick={this.props.history.goBack} className="back-btn">
-            <i className="fas fa-angle-left fa-lg"></i>
-            <span>Back</span>
-          </div> */}
-        </div>
-        <section className="staff-hero">
-          <p className="headline">Todays Turn Up</p>
-          <span className="current_date">Date: <strong>{(new Date).toDateString()}</strong></span>
-          <div className='staff-hero'>
-            <div className="attendance-container">
-              {this.state.meals.map((val, i) => {
-                let arr = this.AttendeesLength(val);
-                return (
-                  <Link key={i} to={{
-                    pathname: `${this.props.profile}/list/${val}`,
-                    state: {
-                      meal: val,
-                      count: arr.length,
-                      array: arr
-                    }
-                  }} className="unlink">
-                    <MealCount meal={val} count={arr.length} currentStatus={'final'} key={val}/>
-                  </Link>
-                );
-              }
-              )}
-            </div>
+      <section className="staff-hero">
+        <p className="headline">Todays Turn Up</p>
+        <span className="current_date">Date: <strong>{(new Date).toDateString()}</strong></span>
+        <div className='staff-hero'>
+          <div className="attendance-container">
+            {this.state.meals.map((val) => {
+              let arr = this.AttendeesLength(val);
+              return (
+                <Link to={{
+                  pathname: `${this.props.profile}/list/${val}`,
+                  state: {
+                    meal: val,
+                    count: arr.length,
+                    array: arr
+                  }
+                }} className="unlink" key={val}>
+                  <MealCount meal={val} count={arr.length} currentStatus={'final'} key={val} />
+                </Link>
+              );
+            }
+            )}
           </div>
-        </section>
-      </>
+        </div>
+      </section>     
     )
   }
 }

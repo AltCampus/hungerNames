@@ -24,7 +24,7 @@ class DaysCheckList extends Component {
         <div className="check-list">
           <div className="content__check-list">
             <span>
-              <div className="check-mark" onClick={() => this.setCheck()}>
+              <div className="check-mark" onClick={() => this.setCheck()}> 
                 <i className={`fas checklist-icon fa-3x ${this.state.check ? 'fa-check-circle' : 'fa-circle'}`}></i>
                 {/* <i className={`fas fa-check-circle `}></i> */}
                 {/* <i className="fas fa-circle"></i> */}

@@ -1,5 +1,5 @@
 const AttendanceBufferSchema = require("../model/attendanceBuffer");
-const Feedback = require("../model/Feedback") 
+const Feedback = require("../model/Feedback")
 const Student = require("../model/Student");
 const serverUtils = require("../serverUtils/index");
 
@@ -14,32 +14,29 @@ module.exports = {
     console.log(req);
   },
 
-  getAllStudentFeedback:(req, res, next) => {
+  getAllStudentFeedback: (req, res, next) => {
     let today = new Date();
     let todayMinus2 = new Date();
     todayMinus2.setDate(today.getDate() - 2);
     let dateStringToday = serverUtils.convDateToDateStr(today)
     let dateStringMinus2 = serverUtils.convDateToDateStr(todayMinus2);
-    Feedback.find({ date: {$gte: dateStringMinus2, $lte: dateStringToday}  })
+    Feedback.find({ date: { $gte: dateStringMinus2, $lte: dateStringToday } })
       .populate("student")
       .exec((err, feedback) => {
-        console.log(feedback,'feedback')
-        if (err) return res.json({ message: "not able to fetch" });
+        if (err) return res.json({ error: "not able to fetch" })
+        if (!feedback) return res.json({ error: "No feedback available" })
         let filteredFeedback = [];
-        console.log(filteredFeedback)
         feedback.forEach(feed => {
-          console.log(feed);
           let obj = {};
-          obj.name = (feed.student) ? feed.student.name : null ;
+          obj.name = (feed.student) ? `Anonymous${JSON.stringify(feed.student._id).substring(feed.student._id.length - 4)}` : "AnonymousOld";
           obj.meal = feed.meal;
           obj.mealType = feed.mealType;
           obj.review = feed.review;
           obj.rating = feed.rating;
           obj.date = new Date(feed.date).toDateString();
           filteredFeedback.push(obj);
-          console.log(filteredFeedback)
         });
-        console.log(filteredFeedback)
+
         res.json({
           feedback: filteredFeedback
         });
@@ -54,7 +51,7 @@ module.exports = {
     let mealType = `${mealtype}.remarks`;
     AttendanceBufferSchema.findOneAndUpdate(
       { date: newDate },
-      { $set: { [mealType]: [remarks] }},{new: true}  ,
+      { $set: { [mealType]: [remarks] } }, { new: true },
       (err, doc) => {
         if (err) return res.json({
           error: 'Remark not sent, please retry.'
@@ -80,5 +77,5 @@ module.exports = {
     //   if (err) console.log(err)
     //   console.log(done)
     // })
-    }
+  }
 }

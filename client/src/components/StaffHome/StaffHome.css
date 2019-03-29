@@ -2,7 +2,7 @@
   width: 85vw;
   display: grid;
   place-items: center;
-  margin: 0.7em;  
+  margin: 0 auto;
 }
 
 .headline {

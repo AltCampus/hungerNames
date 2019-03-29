@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Redirect } from 'react-router-dom';
 import StarRatings from "react-star-ratings";
 import { postStudentFeedback } from "../../store/actions";
 import Loader from "../Loader";
@@ -92,9 +91,10 @@ class StudentFeedbackForm extends Component {
                 onChange={this.handleChange}
                 min={preTwoDate(this.state.newDate)}
                 max={date(this.state.newDate)}
+                required
               />
             </div>
-            <select name="mealType" id="" onChange={this.handleChange}>
+            <select name="mealType" id="" onChange={this.handleChange} required>
               <option name="select" value={this.state.mealType}>
                 Select Meal Type
               </option>
@@ -119,6 +119,7 @@ class StudentFeedbackForm extends Component {
                 value={this.state.meal}
                 onChange={this.handleChange}
                 placeholder="Menu Item.."
+                required
               />
             </div>
             <StarRatings

@@ -25,6 +25,11 @@ const convDateStrToDate = (dateStr) => {
   return new Date(newDateStr);
 }
 
+function date(today) {
+  today = today.toISOString().split("T")[0];
+  return today;
+}
+
 const arrangeDate = (date) => {
   let newDate = date.split('-').reverse().join('/ ');
   return newDate;
@@ -46,5 +51,6 @@ export const util = {
   removeTimeFromDate,
   convDateStrToDate,
   convDateToDateStr,
-  arrangeDate
+  arrangeDate,
+  date
 }

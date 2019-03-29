@@ -49,8 +49,8 @@ class StaffFeedbacks extends Component {
               <Loader />
             </div>
           ) : 
-            Object.keys(feedbacks).map((val) => (
-              <FeedbackListView date={val} dateFeedbacks={feedbacks[val]} />
+            Object.keys(feedbacks).map((val, i) => (
+              <FeedbackListView date={val} key={i} dateFeedbacks={feedbacks[val]} />
             ))
         }
       </>
