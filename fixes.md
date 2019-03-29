@@ -1,8 +1,7 @@
 CSS CHANGES
 =====================
 - Cursor pointer on all buttons
-- Responsiveness on all pages.
-- SideMenu css (Make the user info bckground white)
+- Responsiveness on all pages. (done but only for mobile view)
 
 REACT CHANGES
 =====================
