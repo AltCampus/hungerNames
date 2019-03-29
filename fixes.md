@@ -1,6 +1,5 @@
 CSS CHANGES
 =====================
-- Cursor pointer on all buttons
 - Responsiveness on all pages. (done but only for mobile view)
 
 REACT CHANGES
