@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import { util } from '../../util/index'
 import './DayList.css';
 import StudentSideMenu from '../StudentSideMenu';
-import { object } from 'twilio/lib/base/serialize';
+import MealRemark from '../MealRemark';
 import { updateAttendenceAction } from '../../store/actions';
 
 const mapStateToProps = (state) => {
   return {
     menu: state.menu.menu || {},
-    attendance: state.userAttendance,
+    attendance: state.userAttendance || {},
   };
 }
 class DayList extends Component {
@@ -31,6 +31,8 @@ class DayList extends Component {
       lunchRemark: '',
       dinnerRemark: '',
       brunchRemark: '',
+      isLoading: false,
+      showRemark: true,
     }
   }
 
@@ -58,10 +60,10 @@ class DayList extends Component {
       })
     }
 
-
+    
+    
     let currentDate = util.convDateToDateStr(this.state.newDate);
     if (currentDate == attendance[dayIndex].date) {
-
       let currentTime = this.state.newDate.toLocaleTimeString();
       if (day === 'Sunday') {
         switch (true) {
@@ -71,7 +73,7 @@ class DayList extends Component {
               dinnerTime: true,
             });
             break;
-          case (currentTime > (menu[dayVal].meal.brunch.time)):
+            case (currentTime > (menu[dayVal].meal.brunch.time)):
             this.setState({
               brunchTime: true,
             });
@@ -80,51 +82,58 @@ class DayList extends Component {
       } else {
         switch (true) {
           case (currentTime > (menu[dayVal].meal.dinner.time)):
-            this.setState({
-              breakfastTime: true,
-              lunchTime: true,
-              dinnerTime: true,
+          this.setState({
+            breakfastTime: true,
+            lunchTime: true,
+            dinnerTime: true,
             });
             break;
           case (currentTime > (menu[dayVal].meal.lunch.time)):
-            this.setState({
+          this.setState({
               breakfastTime: true,
               lunchTime: true,
             });
             break;
-          case (currentTime > (menu[dayVal].meal.breakfast.time)):
+            case (currentTime > (menu[dayVal].meal.breakfast.time)):
             this.setState({
               breakfastTime: true,
             });
             break;
-
-
+          }
         }
-      }
-    } else if (currentDate > attendance[dayIndex].date) {
-      console.log(currentDate, attendance[dayIndex].date, 'inside greater than');
-
-      if (day === 'Sunday') {
-        this.setState({
-          brunchTime: true,
-          dinnerTime: true,
-        });
-      } else {
-        this.setState({
-          breakfastTime: true,
+      } else if (currentDate > attendance[dayIndex].date) {
+        console.log(currentDate, attendance[dayIndex].date, 'inside greater than');
+        
+        if (day === 'Sunday') {
+          this.setState({
+            brunchTime: true,
+            dinnerTime: true,
+          });
+        } else {
+          this.setState({
+            breakfastTime: true,
           lunchTime: true,
           dinnerTime: true,
         });
       }
     }
   }
-
+  
+  componentWillUnmount() {
+    this.setState({
+      isLoading: false,
+    })
+  }
+  
   handlechange = (e) => {
     const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
     this.setState({ [e.target.name]: value })
   }
 
   handleSubmit = (e) => {
+    this.setState({
+      isLoading: true,
+    })
     e.preventDefault();
     // let arrayAttendence
     let data = {
@@ -141,8 +150,14 @@ class DayList extends Component {
     }))
   }
 
+  handleClose = () => {
+    this.setState({
+      showRemark: false,
+    })
+  }
+
   render() {
-    const { breakfastTime, brunchTime, lunchTime, dinnerTime } = this.state;
+    const { breakfastTime, brunchTime, lunchTime, dinnerTime, isLoading, showRemark } = this.state;    
     const { day } = this.props.match.params;
     const { menu } = this.props;
     const { dayVal } = this.state;
@@ -190,15 +205,14 @@ class DayList extends Component {
                 <span className='meal_type'>Dinner</span>: <span className={`${dinnerTime ? 'disabled' : ''}`}>{menu[dayVal].meal.dinner.title}</span>
                 </p>
               </label>
-              <button type="submit" className="form-btn send-btn">Save →</button>
+              <button type="submit" className={`form-btn send-btn ${isLoading? 'loading' : ''}`}>{ isLoading ? 'Saving...' : 'Save →'}</button>
             </form>) : ''
           }
           <div>
-            <p>{(this.state.breakfastRemark) ? `breakfastRemark: ${this.state.breakfastRemark}` : ''}</p>
-            <p>{(this.state.lunchRemark) ? `lunchRemark: ${this.state.lunchRemark}` : ''}</p>
-            <p>{(this.state.dinnerRemark) ? `dinnerRemark: ${this.state.dinnerRemark}` : ''}</p>
-            <p>{(this.state.brunchRemark) ? `brunchRemark: ${this.state.brunchRemark}` : ''}</p>
-
+            {(this.state.breakfastRemark && showRemark ) ? <MealRemark remark={this.state.breakfastRemark} handleClose={this.handleClose} mealType='Breakfast' /> : ''}
+            {(this.state.lunchRemark && showRemark) ? <MealRemark remark={this.state.lunchRemark} handleClose={this.handleClose} mealType='Lunch'/> : ''}
+            {(this.state.dinnerRemark && showRemark) ? <MealRemark remark={this.state.dinnerRemark} handleClose={this.handleClose} mealType='Dinner'/> : ''}
+            {(this.state.brunchRemark && showRemark) ? <MealRemark remark={this.state.brunchRemark} handleClose={this.handleClose} mealType='Brunch'/> : ''}
           </div>
         </div>
       </>

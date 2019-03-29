@@ -28,15 +28,15 @@ class AdminToggleOpen extends Component {
           </div>
           <div className="link_wrapper">
             <div className="menu-link-wrapper">
-              <Link className="links" to={`/admin/invite`}>Invite Student</Link>
+              <Link className="logout links" to={`/admin/invite`}>Invite Student</Link>
             </div>
             <div className="menu-link-wrapper">
-              <Link className="links" to={`/admin/menu`}>Edit Menu</Link>
+              <Link className="logout links" to={`/admin/menu`}>Edit Menu</Link>
             </div>
-            <div className="logout-link-wrapper">
-              <Link className="links" to={`/admin/getallstudentslist`}>Get all student list</Link>
+            <div className="menu-link-wrapper">
+              <Link className="logout links" to={`/admin/getallstudentslist`}>Get all student list</Link>
             </div>
-            <div className="logout-link-wrapper">
+            <div className="menu-link-wrapper">
               <div className="logout links" onClick={this.handleLogout}>Log out</div>
             </div>
           </div>

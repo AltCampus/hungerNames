@@ -49,7 +49,7 @@ class Register extends Component {
 
   render() {
     return (
-      <div className="form-page">
+      <form onSubmit={this.handleSubmit} className="form-page">
         <h2 className="h2-title">Register</h2>
         <label className="label-box" htmlFor="name">
           <span className="label-text">Name</span>
@@ -78,8 +78,8 @@ class Register extends Component {
           />
         </label>
         <input onChange={this.handleChange} className="input-field" type="password" name="refCode" value={this.state.refCode} hidden={true} />
-        <input onClick={this.handleSubmit} type="submit" className="send-btn" value="REGISTER" />
-      </div>
+        <input type="submit" className="send-btn" value="REGISTER" />
+      </form>
     );
   }
 }

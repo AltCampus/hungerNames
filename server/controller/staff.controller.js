@@ -22,13 +22,10 @@ module.exports = {
     let dateStringMinus2 = serverUtils.convDateToDateStr(todayMinus2);
     Feedback.find({ date: {$gte: dateStringMinus2, $lte: dateStringToday}  })
       .populate("student")
-      .exec((err, feedback) => {
-        console.log(feedback,'feedback')
+      .exec((err, feedback) => {        
         if (err) return res.json({ message: "not able to fetch" });
-        let filteredFeedback = [];
-        console.log(filteredFeedback)
-        feedback.forEach(feed => {
-          console.log(feed);
+        let filteredFeedback = [];        
+        feedback.forEach(feed => {          
           let obj = {};
           obj.name = (feed.student) ? feed.student.name : null ;
           obj.meal = feed.meal;
@@ -36,10 +33,9 @@ module.exports = {
           obj.review = feed.review;
           obj.rating = feed.rating;
           obj.date = new Date(feed.date).toDateString();
-          filteredFeedback.push(obj);
-          console.log(filteredFeedback)
+          filteredFeedback.push(obj);        
         });
-        console.log(filteredFeedback)
+        
         res.json({
           feedback: filteredFeedback
         });

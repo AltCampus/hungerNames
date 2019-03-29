@@ -193,8 +193,6 @@ export function postStudentFeedback(data, id, cb) {
       .then(res => res.json())
       .then(data => {
         if (!data.error) {
-          socket.emit('feedbackPosted', {});
-
           cb(true)
         } else cb(false)
       })
