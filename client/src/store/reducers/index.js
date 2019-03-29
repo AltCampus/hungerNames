@@ -46,7 +46,6 @@ export default function rootReducer(state = INIT_STATE, action) {
         message: action.message
       }
     case 'LOGIN_FAILED': {
-      console.log(action.data, 'in reducer');
       return {
         ...state,
         error: action.data
@@ -59,6 +58,30 @@ export default function rootReducer(state = INIT_STATE, action) {
         currentToken: null,
         isAuthenticated: false,
       }
+    case 'FORGOT_PASSWORD_SUCCESS': {
+      return {
+        ...state,
+        message: action.user.message
+      }
+    }
+    case 'FORGOT_PASSWORD_FAIL': {
+      return {
+        ...state,
+        error: action.user.error
+      }
+    }
+    case 'RESET_PASSWORD_SUCCESS': {
+      return {
+        ...state,
+        message: action.user.message
+      }
+    }
+    case 'RESET_PASSWORD_FAIL': {
+      return {
+        ...state,
+        error: action.user.error
+      }
+    }
     // break;
     case 'GET_MENU_DATA':
       return {

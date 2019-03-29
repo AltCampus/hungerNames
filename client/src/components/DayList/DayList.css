@@ -20,6 +20,7 @@
   color: #fff;
   padding: 5px;
   margin-right: 1.7em;
+  cursor: pointer;
 }
 
 .back-btn > * {
@@ -38,6 +39,7 @@
   text-transform: uppercase;
   letter-spacing: -0.5px;
   outline: none;
+  cursor: pointer;
 }
 
 .check-box {
@@ -107,4 +109,11 @@ input[type="checkbox"]:disabled + label:before {
 
 .loading {
   background-color: var(--light-blue);
+}
+
+@media screen and (max-width: 320px) {
+  .check-list-page {
+    margin-left: 0;
+    width: 100vw;
+  }
 }

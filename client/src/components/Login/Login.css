@@ -35,7 +35,7 @@
   -ms-transition: all 0.20s ease-in-out;
   -o-transition: all 0.20s ease-in-out;
   border-radius: 4px;
-  padding: 0.6em;
+  padding: 5px;
   margin: 0.2em;
   border: 1px solid var(--teal);
   outline: none;
@@ -48,4 +48,19 @@
 
 .form-btn {
   margin: 0.3em 0;
+}
+
+.forgot-password {
+  color: inherit;
+  letter-spacing: 1px;
+  font-size: 1.1rem;
+}
+
+/* media query */
+/* Smartphones (landscape) ----------- */
+
+@media screen and (max-width: 320px) {
+  .label-box {
+    max-width: 300px;
+  }
 }

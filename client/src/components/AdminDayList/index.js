@@ -4,6 +4,7 @@ import ReactSpinner from '../ReactSpinner'
 import { updateMenu } from '../../store/actions';
 import '../DayList/DayList.css';
 import AdminSideMenu from '../AdminSideMenu';
+import './AdminDayList.css';
 
 const mapStateToProps = (state) => {
   return {

@@ -70,7 +70,7 @@ class AttendeesList extends Component {
             )}
           </div>
         </div>
-      </section>
+      </section>     
     )
   }
 }
