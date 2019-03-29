@@ -11,7 +11,6 @@ class ToggleOpen extends Component {
 
   handleLogout = () => {
     this.props.dispatch(logoutUserAction((logOutStatus) => {
-      console.log('logout completed');
       if (logOutStatus) this.props.history.push('/login');
     }));
   }
@@ -19,7 +18,7 @@ class ToggleOpen extends Component {
   render() {
     const { handleToggleClose, currentUser } = this.props;
     return (
-      <div className="sidebar-open">
+      <div className={`sidebar-open`}>
         <div className="toggle-close" onClick={handleToggleClose} >
           <div className="right-toggle"></div>
           <div className="left-toggle"></div>
@@ -34,20 +33,21 @@ class ToggleOpen extends Component {
           </div>
           <div className="link_wrapper">
             <div className="menu-link-wrapper">
-              <Link className="links" to={`/student/list`}>Meal Attendees</Link>
+              <Link className="logout links" to={`/student/list`}>Meal Attendees</Link>
             </div>
-            <div className="feedback-link-wrapper">
-              <Link className="links" to={`/student/${currentUser._id}/feedback`}>Send Feedback</Link>
+            <div className="menu-link-wrapper">
+              <Link className="logout links" to={`/student/${currentUser._id}/feedback`}>Send Feedback</Link>
             </div>
-            <div className="feedback-link-wrapper">
-              <Link className="links" to={`/student/${currentUser._id}/myfeedback/`}>My Feedbacks</Link>
+            <div className="menu-link-wrapper">
+              <Link className="logout links" to={`/student/${currentUser._id}/myfeedback/`}>My Feedbacks</Link>
+            </div>            
+            <div className="menu-link-wrapper">
+              <p className="logout links" onClick={this.handleLogout}>Log out</p>
             </div>
-            <div className="logout-link-wrapper">
-              <div className="logout links" onClick={this.handleLogout}>Log out</div>
-            </div>
+            
           </div>
         </div>
-      </div>
+      </div >
     )
   }
 }

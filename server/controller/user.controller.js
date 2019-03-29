@@ -155,8 +155,6 @@ module.exports = {
     })
       .populate("feedback")
       .exec((err, student) => {
-        console.log(student, 'in user controller');
-        if (!(student.feedback)) return;
         const { feedback, _id, name, email } = student
         if (err) return res.json({ error: "server busy" })
         if (feedback.length === 0) return res.json({
@@ -176,7 +174,7 @@ module.exports = {
   postFeedbackStudent: (req, res, next) => {
     const studentId = req.params.id;
     const feedbackBody = req.body;
-    console.log(feedbackBody, 'body')
+    console.log(feedbackBody,'feed')
     const feedBack = new FeedBack({
       student: studentId,
       ...feedbackBody
@@ -184,13 +182,32 @@ module.exports = {
     Student.findById(studentId, (err, user) => {
       if (err) return res.json({ error: 'db error' })
       if (!user) return res.json({ message: 'user not present' })
+      console.log(user,'feed user')
       feedBack.save((err, feedback) => {
         if (err) return res.json({ error: 'internal error' })
         Student.findByIdAndUpdate(studentId, { $push: { feedback: feedback._id } }, { upsert: true }, (err, student) => {
-          console.log(student, 'stu')
           if (err) return res.json({
             error: 'sorry mate youre not found'
-          })                   
+          })
+          // Sending Notification to Kitchen Staff
+          // const kitchenStaff = onlineUsers.filter(v => v.role === 'kitchenStaff') //
+          // isPosted = true //
+
+          // io.on('connection', (socket) => {
+          //   console.log(`${socket.id} is connected`)
+          //   socket.to(kitchenStaff[0].socketId).emit('notification', `User added a feedback.`)
+          // })
+
+          // io.on('connection', (socket) => {
+          //   console.log(socket.id);
+          //   // socket.emit('notification', `User added a feedback.`)
+          // })
+
+          const { name, email } = student
+          res.json({
+            name,
+            email
+          })
         })
       })
     })

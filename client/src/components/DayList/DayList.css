@@ -8,6 +8,7 @@
 .back-btn-box {
   display: flex;
   justify-content: flex-end;
+  margin-bottom: 1em;
 }
 .back-btn {
   display: flex;
@@ -36,6 +37,7 @@
   border-radius: 5px;
   text-transform: uppercase;
   letter-spacing: -0.5px;
+  outline: none;
 }
 
 .check-box {
@@ -101,4 +103,8 @@ input[type="checkbox"]:disabled + label:before {
   padding: 5px;
   border-radius: 2px;
   border: 1px solid var(--light-grey);
+}
+
+.loading {
+  background-color: var(--light-blue);
 }

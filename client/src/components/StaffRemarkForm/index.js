@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { postStaffRemark } from "../../store/actions";
 import StaffSideMenu from '../StaffSideMenu';
 import Loader from '../Loader';
+import { util } from '../../util'
 import '../StudentFeedbackForm/StudentFeedbackForm.scss';
 
 
@@ -10,7 +11,7 @@ class StaffRemarkForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      date: new Date(),
+      date: '',
       mealtype: '',
       remark: '',
       isLoading: false,
@@ -48,7 +49,7 @@ class StaffRemarkForm extends Component {
   };
 
   render() {
-    const { isloading } = this.state
+    const { isloading, date } = this.state
     return (
       <>
         <StaffSideMenu />
@@ -63,12 +64,12 @@ class StaffRemarkForm extends Component {
             <div className="calender-wrapper">
               <p>Remark Date:</p>
               <input
-                value={this.state.date}
+                value={date}
                 type="date"
                 name="date"
                 id=""
                 onChange={this.handleChange}
-                min={this.state.newDate}
+                min={util.date(new Date())}
               />
             </div>
             <div className="mealtype-wrapper">
