@@ -1,11 +1,12 @@
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 const Student = require("../model/Student");
 const Menu = require("../model/Menu");
 const User = require('../model/Student')
 const nodemailer = require("nodemailer");
 const Invite = require('../model/Invite');
-
+const ResetPassword = require('../model/ResetPassword');
 
 module.exports = {
   inviteStudent: (req, res, next) => {
@@ -85,6 +86,118 @@ module.exports = {
     })) 
   },
 
+  // forgot password
+  forgotPassword: (req, res, next) => {
+    const smtpTransport = nodemailer.createTransport({
+      service: "Gmail",
+      auth: {
+        user: 'food.altcampus@gmail.com',
+        pass: 'Altcampus@2018'
+      }
+    });
+
+    let rand, mailOptions, host, link;
+    // generate random ref code
+    function randomN(v) {
+      let rand = [];
+      let alphaNum = 'abcdefghijklmnopqrstuvwxyz0123456789';
+      for (let i = 0; i < v; i++) {
+        let random = Math.floor(Math.random() * 36);
+        rand.push(alphaNum[random])
+      }
+      return rand.join('');
+    }
+
+    // it'll provide your localhost or network address
+    host = req.get("host");
+    let refCode;
+    refCode = randomN(6);
+    link = `http://${host}/resetpassword?ref=${refCode}`;
+    const { email } = req.body;
+
+    mailOptions = {
+      to: email,
+      subject: `Reset your password.`,
+      html: `Hello, <br>Please click on <a href='${link}'>click here</a> to reset your password.`
+    };
+
+    User.findOne({email, email}, (err, user) => {
+      if (!user) {
+        return res.json({
+          error: 'Invalid User, please sign up first !!'
+        })
+      } else {
+        // send mail with defined transport object(mailOptions)
+        smtpTransport.sendMail(mailOptions, (err, info) => {
+          if (err) {
+            return res.status(406).json({ error: "Message could not send" });
+          }
+          ResetPassword.findOne({ emailId: email }, (err, user) => {
+            if (user) {
+              ResetPassword.findOneAndUpdate({ emailId: email }, {
+                emailId: email,
+                refCode: refCode
+              }, { new: true }, (err, user) => {
+                console.log(user, refCode,'in forgot password');
+                if (err) return res.json({ error: `Message not sent ${err}` })
+                return res.json({
+                  message: "Please, check your email for reset link :)"
+                });
+              })
+            } else {
+              const newResetPassword = new ResetPassword({
+                emailId: email,
+                refCode: refCode
+              });
+              newResetPassword.save(err => {
+                if (err) return res.json({ error: `Message not sent ${err}` })
+                else {
+                  return res.json({
+                    message: "Please, check your email for reset link :)"
+                  });
+                }
+              });
+            }
+          }) 
+        });
+      }
+    })
+  },
+
+  verifyResetPassword: (req, res, next) => {
+    const ref = req.query.ref
+    ResetPassword.findOne({ refCode: ref }, (err, code) => {
+      if (err || !code) return res.json({ error: `your link is expired` })
+      else {
+        return res.json({
+          emailId: code.emailId,
+          refCode: code.refCode
+        });
+      }
+    });
+  },
+
+  resetPassword: (req, res, next) => {
+    let { email, newPassword, refCode } = req.body;
+    const SALT_ROUNDS = 10
+    User.findOne({ email: email }, (err, user) => {
+      let password = user.password;
+      password = bcrypt.hashSync(newPassword, SALT_ROUNDS)
+      newPassword = password
+      User.findOneAndUpdate({ email: email }, { $set: { password: newPassword } }, { new: true }, (err, user) => {
+        if (err) {
+          return res.json({
+            error: 'Could not update the password'
+          })
+        } else {
+          return res.json({
+            message: 'Successfully updated the password'
+          })
+        }
+      })
+    })
+  },
+
   getStudent: (req, res, next) => {
     Student.aggregate([{ $match: { isStudent: true } },
     {
@@ -112,11 +225,11 @@ module.exports = {
     })
   },
 
-  forgetPassword: (req, res, next) => {
-    res.json({
-      message: 'password rest'
-    })
-  },
+  // forgetPassword: (req, res, next) => {
+  //   res.json({
+  //     message: 'password rest'
+  //   })
+  // },
 
   getMenuList: (req, res, next) => {
     Menu.find({}, (err, menu) => {

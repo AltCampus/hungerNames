@@ -2,13 +2,13 @@
   display: grid;
   justify-content: center;
   width: 90vw;
-  margin-top: 1.6em;
-  margin-left: -0.6em;
+  margin: 1.2em auto;
 }
 
 .back-btn-box {
   display: flex;
   justify-content: flex-end;
+  margin-bottom: 1em;
 }
 .back-btn {
   display: flex;
@@ -20,6 +20,7 @@
   color: #fff;
   padding: 5px;
   margin-right: 1.7em;
+  cursor: pointer;
 }
 
 .back-btn > * {
@@ -37,39 +38,14 @@
   border-radius: 5px;
   text-transform: uppercase;
   letter-spacing: -0.5px;
+  outline: none;
+  cursor: pointer;
 }
 
 .check-box {
   display: flex;
   align-items: center;
-}
-
-.check-box {
-  margin-right: 7px;
-}
-
-/* CheckBox Styling */
-
-
-input[type=checkbox]:after {
-  content: " ";
-  background-color: #fff;
-  display: inline-block;
-  margin-left: 10px;
-  padding-bottom: 5px;
-  color: var(--teal);
-  width: 22px;
-  height: 25px;
-  visibility: visible;
-  border: 1px solid var(--teal);
-  padding-left: 3px;
-  border-radius: 5px;
-}
-
-input[type=checkbox]:checked:after {
-  content: "\2714";
-  padding: -5px;
-  font-weight: bold;
+  margin: 0.7em 7px
 }
 
 /* CheckBox styling */
@@ -80,7 +56,7 @@ input[type=checkbox] {
 
 input[type=checkbox] {
   width: 30px;
-  height: 30px;
+  height: 27px;
   margin-right: 8px;
   cursor: pointer;
   font-size: 18px;
@@ -93,11 +69,11 @@ input[type=checkbox]:after {
   display: inline-block;
   margin-left: 2px;
   padding-bottom: 5px;
-  color: #00c0f075;
+  color: var(--light-blue);
   width: 22px;
   height: 25px;
   visibility: visible;
-  border: 1px solid #00c0f075;
+  border: 1px solid var(--light-blue);
   padding-left: 3px;
   border-radius: 5px;
 }
@@ -110,8 +86,34 @@ input[type=checkbox]:checked:after {
   border: 1px solid var(--teal);
 }
 
-input[type=checkbox]:disabled {
-  color: var(--light-grey);
+input[type="checkbox"]:disabled + label:before {
+  color: var(--light-blue);
+  border: 1px solid var(--light-blue);
 }
 
+.disabled {
+  color: var(--light-blue);
+  text-decoration: line-through;
+}
 
+.meal_type {
+  color: var(--light-grey);
+  width: 75px;
+}
+
+.meal-input {
+  padding: 5px;
+  border-radius: 2px;
+  border: 1px solid var(--light-grey);
+}
+
+.loading {
+  background-color: var(--light-blue);
+}
+
+@media screen and (max-width: 320px) {
+  .check-list-page {
+    margin-left: 0;
+    width: 100vw;
+  }
+}

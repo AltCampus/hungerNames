@@ -9,6 +9,8 @@ import PrivateRoute from './PrivateRoute';
 import Staff from './Staff';
 import './Main.css';
 import Dashboard from './Dashboard';
+import ForgotPassword from './ForgotPassword';
+import ResetPassword from './ResetPassword';
 
 class Main extends Component {
   constructor(props) {
@@ -26,6 +28,8 @@ class Main extends Component {
             <Route exact path='/' component={Dashboard} />
             <Route path='/register' component={Register} />
             <Route path='/login' component={Login} />
+            <Route path='/forgotpassword' component={ForgotPassword} />
+            <Route path='/resetpassword' component={ResetPassword} />
             <PrivateRoute path='/admin' auth={this.props.user.isAdmin} component={Admin} />
             <PrivateRoute path='/student' auth={this.props.user.isStudent} component={Student} />
             <PrivateRoute path='/staff' auth={this.props.user.isKitchenStaff} component={Staff} />            

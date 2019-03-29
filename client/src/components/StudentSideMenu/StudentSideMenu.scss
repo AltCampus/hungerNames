@@ -19,6 +19,24 @@
     top: 1.5rem;
     // left: 0.5rem;
   }
+
+  .visible-enter {
+    transform: translateX(-100%);
+  }
+
+  .visible-enter, .visible-enter-active {
+    transform: translateX(0%);
+    transition: transform 0.6s ease-in-out;
+  }
+
+  .visible-leave {
+    transform: translateX(0%);
+  }
+
+  .visible-leave, .visible-leave-active {
+    transform: translateX(-100%);
+    transition: transform 0.6s ease-in-out;
+  }
 }
 
 .toggle-close {
@@ -59,18 +77,17 @@
 
 // sidebar
 .sidebar-open {
-  position: fixed;
-  max-width: 600px;
-  width: 23rem;
+  position: fixed;  
   background: #1B1A1F;
   height: 100vh;
   top: 0;
   z-index: 999;
+  overflow: auto;
 }
 
 .sidebar-content {
   display: inline-block;
-  margin: 10px;
+  margin: 10px 0;
   padding-top: 25px;
 }
 
@@ -86,31 +103,41 @@
       letter-spacing: 1px;
       font-size: 1.2rem;
       font-weight: 600;
+      margin-bottom: 0.3em;
     }
     h3, p {
-      margin-left: 0.3em 0;
+      margin-left: 0.3em;
+    }
+    p {
+      font-size: 0.8rem;
     }
     margin-left: 0.8em;
   }
   display: flex;
   margin-right: 0.5em;
   align-items: center;
+  background: white;
+  // width: 122.4%;
+  width: 146.4%;
+  padding: 10px;
+  border: 1px solid transparent;
+  margin: 0;
 }
 
 .link_wrapper {
   margin: 60px 5px;
-  div {
+  div, .menu-link-wrapper {
     color: white;
     font-weight: 600;
     font-size: 0.80rem;
     background-color: #fff;
     border: none;
-    padding: 0.9em 1.2em;
     text-align: center;
     margin: 0.8em;
     border-radius: 5px;
     text-transform: uppercase;
     letter-spacing: -0.5px;
+    cursor: pointer;
 	  @include fade-transition(background);
     // i {
     //   position: absolute;
@@ -131,16 +158,59 @@
     //   48% {opacity: 0.2}
     //   80% {opacity: 0.0}
     //   100% { left: 82%}
-    // }
+    // }    
     .links {
+      display: block;
       color: var(--teal);
       text-decoration: none;
       font-weight: 700;
+      padding: 0.9em 1.2em;
     }
   }
   .logout, .logout-btn {
-    padding: 0;
-    margin: 0;
-    }
-  }
+      padding: 0;
+      margin: 0;
+      cursor: pointer;
+    }    
+}
 
+// media query
+/* Smartphones (landscape) ----------- */
+@media screen and (max-width: 320px) {
+  // sidebar
+  .sidebar-open {
+    max-width: 290px;
+  }
+  // sidebar content
+  .sidebar-content {
+    margin: 5px 0;
+    max-width: 250px;
+  }
+  // user info 
+  .user-info {
+    img {
+      border: 1px solid rgba(255,255,255,0.03);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+    .user-detail {
+      margin-left: 5px;
+      h3 {
+        letter-spacing: 1px;
+        font-size: 1rem;
+        font-weight: 600;
+      }
+      p {
+        font-size: 12px;
+        letter-spacing: 0.5px;
+        margin-top: 2px;
+      }
+      h3, p {
+        margin-left: 0;
+      }
+    }
+    margin-right: 0;
+    width: 100%;
+  }
+} 

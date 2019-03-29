@@ -4,6 +4,7 @@ import ReactSpinner from '../ReactSpinner'
 import { updateMenu } from '../../store/actions';
 import '../DayList/DayList.css';
 import AdminSideMenu from '../AdminSideMenu';
+import './AdminDayList.css';
 
 const mapStateToProps = (state) => {
   return {
@@ -93,11 +94,11 @@ class AdminDayList extends Component {
               <h2 className="day-name">{day}</h2>
               <label className="label-box" htmlFor="brunch">
                 <p className="meal">Brunch:</p>
-                <input type="text" name='brunch' value={this.state.brunch} onChange={this.handleChange} />
+                <input type="text" name='brunch' className='meal-input' value={this.state.brunch} onChange={this.handleChange} />
               </label>
               <label className="label-box" htmlFor="dinner">
                 <p className="meal">Dinner:</p>
-                <input type="text" name='dinner' value={this.state.dinner} onChange={this.handleChange} />
+                <input type="text" name='dinner' className='meal-input' value={this.state.dinner} onChange={this.handleChange} />
               </label>
               <button type="submit" className="send-btn" >Save →</button>
             </div>
@@ -107,15 +108,15 @@ class AdminDayList extends Component {
                 <h2 className="day-name">{day}</h2>
                 <label className="label-box" htmlFor="breakfast">
                   <p className="meal">Breakfast:</p>
-                  <input type="text" name='breakfast' value={this.state.breakfast} onChange={this.handleChange} />
+                  <input type="text" name='breakfast' className='meal-input' value={this.state.breakfast} onChange={this.handleChange} />
                 </label>
                 <label className="label-box" htmlFor="lunch">
                   <p className="meal">Lunch:</p>
-                  <input type="text" name='lunch' value={this.state.lunch} onChange={this.handleChange} />
+                  <input type="text" name='lunch' className='meal-input' value={this.state.lunch} onChange={this.handleChange} />
                 </label>
                 <label className="label-box" htmlFor="dinner">
                   <p className="meal">Dinner:</p>
-                  <input type="text" name='dinner' value={this.state.dinner} onChange={this.handleChange} />
+                  <input type="text" name='dinner' className='meal-input' value={this.state.dinner} onChange={this.handleChange} />
                 </label>
                 <div className='center'>
                   <button type="submit" className="form-btn send-btn center" onClick={this.formSubmit}>Save → {this.state.isLoading ? <ReactSpinner /> : ''}</button>

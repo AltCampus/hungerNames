@@ -4,6 +4,8 @@ import { getallstudentslist, removeStudent } from '../../store/actions';
 import './ListStudentsAdmin.scss';
 import AdminSideMenu from '../AdminSideMenu';
 import Loader from '../Loader';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 
 class ListStudentsAdmin extends Component {
@@ -25,13 +27,27 @@ class ListStudentsAdmin extends Component {
     }));
   }
 
-  handleDelete = (id) => {
-    this.props.dispatch(removeStudent(id, succeed => {
-      if (succeed) {
-        this.props.history.push(`/admin/getallstudentslist`)
-      }
-    }));
-  }
+  submit = (id) => {
+    confirmAlert({
+      title: 'Confirm to submit',
+      message: 'Are you sure to do this.',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: (id) => { 
+            this.props.dispatch(removeStudent(id, succeed => {
+            if (succeed) {
+              this.props.history.push(`/admin/getallstudentslist`)
+            }
+          }));}
+        },
+        {
+          label: 'No',
+          onClick: () => { return this.props.history.push(`/admin/getallstudentslist`) }
+        }
+      ]
+    });
+  };
 
   render() {
     const { listAllStudents } = this.props;
@@ -59,7 +75,7 @@ class ListStudentsAdmin extends Component {
                     <h3>Name: {student.name}</h3>
                     <p>Email: {student.email}</p>
                     <div className="deleteBtn-wrapper" title="delete this student">
-                      <button onClick={() => this.handleDelete(student.id)}>X</button>
+                      <button onClick={() => this.submit(student.id)}>X</button>
                     </div>
                   </div>
                 )) 

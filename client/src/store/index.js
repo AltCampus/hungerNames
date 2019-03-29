@@ -15,7 +15,6 @@ const INIT_STATE = {
   singleUserFeedback: [],
   attendees: {}
 };
-console.log(INIT_STATE)
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(rootReducer,INIT_STATE, composeEnhancers(applyMiddleware(thunk)));

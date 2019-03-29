@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { util } from '../../util'
 import { loginUserAction } from '../../store/actions'
 import './Login.css';
@@ -48,6 +49,7 @@ class Login extends Component {
     const { error } = this.state.message;
     const { message } = this.state;
     return (
+
       <>
         <form onSubmit={this.handleSubmit} className='form-page'>
           <h2 className='h2-title'>Sign in</h2>
@@ -60,6 +62,9 @@ class Login extends Component {
             <input onChange={this.handleChange} className="input-field" type="password" placeholder="Enter Password" id="password" name="password" value={this.state.password} />
           </label>
           <input type="submit" className="send-btn form-btn" value="LOGIN" />
+          <Link to="/forgotpassword" className="forgot-password">
+            <p>Forgot Password ?</p>
+          </Link>
         </form>
         <div className="center">
           {

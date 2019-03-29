@@ -4,8 +4,8 @@ import StudentHome from '../StudentHome';
 import DayList from '../DayList';
 import StudentFeedbackForm from '../StudentFeedbackForm';
 import StudentFeedbacks from '../StudentFeedbacks';
-import AttendeesList from '../AttendeesList';
 import StudentList from '../StudentList';
+import AttendeesListView from '../AttendeesListView';
 
 function mapStateToProps(state) {
   return {
@@ -23,7 +23,7 @@ class Student extends Component {
       <>
         <Switch>
           <Route exact path='/student' component={StudentHome}  />
-          <Route exact path='/student/list' render={(props) => <AttendeesList {...props} profile={'student'}/> } />
+          <Route exact path='/student/list' component={AttendeesListView}/> } />
           {/* <Route exact path='/student/list/:meal' component={StudentList} /> */}
           <Route exact path='/student/student/list/:meal' component={StudentList} />
           <Route exact path='/student/:id/feedback' component={StudentFeedbackForm} />

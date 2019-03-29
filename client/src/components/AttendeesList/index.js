@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
+import StudentSideMenu from '../StudentSideMenu';
 import { util } from "../../util";
 import MealCount from '../MealCount';
 import { getAttendeesAction } from '../../store/actions';
@@ -61,15 +62,15 @@ class AttendeesList extends Component {
                     count: arr.length,
                     array: arr
                   }
-                }} className="unlink">
-                  <MealCount meal={val} count={arr.length} currentStatus={'final'} key={val}/>
+                }} className="unlink" key={val}>
+                  <MealCount meal={val} count={arr.length} currentStatus={'final'} key={val} />
                 </Link>
               );
             }
             )}
           </div>
         </div>
-      </section>
+      </section>     
     )
   }
 }

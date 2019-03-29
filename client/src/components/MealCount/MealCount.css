@@ -7,6 +7,12 @@
   margin-bottom: 1em;
 }
 
+.count-box {
+  position: relative;
+  width: 35px;
+  padding: 0 0.3em;
+}
+
 .meal-type {
   flex: 10 ;
   padding: 0.6em;
@@ -20,8 +26,7 @@
 .head-count {
   color:inherit;
   flex: 1;
-  font-weight: 700;
-  padding: 0 0.4em;
+  font-weight: 700;  
 }
 
 .active {
