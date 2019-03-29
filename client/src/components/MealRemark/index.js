@@ -8,7 +8,7 @@ export default class MealRemark extends Component {
       <div className='remark-box'>
         <h3>Staff Notification</h3>
         <div className='close-btn' onClick={this.props.handleClose}>
-          <i class="fas fa-times"></i>
+          <i className="fas fa-times"></i>
         </div>
         <p className='feedback-mealtype'>For { mealType }</p>
         <p className='remark-text'>{ remark }</p>

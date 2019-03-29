@@ -14,7 +14,6 @@ class FeedbackListView extends Component {
   }
   render() {
     const { date, dateFeedbacks} = this.props;
-    console.log(dateFeedbacks,'props')
      return (
       <>
         <div className="feedback-wrapper">
@@ -23,9 +22,9 @@ class FeedbackListView extends Component {
           </div>
           <div>   
             {
-              dateFeedbacks && dateFeedbacks.map(data => {
+              dateFeedbacks && dateFeedbacks.map((data, i) => {
                 return (
-                  <FeedbackList data={data} /> 
+                  <FeedbackList data={data} key={i} /> 
                 )
               })
             }

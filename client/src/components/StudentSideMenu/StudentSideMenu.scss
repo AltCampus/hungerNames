@@ -186,6 +186,11 @@
     margin: 5px 0;
     max-width: 250px;
   }
+  .toggle-close {
+    div {
+      top: 3px;
+    }
+  }
   // user info 
   .user-info {
     img {
@@ -213,4 +218,4 @@
     margin-right: 0;
     width: 100%;
   }
-} 
+}

@@ -23,11 +23,12 @@ module.exports = {
     Feedback.find({ date: { $gte: dateStringMinus2, $lte: dateStringToday } })
       .populate("student")
       .exec((err, feedback) => {
-        if (err) return res.json({ message: "not able to fetch" });
+        if (err) return res.json({ error: "not able to fetch" })
+        if (!feedback) return res.json({ error: "No feedback available" })
         let filteredFeedback = [];
         feedback.forEach(feed => {
           let obj = {};
-          obj.name = (feed.student) ? `Anonymous${feed.student._id.Substring(feed.student._id.length - 4)}` : "AnonymousOld";
+          obj.name = (feed.student) ? `Anonymous${JSON.stringify(feed.student._id).substring(feed.student._id.length - 4)}` : "AnonymousOld";
           obj.meal = feed.meal;
           obj.mealType = feed.mealType;
           obj.review = feed.review;

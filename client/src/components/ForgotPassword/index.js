@@ -40,7 +40,7 @@ class ForgotPassword extends Component {
         <h2 className="h2-title">Forgot Password</h2>
         <label className="label-box" htmlFor="email">
           <span className="label-text">Email</span>
-          <input type="email" name="email" className="email" id="email" onChange={this.handleInput} />
+          <input type="email" name="email" className="input-field" id="email" onChange={this.handleInput} />
         </label>
         <input onClick={this.handleSubmit} type="submit" className="send-btn" value="SUBMIT" />
         <div className="center">

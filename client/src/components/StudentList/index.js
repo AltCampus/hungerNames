@@ -33,7 +33,7 @@ class StudentList extends Component {
             <tbody>
               {array && array.map((names, index) => {
                 return (
-                  <tr>
+                  <tr key={index}>
                     <td>
                       {index + 1}
                     </td>

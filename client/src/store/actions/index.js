@@ -263,14 +263,15 @@ export function getAllFeedback(cb) {
       acc[curr.date] = feedbackFetch.feedback.filter((val) => val.date === curr.date);
       return acc;
     }, {});
-    if (feedbackFetch.message) {
+    if (feedbackFetch.error) {
       cb(false)
+    } else {
+      dispatch({
+        type: 'GET_ALL_FEEDBACK',
+        feedback
+      })
+      cb(true)
     }
-    dispatch({
-      type: 'GET_ALL_FEEDBACK',
-      feedback
-    })
-    cb(true)
   }
 }
 
