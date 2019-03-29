@@ -97,7 +97,8 @@
   margin-right: 0.5em;
   align-items: center;
   background: white;
-  width: 122.4%;
+  // width: 122.4%;
+  width: 146.4%;
   padding: 10px;
   border: 1px solid transparent;
   margin: 0;
@@ -117,6 +118,7 @@
     border-radius: 5px;
     text-transform: uppercase;
     letter-spacing: -0.5px;
+    cursor: pointer;
 	  @include fade-transition(background);
     // i {
     //   position: absolute;
